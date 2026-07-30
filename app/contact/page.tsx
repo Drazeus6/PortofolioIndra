@@ -1,23 +1,42 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useViewMode } from '@/context/ViewModeContext';
 import { PERSONAL_DATA } from '@/lib/data';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
+
+const contactSchema = z.object({
+  name: z.string().min(2, 'Nama minimal 2 karakter.'),
+  email: z.string().email('Format email tidak valid (contoh: nama@perusahaan.com).'),
+  subject: z.string().min(3, 'Subjek minimal 3 karakter.'),
+  message: z.string().min(10, 'Pesan minimal 10 karakter.'),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
-
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.message) return;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: 'onChange',
+  });
+
+  const onSubmit = (data: ContactFormData) => {
     setSubmitted(true);
+    reset();
   };
 
   return (
@@ -31,7 +50,7 @@ export default function ContactPage() {
         <div className="text-center mb-16">
           <Badge variant={isDev ? 'emerald' : 'blue'}>Mari Terhubung</Badge>
           <h1 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight">
-            Hubungi <span className={isDev ? 'text-emerald-400 font-mono' : 'text-blue-700'}>{PERSONAL_DATA.name}</span>
+            Hubungi <span className={isDev ? 'text-amber-400 font-mono' : 'text-blue-700'}>{PERSONAL_DATA.name}</span>
           </h1>
           <p className="text-slate-400 text-sm md:text-base mt-3 max-w-xl mx-auto font-light">
             Terbuka untuk peluang karir di bidang peradilan, legal officer, administrasi kepatuhan, riset, atau konsultasi.
@@ -111,14 +130,14 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right Side: Interactive Form */}
+          {/* Right Side: Validated Form (Zod + React Hook Form) */}
           <div className="lg:col-span-7">
             <div
               className={`p-8 rounded-3xl border shadow-xl ${
                 isDev ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-200'
               }`}
             >
-              <h3 className="font-extrabold text-2xl mb-6">Kirim Pesan Langsung</h3>
+              <h3 className="font-extrabold text-2xl mb-6">Kirim Pesan (Validasi Real-Time)</h3>
 
               {submitted ? (
                 <div className="p-8 text-center space-y-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
@@ -132,57 +151,85 @@ export default function ContactPage() {
                   </Button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-xs font-bold uppercase mb-2 text-slate-400">Nama Anda</label>
                       <input
+                        {...register('name')}
                         type="text"
-                        required
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
                         placeholder="Contoh: Budi Santoso"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border border-slate-700/60 text-sm focus:outline-none focus:border-blue-500"
+                        className={`w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border text-sm focus:outline-none ${
+                          errors.name ? 'border-red-500' : 'border-slate-700/60 focus:border-blue-500'
+                        }`}
                       />
+                      {errors.name && (
+                        <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" /> {errors.name.message}
+                        </p>
+                      )}
                     </div>
+
                     <div>
                       <label className="block text-xs font-bold uppercase mb-2 text-slate-400">Email Anda</label>
                       <input
+                        {...register('email')}
                         type="email"
-                        required
-                        value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
                         placeholder="nama@perusahaan.com"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border border-slate-700/60 text-sm focus:outline-none focus:border-blue-500"
+                        className={`w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border text-sm focus:outline-none ${
+                          errors.email ? 'border-red-500' : 'border-slate-700/60 focus:border-blue-500'
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" /> {errors.email.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase mb-2 text-slate-400">Subjek</label>
                     <input
+                      {...register('subject')}
                       type="text"
-                      value={form.subject}
-                      onChange={(e) => setForm({ ...form, subject: e.target.value })}
                       placeholder="Peluang Karir / Legalisasi & Riset"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border border-slate-700/60 text-sm focus:outline-none focus:border-blue-500"
+                      className={`w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border text-sm focus:outline-none ${
+                        errors.subject ? 'border-red-500' : 'border-slate-700/60 focus:border-blue-500'
+                      }`}
                     />
+                    {errors.subject && (
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5" /> {errors.subject.message}
+                      </p>
+                    )}
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase mb-2 text-slate-400">Pesan</label>
                     <textarea
+                      {...register('message')}
                       rows={5}
-                      required
-                      value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      placeholder="Tuliskan detail pesan Anda di sini..."
-                      className="w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border border-slate-700/60 text-sm focus:outline-none focus:border-blue-500"
+                      placeholder="Tuliskan detail pesan Anda di sini (minimal 10 karakter)..."
+                      className={`w-full px-4 py-3 rounded-xl bg-slate-800/40 dark:bg-slate-950 border text-sm focus:outline-none ${
+                        errors.message ? 'border-red-500' : 'border-slate-700/60 focus:border-blue-500'
+                      }`}
                     />
+                    {errors.message && (
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5" /> {errors.message.message}
+                      </p>
+                    )}
                   </div>
 
-                  <Button type="submit" variant={isDev ? 'dev' : 'primary'} size="lg" className="w-full gap-2">
-                    <Send className="w-4 h-4" /> Kirim Pesan Sekarang
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    variant={isDev ? 'dev' : 'primary'}
+                    size="lg"
+                    className="w-full gap-2"
+                  >
+                    <Send className="w-4 h-4" /> Kirim Pesan Terverifikasi
                   </Button>
                 </form>
               )}

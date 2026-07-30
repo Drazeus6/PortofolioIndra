@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { CERTIFICATIONS } from '@/lib/data';
-import { Terminal as TerminalIcon, CornerDownLeft, FileText, Download, Play, HelpCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CERTIFICATIONS, CertificationItem } from '@/lib/data';
+import { Terminal as TerminalIcon, CornerDownLeft, FileText, Download, Play, HelpCircle, Grid, Monitor } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TerminalLine {
   id: string;
@@ -12,6 +12,8 @@ interface TerminalLine {
 }
 
 export function TerminalGallery() {
+  const [viewType, setViewType] = useState<'terminal' | 'grid'>('terminal');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'ai' | 'office' | 'law'>('all');
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<TerminalLine[]>([
     {
@@ -68,18 +70,9 @@ export function TerminalGallery() {
         content: (
           <div className="font-mono text-xs md:text-sm space-y-1 text-slate-300">
             <p className="text-amber-300 font-bold mb-1">Available Commands:</p>
-            <p>
-              <span className="text-cyan-400 font-bold">ls</span> - List all certification files
-            </p>
-            <p>
-              <span className="text-cyan-400 font-bold">cat certs/&lt;filename&gt;</span> - Read certification details
-            </p>
-            <p>
-              <span className="text-cyan-400 font-bold">download &lt;id&gt;</span> - Open certificate PDF
-            </p>
-            <p>
-              <span className="text-cyan-400 font-bold">clear</span> - Clear terminal screen
-            </p>
+            <p><span className="text-cyan-400 font-bold">ls</span> - List all certification files</p>
+            <p><span className="text-cyan-400 font-bold">cat certs/&lt;filename&gt;</span> - Read certification details</p>
+            <p><span className="text-cyan-400 font-bold">clear</span> - Clear terminal screen</p>
           </div>
         ),
       });
@@ -124,9 +117,7 @@ export function TerminalGallery() {
                 <span className="text-xs text-slate-400">{found.year}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs">{found.description}</p>
-              <div className="text-xs text-slate-400">
-                Penerbit: <span className="text-amber-300">{found.issuer}</span>
-              </div>
+              <div className="text-xs text-slate-400">Penerbit: <span className="text-amber-300">{found.issuer}</span></div>
               {found.pdfUrl && (
                 <div className="pt-2">
                   <a
@@ -168,63 +159,139 @@ export function TerminalGallery() {
     setHistory(newHistory);
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleCommand(input);
-    setInput('');
-  };
+  const filteredCerts = CERTIFICATIONS.filter((c) => {
+    if (selectedCategory === 'ai') return c.id.includes('ai') || c.id.includes('prompt');
+    if (selectedCategory === 'office') return c.id.includes('mos') || c.id.includes('financial');
+    if (selectedCategory === 'law') return c.id.includes('legal') || c.id.includes('ibm');
+    return true;
+  });
 
   return (
     <div className="w-full rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden font-mono">
-      {/* Terminal Header Bar */}
+      {/* Header Bar */}
       <div className="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
           <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
           <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-          <span className="ml-2 text-xs text-slate-400 flex items-center gap-1.5 font-bold">
+          <span className="ml-2 text-xs text-slate-300 font-bold flex items-center gap-1.5">
             <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
-            certifications-cli — bash
+            certifications-cli — {viewType === 'terminal' ? 'CLI Mode' : 'Grid Mode'}
           </span>
         </div>
+
+        {/* View Switcher Toggle Button */}
         <div className="flex items-center gap-2">
           <button
-            onClick={() => handleCommand('ls')}
-            className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-cyan-300 transition-colors flex items-center gap-1"
+            onClick={() => setViewType(viewType === 'terminal' ? 'grid' : 'terminal')}
+            className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-cyan-300 font-sans font-semibold transition-colors flex items-center gap-1.5"
           >
-            <Play className="w-3 h-3" /> Quick List
-          </button>
-          <button
-            onClick={() => handleCommand('help')}
-            className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-amber-300 transition-colors flex items-center gap-1"
-          >
-            <HelpCircle className="w-3 h-3" /> Help
+            {viewType === 'terminal' ? <Grid className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
+            {viewType === 'terminal' ? 'Lihat Filterable Grid' : 'Lihat CLI Console'}
           </button>
         </div>
       </div>
 
-      {/* Terminal Body */}
-      <div className="p-4 md:p-6 h-[420px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
-        {history.map((item) => (
-          <div key={item.id}>{item.content}</div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
+      {viewType === 'terminal' ? (
+        <>
+          {/* Terminal Body */}
+          <div className="p-4 md:p-6 h-[420px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
+            {history.map((item) => (
+              <div key={item.id}>{item.content}</div>
+            ))}
+            <div ref={bottomRef} />
+          </div>
 
-      {/* Terminal Input Line */}
-      <form onSubmit={onSubmit} className="bg-slate-900/90 border-t border-slate-800 p-3 flex items-center gap-2">
-        <span className="text-emerald-400 text-xs md:text-sm font-bold">indra@legal-tech:~/certs$</span>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="type 'ls', 'help', or 'cat certs/mos_word.cert'..."
-          className="flex-1 bg-transparent text-slate-100 text-xs md:text-sm focus:outline-none placeholder:text-slate-600 font-mono"
-        />
-        <button type="submit" className="p-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
-          <CornerDownLeft className="w-4 h-4" />
-        </button>
-      </form>
+          {/* Terminal Input Line */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleCommand(input);
+              setInput('');
+            }}
+            className="bg-slate-900/90 border-t border-slate-800 p-3 flex items-center gap-2"
+          >
+            <span className="text-emerald-400 text-xs md:text-sm font-bold">indra@legal-tech:~/certs$</span>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="type 'ls', 'help', or 'cat certs/mos_word.cert'..."
+              className="flex-1 bg-transparent text-slate-100 text-xs md:text-sm focus:outline-none placeholder:text-slate-600 font-mono"
+            />
+            <button type="submit" className="p-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
+              <CornerDownLeft className="w-4 h-4" />
+            </button>
+          </form>
+        </>
+      ) : (
+        /* Filterable Grid Mode for Accessibility & Touch Devices */
+        <div className="p-6 h-[480px] overflow-y-auto space-y-6 font-sans">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                selectedCategory === 'all' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              }`}
+            >
+              Semua Sertifikat ({CERTIFICATIONS.length})
+            </button>
+            <button
+              onClick={() => setSelectedCategory('ai')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                selectedCategory === 'ai' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              }`}
+            >
+              AI &amp; Tech
+            </button>
+            <button
+              onClick={() => setSelectedCategory('office')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                selectedCategory === 'office' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              }`}
+            >
+              Office &amp; Finance
+            </button>
+            <button
+              onClick={() => setSelectedCategory('law')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                selectedCategory === 'law' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              }`}
+            >
+              IBM Legal &amp; Ethics
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {filteredCerts.map((cert) => (
+              <motion.div
+                key={cert.id}
+                whileHover={{ scale: 1.02 }}
+                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2 hover:border-emerald-500/50 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-emerald-400 font-bold text-sm">{cert.title}</span>
+                  <span className="text-xs text-slate-400 font-mono">{cert.year}</span>
+                </div>
+                <p className="text-xs text-slate-300 font-light">{cert.description}</p>
+                <div className="text-xs text-slate-400">
+                  Penerbit: <strong className="text-amber-300">{cert.issuer}</strong>
+                </div>
+                {cert.pdfUrl && (
+                  <a
+                    href={cert.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 pt-2 text-xs text-cyan-400 font-semibold hover:underline"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Buka PDF Sertifikat
+                  </a>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
