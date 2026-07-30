@@ -28,21 +28,10 @@ export function HeroSection() {
 
   return (
     <section
-      onMouseMove={handleMouseMove}
       className={`relative pt-28 pb-20 md:pt-36 md:pb-24 overflow-hidden min-h-[92vh] flex items-center transition-all duration-500 ${
         isDev ? 'bg-flowchart-grid' : 'bg-flowchart-grid-legal'
       }`}
     >
-      {/* Cursor Follow Glow Spot (Desktop only) */}
-      <motion.div
-        className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl opacity-25 hidden md:block transition-colors duration-500 w-96 h-96 ${
-          isDev ? 'bg-blue-600' : 'bg-amber-500'
-        }`}
-        style={{
-          left: smoothX,
-          top: smoothY,
-        }}
-      />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column Text Info */}
