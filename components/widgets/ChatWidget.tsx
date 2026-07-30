@@ -13,22 +13,39 @@ const SUGGESTED_PROMPTS = [
   'Aplikasi web yang sudah dibuat?',
 ];
 
+// Render **bold** markdown inline
+function renderContent(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={i} className="text-white font-bold">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [input, setInput] = useState('');
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages, setInput, error } = useChat({
+  // useChat v4 API: uses sendMessage, status, messages, setMessages, error
+  const { messages, sendMessage, setMessages, status, error } = useChat({
     api: '/api/chat',
     initialMessages: [
       {
         id: 'welcome',
         role: 'assistant',
-        content: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+        content:
+          'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+        parts: [{ type: 'text', text: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.' }],
       },
     ],
-    onError: (err) => {
-      console.error('Chat error:', err);
-    },
   });
+
+  const isLoading = status === 'streaming' || status === 'submitted';
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -37,13 +54,15 @@ export function ChatWidget() {
     }
   }, [messages, isLoading]);
 
-  const handleSuggestedPrompt = (prompt: string) => {
-    setInput(prompt);
-    // Submit programmatically
-    const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-    setTimeout(() => {
-      handleSubmit(fakeEvent, { data: { content: prompt } });
-    }, 50);
+  const handleSend = (text: string) => {
+    if (!text.trim() || isLoading) return;
+    setInput('');
+    sendMessage({ role: 'user', content: text });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSend(input);
   };
 
   const resetChat = () => {
@@ -52,22 +71,10 @@ export function ChatWidget() {
         id: 'welcome',
         role: 'assistant',
         content: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+        parts: [{ type: 'text', text: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI.' }],
       },
     ]);
-  };
-
-  // Markdown-style bold rendering
-  const renderContent = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) =>
-      part.startsWith('**') && part.endsWith('**') ? (
-        <strong key={i} className="text-white font-bold">
-          {part.slice(2, -2)}
-        </strong>
-      ) : (
-        <span key={i}>{part}</span>
-      )
-    );
+    setInput('');
   };
 
   return (
@@ -101,10 +108,7 @@ export function ChatWidget() {
       </div>
 
       {/* Messages Scroll Area */}
-      <div
-        ref={scrollRef}
-        className="flex-1 p-4 overflow-y-auto space-y-3 font-sans text-xs"
-      >
+      <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-3 font-sans text-xs">
         <AnimatePresence initial={false}>
           {messages.map((m) => (
             <motion.div
@@ -137,7 +141,7 @@ export function ChatWidget() {
           ))}
         </AnimatePresence>
 
-        {/* Streaming Indicator */}
+        {/* Streaming Bounce Indicator */}
         {isLoading && (
           <div className="flex items-center gap-2 text-xs text-blue-400 font-mono">
             <div className="w-7 h-7 rounded-sm bg-blue-950 border border-blue-800 flex items-center justify-center shrink-0">
@@ -164,7 +168,7 @@ export function ChatWidget() {
         {SUGGESTED_PROMPTS.map((p, idx) => (
           <button
             key={idx}
-            onClick={() => handleSuggestedPrompt(p)}
+            onClick={() => handleSend(p)}
             disabled={isLoading}
             className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-sm bg-dark-card hover:bg-blue-600/30 border border-dark-border hover:border-blue-500 text-slate-300 transition-colors disabled:opacity-50"
           >
@@ -174,14 +178,11 @@ export function ChatWidget() {
       </div>
 
       {/* Input Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="p-2.5 bg-dark-base border-t border-dark-border flex items-center gap-2 shrink-0"
-      >
+      <form onSubmit={handleSubmit} className="p-2.5 bg-dark-base border-t border-dark-border flex items-center gap-2 shrink-0">
         <input
           type="text"
           value={input}
-          onChange={handleInputChange}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Tanya Indra AI tentang profil, keahlian, atau proyek..."
           disabled={isLoading}
           className="flex-1 bg-dark-card border border-dark-border rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono placeholder:text-slate-500 disabled:opacity-60"
