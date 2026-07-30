@@ -3,20 +3,20 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 export interface BadgeProps {
-  variant?: 'blue' | 'emerald' | 'amber' | 'violet' | 'slate';
+  variant?: 'blue' | 'amber' | 'emerald' | 'violet' | 'slate';
   children: React.ReactNode;
   className?: string;
 }
 
 export function Badge({ variant = 'blue', children, className }: BadgeProps) {
-  const base = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide border';
+  const base = 'inline-flex items-center px-2.5 py-1 rounded-sm text-[11px] font-mono font-bold tracking-wider border uppercase';
 
   const variants = {
-    blue: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800',
-    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800',
-    amber: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800',
-    violet: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/60 dark:text-violet-300 dark:border-violet-800',
-    slate: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
+    blue: 'bg-blue-950/60 text-blue-400 border-blue-800/80',
+    amber: 'bg-amber-950/60 text-amber-400 border-amber-800/80',
+    emerald: 'bg-emerald-950/60 text-emerald-400 border-emerald-800/80',
+    violet: 'bg-violet-950/60 text-violet-400 border-violet-800/80',
+    slate: 'bg-dark-card text-slate-300 border-dark-border',
   };
 
   return (

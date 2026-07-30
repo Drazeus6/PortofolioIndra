@@ -10,28 +10,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#1e3a8a',
-          light: '#3b82f6',
-          dark: '#1e293b',
+        dark: {
+          base: '#0A0A0B',
+          surface: '#111113',
+          card: '#161619',
+          border: '#232328',
         },
-        dev: {
-          bg: '#0f172a',
-          card: '#1e293b',
-          accent: '#38bdf8',
-          emerald: '#10b981',
-          violet: '#a855f7',
+        electric: {
+          500: '#0066ff',
+          400: '#3b82f6',
+          300: '#60a5fa',
         },
         legal: {
-          bg: '#f8fafc',
-          card: '#ffffff',
-          primary: '#1e3a8a',
-          accent: '#2563eb',
-        }
+          gold: '#f59e0b',
+          amber: '#d97706',
+          seal: '#b45309',
+          border: '#78350f',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['Fira Code', 'JetBrains Mono', 'monospace'],
+        mono: ['JetBrains Mono', 'Fira Code', 'Geist Mono', 'monospace'],
+      },
+      borderRadius: {
+        none: '0px',
+        sm: '2px',
+        md: '4px',
+        lg: '6px',
+        xl: '8px',
+        '2xl': '10px',
       },
     },
   },

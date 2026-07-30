@@ -16,77 +16,65 @@ export function SkillMatrixSection() {
   const filteredSkills = filter === 'all' ? allSkills : allSkills.filter((s) => s.category === filter);
 
   return (
-    <section
-      className={`py-20 md:py-28 transition-colors duration-500 ${
-        isDev ? 'bg-slate-950 text-white' : 'bg-white text-slate-900'
-      }`}
-    >
+    <section className="py-20 md:py-28 bg-dark-base border-b border-dark-border text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge variant={isDev ? 'emerald' : 'blue'}>Matriks Kompetensi</Badge>
-          <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight">
-            Technical &amp; Legal <span className={isDev ? 'text-emerald-400 font-mono' : 'text-blue-700'}>Skill Matrix</span>
+          <Badge variant={isDev ? 'blue' : 'amber'}>Matriks Kompetensi</Badge>
+          <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
+            Technical &amp; Legal <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Skill Matrix</span>
           </h2>
-          <p className="text-slate-400 text-sm md:text-base mt-3 max-w-xl mx-auto font-light">
-            Sinergi antara analisis regulasi hukum normatif, penguasaan IT/Administrasi, dan soft skill profesional.
+          <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
+            Grid filterable per kategori: Analisis regulasi hukum normatif, penguasaan IT/Administrasi AI, dan soft skill profesional.
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12 font-mono text-xs">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all ${
               filter === 'all'
                 ? isDev
-                  ? 'bg-emerald-600 text-white font-mono'
-                  : 'bg-blue-700 text-white'
-                : isDev
-                ? 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-blue-600 border-blue-400 text-white shadow-md'
+                  : 'bg-amber-600 border-amber-400 text-slate-950 shadow-md'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            Semua Kompetensi ({allSkills.length})
-          </button>
-          <button
-            onClick={() => setFilter('legal')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              filter === 'legal'
-                ? isDev
-                  ? 'bg-emerald-600 text-white font-mono'
-                  : 'bg-blue-700 text-white'
-                : isDev
-                ? 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            <Scale className="w-3.5 h-3.5" /> Analisis Hukum
+            Semua ({allSkills.length})
           </button>
           <button
             onClick={() => setFilter('tech')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
               filter === 'tech'
                 ? isDev
-                  ? 'bg-emerald-600 text-white font-mono'
-                  : 'bg-blue-700 text-white'
-                : isDev
-                ? 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-blue-600 border-blue-400 text-white shadow-md'
+                  : 'bg-amber-600 border-amber-400 text-slate-950 shadow-md'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            <Cpu className="w-3.5 h-3.5" /> IT &amp; Administrasi Modern
+            <Cpu className="w-3.5 h-3.5" /> AI &amp; Fullstack Tech
+          </button>
+          <button
+            onClick={() => setFilter('legal')}
+            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
+              filter === 'legal'
+                ? isDev
+                  ? 'bg-blue-600 border-blue-400 text-white shadow-md'
+                  : 'bg-amber-600 border-amber-400 text-slate-950 shadow-md'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
+            }`}
+          >
+            <Scale className="w-3.5 h-3.5" /> Legal &amp; Analysis
           </button>
           <button
             onClick={() => setFilter('soft')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
               filter === 'soft'
                 ? isDev
-                  ? 'bg-emerald-600 text-white font-mono'
-                  : 'bg-blue-700 text-white'
-                : isDev
-                ? 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-blue-600 border-blue-400 text-white shadow-md'
+                  : 'bg-amber-600 border-amber-400 text-slate-950 shadow-md'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
             <Users className="w-3.5 h-3.5" /> Soft Skills
@@ -94,40 +82,48 @@ export function SkillMatrixSection() {
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {filteredSkills.map((skill, idx) => (
             <motion.div
               key={skill.name}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className={`p-5 rounded-2xl border transition-all ${
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2, delay: idx * 0.03 }}
+              className={`p-5 rounded-sm border transition-all duration-300 ${
                 isDev
-                  ? 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/50'
-                  : 'bg-white border-slate-200 hover:border-blue-400 shadow-sm'
+                  ? 'bg-dark-surface border-dark-border hover:border-blue-500/60 hover:shadow-[0_0_15px_rgba(0,102,255,0.2)]'
+                  : 'bg-dark-surface border-dark-border hover:border-amber-500/60 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]'
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-bold text-sm flex items-center gap-2">
-                  <CheckCircle className={`w-4 h-4 ${isDev ? 'text-emerald-400' : 'text-blue-600'}`} />
+              <div className="flex items-center justify-between mb-2 font-mono">
+                <span className="font-bold text-xs md:text-sm flex items-center gap-2 text-white">
+                  <CheckCircle className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
                   {skill.name}
                 </span>
-                <span className={`text-xs font-mono font-bold ${isDev ? 'text-emerald-400' : 'text-blue-700'}`}>
+                <span className={`text-xs font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
                   {skill.level}%
                 </span>
               </div>
 
-              {/* Progress Bar Container */}
-              <div className={`w-full h-2.5 rounded-full overflow-hidden ${isDev ? 'bg-slate-800' : 'bg-slate-100'}`}>
+              {/* Accessible Progress Bar */}
+              <div
+                className="w-full h-2 rounded-none bg-dark-card overflow-hidden border border-dark-border"
+                role="progressbar"
+                aria-valuenow={skill.level}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={skill.name}
+              >
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: `${skill.level}%` }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
-                  className={`h-full rounded-full ${
+                  className={`h-full ${
                     isDev
-                      ? 'bg-gradient-to-r from-emerald-500 to-cyan-400'
-                      : 'bg-gradient-to-r from-blue-700 to-indigo-500'
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-400'
+                      : 'bg-gradient-to-r from-amber-600 to-yellow-400'
                   }`}
                 />
               </div>
