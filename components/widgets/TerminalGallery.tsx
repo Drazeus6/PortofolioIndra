@@ -195,7 +195,7 @@ export function TerminalGallery() {
       {viewType === 'terminal' ? (
         <>
           {/* Terminal Body */}
-          <div className="p-4 md:p-6 h-[420px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
+          <div className="p-4 md:p-6 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
             {history.map((item) => (
               <div key={item.id}>{item.content}</div>
             ))}
@@ -226,7 +226,7 @@ export function TerminalGallery() {
         </>
       ) : (
         /* Filterable Grid Mode for Accessibility & Touch Devices */
-        <div className="p-6 h-[480px] overflow-y-auto space-y-6 font-sans">
+        <div className="p-6 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto space-y-6 font-sans">
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory('all')}

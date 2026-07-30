@@ -14,7 +14,7 @@ export function TimelineSection() {
   const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
 
   return (
-    <section className="py-20 md:py-28 border-y border-dark-border bg-dark-base relative">
+    <section className="py-16 md:py-24 border-y border-dark-border bg-dark-base relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

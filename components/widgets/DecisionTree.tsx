@@ -93,7 +93,7 @@ export function DecisionTree() {
       </div>
 
       {showAccessibleText ? (
-        <div className="p-6 space-y-4 h-[480px] overflow-y-auto font-sans text-xs md:text-sm">
+        <div className="p-6 space-y-4 h-[360px] sm:h-[440px] lg:h-[520px] overflow-y-auto font-sans text-xs md:text-sm">
           <p className="text-amber-400 font-bold uppercase tracking-wider text-xs">
             Daftar Langkah Alur Keputusan Hukum (Text Alternative):
           </p>
@@ -107,7 +107,7 @@ export function DecisionTree() {
           </ol>
         </div>
       ) : (
-        <div className="w-full h-[480px] relative">
+        <div className="w-full h-[360px] sm:h-[440px] lg:h-[520px] relative">
           <ReactFlow
             nodes={nodes}
             edges={edges}

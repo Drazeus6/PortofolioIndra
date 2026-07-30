@@ -164,7 +164,7 @@ export function ChatWidget() {
   };
 
   return (
-    <div className="w-full rounded-md bg-dark-surface border border-dark-border shadow-2xl overflow-hidden flex flex-col h-[560px] font-mono">
+    <div className="w-full rounded-md bg-dark-surface border border-dark-border shadow-2xl overflow-hidden flex flex-col h-[420px] sm:h-[480px] lg:h-[560px] font-mono">
       {/* Header */}
       <div className="p-3 bg-dark-base border-b border-dark-border flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5">

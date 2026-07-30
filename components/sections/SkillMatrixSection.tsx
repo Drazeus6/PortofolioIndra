@@ -16,7 +16,7 @@ export function SkillMatrixSection() {
   const filteredSkills = filter === 'all' ? allSkills : allSkills.filter((s) => s.category === filter);
 
   return (
-    <section className="py-20 md:py-28 bg-dark-base border-b border-dark-border text-white">
+    <section className="py-16 md:py-24 bg-dark-base border-b border-dark-border text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">

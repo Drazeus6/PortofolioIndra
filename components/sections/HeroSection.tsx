@@ -147,7 +147,7 @@ export function HeroSection() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 border-t pt-5 border-dark-border font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t pt-5 border-dark-border font-mono">
                   <div className="p-3 rounded-md bg-dark-card border border-dark-border text-center">
                     <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Predikat IPK</span>
                     <span className={`text-sm md:text-base font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
