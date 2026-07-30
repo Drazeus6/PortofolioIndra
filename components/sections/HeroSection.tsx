@@ -8,7 +8,7 @@ import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Scale, Terminal, ArrowRight, Download, ShieldCheck, MapPin, Code2, Trophy } from 'lucide-react';
+import { Scale, Terminal, ArrowRight, Download, ShieldCheck, MapPin, Code2 } from 'lucide-react';
 
 export function HeroSection() {
   const { viewMode } = useViewMode();
@@ -68,10 +68,6 @@ export function HeroSection() {
                 </span>
                 {isDev ? 'Agentic AI & Systems Analyst' : 'S1 Hukum Pidana Islam (Cumlaude 3.71)'}
               </Badge>
-
-              <span className="text-xs font-mono text-amber-400 flex items-center gap-1 font-bold">
-                <Trophy className="w-3.5 h-3.5 text-amber-400" /> Juara 1 Menulis Surat Nasional
-              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 font-sans">

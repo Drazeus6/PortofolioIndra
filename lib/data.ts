@@ -253,18 +253,20 @@ export const EXPERIENCES: ExperienceItem[] = [
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     category: 'Competencies: Fullstack Web Development & Database',
-    description: 'Penguasaan arsitektur web modern, frontend, backend API, dan manajemen basis data.',
+    description: 'Penguasaan arsitektur web modern, bahasa pemrograman fullstack, frontend, backend API, dan basis data.',
     skills: [
+      { name: 'TypeScript & JavaScript (ES6+)', level: 94, category: 'web' },
+      { name: 'HTML5 & CSS3 (Semantic & Layouts)', level: 96, category: 'web' },
+      { name: 'SQL (PostgreSQL & MySQL Database Querying)', level: 90, category: 'web' },
+      { name: 'Python (Scripting & Automation)', level: 85, category: 'web' },
+      { name: 'PHP (Server-Side Web Development)', level: 82, category: 'web' },
+      { name: 'Bash / Shell (CLI & Scripting)', level: 88, category: 'web' },
       { name: 'Next.js (App Router) & React 18/19', level: 94, category: 'web' },
-      { name: 'TypeScript & JavaScript (ES6+)', level: 92, category: 'web' },
       { name: 'Tailwind CSS & Framer Motion (Animations)', level: 95, category: 'web' },
       { name: 'Node.js, Express & RESTful API Design', level: 90, category: 'web' },
-      { name: 'PostgreSQL & Relational Database Design', level: 88, category: 'web' },
-      { name: 'MySQL & SQL Query Optimization', level: 89, category: 'web' },
-      { name: 'Supabase & Database Authentication', level: 87, category: 'web' },
-      { name: 'Prisma ORM & Data Modeling', level: 86, category: 'web' },
+      { name: 'Supabase, Prisma ORM & Database Auth', level: 88, category: 'web' },
       { name: 'Vercel AI SDK & LLM Integration (Streaming)', level: 91, category: 'web' },
-      { name: 'Git, GitHub, Vercel & CI/CD Deployment', level: 93, category: 'web' },
+      { name: 'Git, GitHub & CI/CD Deployment', level: 93, category: 'web' },
     ],
   },
   {
