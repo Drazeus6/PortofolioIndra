@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indra Mulyana - Portofolio Profesional</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config & Custom CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a8a', // Dark blue (Professional Legal look)
+                        secondary: '#3b82f6',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* Modern Hover Effects */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #3b82f6; /* Highlight border on hover */
+        }
+
+        /* Modal Styles (Clean & Animated) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7); /* Darker backdrop */
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 1.5rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy reveal */
+            overflow: hidden;
+        }
+        .modal.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .close {
+            color: #94a3b8;
+            font-size: 1.75rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .close:hover {
+            color: #ef4444;
+            background: #fee2e2;
+            transform: rotate(90deg);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar for better UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        
+        /* Back to top button */
+        #btn-back-to-top {
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        #btn-back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-primary selection:text-white relative">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Avatar Logo with Dropdown -->
+                <div class="flex-shrink-0 flex items-center relative group">
+                    <button id="avatar-btn" class="focus:outline-none rounded-full transition-transform hover:scale-105 relative z-10">
+                        <div class="w-12 h-12 rounded-full border-2 border-primary overflow-hidden bg-slate-100 flex items-center justify-center shadow-lg ring-4 ring-white">
+                            <!-- Placeholder Icon for Avatar -->
+                            <img src="Foto.indra2.jpeg" alt="Indra Mulyana" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e3a8a/ffffff?text=IM';">
+                        </div>
+                    </button>
+
+                    <!-- Avatar Dropdown Menu -->
+                    <div id="avatar-dropdown" class="hidden absolute top-14 left-0 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 origin-top-left transition-all duration-200">
+                        <div class="px-5 py-3 border-b border-slate-50 mb-1 bg-slate-50/50 rounded-t-2xl">
+                            <p class="text-sm font-bold text-slate-800">Indra Mulyana</p>
+                            <p class="text-xs text-slate-500 font-medium">Hukum Pidana Islam</p>
+                        </div>
+                        <a href="mailto:indramulyanaa674@gmail.com" class="px-5 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-primary flex items-center transition-colors group/link">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 group-hover/link:bg-white flex items-center justify-center mr-3 transition-colors"><i class="fas fa-envelope"></i></div> Email
+                        </a>
+                        <a href="https://wa.me/6281395701071" target="_blank" class="px-5 py-2.5 text-sm text-slate-600 hover:bg-green-50 hover:text-green-600 flex items-center transition-colors group/link">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 group-hover/link:bg-white flex items-center justify-center mr-3 transition-colors"><i class="fab fa-whatsapp"></i></div> WhatsApp
+                        </a>
+                        <a href="#kontak" class="px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary flex items-center transition-colors avatar-link group/link">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 group-hover/link:bg-white flex items-center justify-center mr-3 transition-colors"><i class="fas fa-address-card"></i></div> Kontak Lengkap
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-1 items-center bg-slate-100/50 p-1 rounded-full border border-slate-200/50">
+                    <a href="#beranda" class="px-4 py-2 rounded-full text-slate-600 hover:text-primary hover:bg-white font-medium transition-all text-sm">Beranda</a>
+                    <a href="#tentang" class="px-4 py-2 rounded-full text-slate-600 hover:text-primary hover:bg-white font-medium transition-all text-sm">Tentang</a>
+                    <a href="#pengalaman" class="px-4 py-2 rounded-full text-slate-600 hover:text-primary hover:bg-white font-medium transition-all text-sm">Pengalaman</a>
+                    <a href="#pendidikan" class="px-4 py-2 rounded-full text-slate-600 hover:text-primary hover:bg-white font-medium transition-all text-sm">Keahlian</a>
+                    <a href="#kontak" class="ml-2 bg-primary hover:bg-blue-800 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg text-sm">Hubungi Saya</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-50 focus:outline-none shadow-sm border border-slate-100 transition-colors">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-slate-100 absolute w-full shadow-2xl">
+            <div class="px-6 pt-4 pb-8 space-y-3 flex flex-col">
+                <a href="#beranda" class="flex items-center px-4 py-3 text-slate-600 font-medium hover:bg-blue-50 hover:text-primary rounded-xl mobile-link transition-colors"><i class="fas fa-home w-6 text-slate-400"></i> Beranda</a>
+                <a href="#tentang" class="flex items-center px-4 py-3 text-slate-600 font-medium hover:bg-blue-50 hover:text-primary rounded-xl mobile-link transition-colors"><i class="fas fa-user w-6 text-slate-400"></i> Tentang</a>
+                <a href="#pengalaman" class="flex items-center px-4 py-3 text-slate-600 font-medium hover:bg-blue-50 hover:text-primary rounded-xl mobile-link transition-colors"><i class="fas fa-briefcase w-6 text-slate-400"></i> Pengalaman</a>
+                <a href="#pendidikan" class="flex items-center px-4 py-3 text-slate-600 font-medium hover:bg-blue-50 hover:text-primary rounded-xl mobile-link transition-colors"><i class="fas fa-graduation-cap w-6 text-slate-400"></i> Pendidikan & Keahlian</a>
+                <a href="#kontak" class="flex items-center justify-center mt-4 px-4 py-3 bg-primary text-white font-bold rounded-xl mobile-link shadow-md"><i class="fas fa-paper-plane mr-2"></i> Hubungi Saya</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="pt-32 pb-20 md:pt-40 md:pb-28 px-4 flex items-center min-h-[95vh] relative overflow-hidden">
+        <!-- Abstract Background Decoration -->
+        <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-3xl -z-10 animate-pulse"></div>
+        <div class="absolute bottom-0 left-[-10%] w-[300px] h-[300px] bg-indigo-100/40 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12 w-full">
+            <div class="flex-1 text-center md:text-left reveal">
+                <div class="inline-flex items-center px-4 py-2 bg-white text-primary rounded-full text-sm font-semibold mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <span class="relative flex h-3 w-3 mr-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                    </span>
+                    Profesional Hukum & Administrasi
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-tight mb-6 tracking-tight">
+                    Halo, Saya <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Indra Mulyana</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto md:mx-0 font-light">
+                    S1 Hukum Pidana Islam dari UIN Sunan Gunung Djati. Memadukan pemikiran analitis dengan presisi administratif untuk memberikan solusi hukum dan riset yang berintegritas.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#kontak" class="group bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl flex items-center justify-center hover:-translate-y-1">
+                        Mari Berdiskusi <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#pengalaman" class="bg-white text-slate-700 hover:text-primary hover:bg-slate-50 border border-slate-200 px-8 py-4 rounded-full font-semibold transition-all shadow-sm flex items-center justify-center hover:-translate-y-1">
+                        Lihat Portofolio
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Profile Image Area -->
+            <div class="flex-1 flex justify-center md:justify-end reveal relative">
+                <div class="relative w-72 h-72 md:w-96 md:h-96">
+                    <!-- Rotating Decorative Border -->
+                    <div class="absolute inset-0 border-2 border-dashed border-primary/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    
+                    <div class="absolute inset-4 bg-white rounded-full shadow-2xl overflow-hidden flex items-center justify-center ring-8 ring-white z-10">
+                        <img src="Foto.indra2.jpeg" alt="Indra Mulyana" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" onerror="this.onerror=null; this.src='https://placehold.co/400x400/1e3a8a/ffffff?text=Indra+M';">
+                    </div>
+                    
+                    <!-- Floating Stat Cards -->
+                    <div class="absolute -bottom-6 -left-4 md:-left-8 bg-white/90 backdrop-blur-sm px-5 py-4 rounded-2xl shadow-xl border border-white flex items-center gap-4 z-20 hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-green-100 text-green-600 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-bold tracking-wide uppercase">IPK Akademik</p>
+                            <p class="text-xl font-extrabold text-slate-800">3.71</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-10 -right-4 md:-right-8 bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-white flex items-center justify-center z-20 animate-bounce">
+                        <div class="bg-blue-100 text-primary w-10 h-10 rounded-full flex items-center justify-center text-lg">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="tentang" class="py-24 bg-white relative">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 reveal">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase mb-2 block">Pengenalan</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">Ringkasan <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Profil</span></h2>
+                <div class="w-24 h-1.5 bg-primary/20 mx-auto rounded-full overflow-hidden">
+                    <div class="w-1/2 h-full bg-primary rounded-full"></div>
+                </div>
+            </div>
+            
+            <div class="bg-slate-50 rounded-[2rem] p-8 md:p-14 shadow-sm border border-slate-100 flex flex-col lg:flex-row gap-12 items-stretch reveal">
+                <div class="flex-1 space-y-6 text-slate-600 leading-relaxed text-lg font-light">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                        Saya adalah Lulusan S1 Hukum Pidana Islam dari UIN Sunan Gunung Djati Bandung dengan rekam jejak akademik yang sangat memuaskan. Saya memiliki pengalaman magang di Pengadilan Negeri dan Pengadilan Agama yang memberikan pemahaman mendalam mengenai prosedur peradilan, pengarsipan, dan administrasi hukum.
+                    </p>
+                    <p>
+                        Saya juga memiliki latar belakang tambahan yang kuat dalam riset, penulisan analitis, dan pembuatan naskah yang melatih kemampuan berpikir kritis. Saya dikenal sebagai individu yang teliti, pekerja keras, dan adaptif.
+                    </p>
+                    <p>
+                        Menguasai perangkat Microsoft Office untuk mendukung efisiensi operasional dan administrasi harian. Saya siap berkontribusi secara profesional di bidang hukum, kepatuhan (compliance), administrasi, maupun riset.
+                    </p>
+                </div>
+                
+                <!-- Contact Card -->
+                <div class="w-full lg:w-96 bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+                    <!-- Decorative element in card -->
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-50 rounded-full opacity-50"></div>
+                    
+                    <h3 class="font-extrabold text-2xl text-slate-800 mb-8 relative z-10">Detail Kontak</h3>
+                    <ul class="space-y-6 relative z-10">
+                        <li class="flex items-center group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-primary group-hover:text-white w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 shadow-sm">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="ml-5">
+                                <span class="block text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Lokasi</span>
+                                <span class="block text-slate-700 font-medium">Ciamis, Jawa Barat</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-primary group-hover:text-white w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 shadow-sm">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="ml-5 break-all">
+                                <span class="block text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</span>
+                                <a href="mailto:indramulyanaa674@gmail.com" class="block text-slate-700 font-medium hover:text-primary transition-colors">indramulyanaa674@gmail.com</a>
+                            </div>
+                        </li>
+                        <li class="flex items-center group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-green-500 group-hover:text-white w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 shadow-sm">
+                                <i class="fab fa-whatsapp text-lg"></i>
+                            </div>
+                            <div class="ml-5">
+                                <span class="block text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">WhatsApp</span>
+                                <a href="https://wa.me/6281395701071" target="_blank" class="block text-slate-700 font-medium hover:text-green-600 transition-colors">0813 9570 1071</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="pengalaman" class="py-24 bg-slate-50 border-y border-slate-100 overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16 md:mb-20 reveal">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase mb-2 block">Jejak Karir</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">Pengalaman <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Kerja</span></h2>
+                <div class="w-24 h-1.5 bg-primary/20 mx-auto rounded-full overflow-hidden">
+                    <div class="w-1/2 h-full bg-primary rounded-full"></div>
+                </div>
+                <p class="text-slate-500 mt-6 bg-white inline-block px-4 py-2 rounded-full border border-slate-200 text-sm shadow-sm animate-bounce">
+                    <i class="fas fa-hand-pointer text-primary mr-2"></i>Klik kartu di bawah untuk melihat dokumen/sertifikat
+                </p>
+            </div>
+
+            <!-- Modern Timeline (Rata Kiri yang Stabil) -->
+            <div class="relative border-l-2 border-slate-200 ml-4 md:ml-8 space-y-12 md:space-y-16">
+                
+                <!-- Item 1: PA Ciamis -->
+                <div class="relative reveal cursor-pointer group" onclick="openModal('modal-pa-ciamis')">
+                    <!-- Timeline Dot -->
+                    <div class="absolute w-5 h-5 bg-white rounded-full -left-[11px] top-6 border-4 border-primary shadow-[0_0_0_4px_rgba(30,58,138,0.1)] group-hover:scale-125 transition-transform duration-300 z-10"></div>
+                    
+                    <!-- Content Card -->
+                    <div class="ml-8 md:ml-12 card-hover">
+                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative">
+                            <!-- Click Indicator -->
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-expand-alt text-sm"></i>
+                            </div>
+                            
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold uppercase tracking-wider mb-3">
+                                <i class="far fa-calendar-alt"></i> Jan 2025 - Feb 2025
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-1 group-hover:text-primary transition-colors">Pengadilan Agama Ciamis</h3>
+                            <h4 class="text-primary font-semibold mb-4 text-sm md:text-base">Magang</h4>
+                            <p class="text-slate-600 font-light leading-relaxed">
+                                Mempelajari dan mempraktikkan prosedur peradilan, pengarsipan dokumen hukum, dan administrasi pengadilan di lingkungan Pengadilan Agama.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2: Jurnal -->
+                <div class="relative reveal cursor-pointer group" onclick="openModal('modal-jurnal')">
+                    <div class="absolute w-5 h-5 bg-white rounded-full -left-[11px] top-6 border-4 border-primary shadow-[0_0_0_4px_rgba(30,58,138,0.1)] group-hover:scale-125 transition-transform duration-300 z-10"></div>
+                    
+                    <div class="ml-8 md:ml-12 card-hover">
+                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative">
+                             <div class="absolute top-4 right-4 w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt text-sm"></i>
+                            </div>
+
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold uppercase tracking-wider mb-3">
+                                <i class="far fa-calendar-alt"></i> September 2024
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-1 group-hover:text-primary transition-colors">Jurnal Galuh Justisi</h3>
+                            <h4 class="text-primary font-semibold mb-4 text-sm md:text-base">Author (Penulis)</h4>
+                            <p class="text-slate-600 font-light leading-relaxed">
+                                Berperan dalam riset dan penulisan analitis untuk publikasi jurnal hukum, melatih kemampuan berpikir kritis dan penyusunan naskah akademik.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3: PN Ciamis -->
+                <div class="relative reveal cursor-pointer group" onclick="openModal('modal-pn-ciamis')">
+                    <div class="absolute w-5 h-5 bg-white rounded-full -left-[11px] top-6 border-4 border-primary shadow-[0_0_0_4px_rgba(30,58,138,0.1)] group-hover:scale-125 transition-transform duration-300 z-10"></div>
+                    
+                    <div class="ml-8 md:ml-12 card-hover">
+                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative">
+                             <div class="absolute top-4 right-4 w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-expand-alt text-sm"></i>
+                            </div>
+
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold uppercase tracking-wider mb-3">
+                                <i class="far fa-calendar-alt"></i> Juli 2024 - Agustus 2024
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-1 group-hover:text-primary transition-colors">Pengadilan Negeri Ciamis</h3>
+                            <h4 class="text-primary font-semibold mb-4 text-sm md:text-base">Magang</h4>
+                            <p class="text-slate-600 font-light leading-relaxed">
+                                Mengamati praktik peradilan pidana dan perdata secara langsung, serta membantu operasional administrasi dan pengelolaan arsip di Pengadilan Negeri.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALS SECTION -->
+    
+    <!-- Modal PA Ciamis -->
+    <div id="modal-pa-ciamis" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary"><i class="fas fa-certificate"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800">Sertifikat Magang PA Ciamis</h3>
+                </div>
+                <button class="close" onclick="closeModal('modal-pa-ciamis')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body flex justify-center items-center bg-slate-50 min-h-[400px]">
+                <!-- Ganti div border-dashed ini dengan tag <img> sertifikat Anda -->
+                <img src="Sertifikat.PA.jpg" 
+                     alt="Sertifikat Magang Pengadilan Agama Ciamis" 
+                     class="w-full max-h-[70vh] object-contain rounded-xl shadow-md border border-slate-200">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Jurnal Galuh Justisi -->
+    <div id="modal-jurnal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary"><i class="fas fa-book-open"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800">Publikasi Jurnal</h3>
+                </div>
+                <button class="close" onclick="closeModal('modal-jurnal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body space-y-8">
+                
+                <!-- Jurnal 1 -->
+                <div class="bg-gradient-to-br from-slate-50 to-blue-50 p-6 md:p-8 rounded-2xl border border-blue-100 shadow-inner">
+                    <div class="inline-block px-3 py-1 bg-white text-primary text-xs font-bold rounded-md border border-blue-200 mb-4 shadow-sm">Jurnal 1: Galuh Justisi</div>
+                    <h4 class="font-extrabold text-2xl text-slate-900 mb-2 leading-tight">SISTEM PEMILIHAN UMUM DI INDONESIA
+DALAM PERSFEKTIF FIQH SIYASAH</h4>
+                    <p class="text-sm text-slate-500 font-medium mb-6 flex items-center gap-2">
+                        <i class="far fa-calendar text-primary"></i> September 2024 | Vol. 12 No. 2
+                    </p>
+                    
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 relative">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-primary rounded-l-xl"></div>
+                        <h5 class="font-bold text-slate-800 mb-2 text-sm uppercase tracking-wide">Abstrak</h5>
+                        <p class="text-slate-600 text-sm leading-relaxed font-light text-justify">
+                            The elections in Indonesia which are scheduled for 2024 are becoming a hot topic of
+conversation. However, the debate regarding the Islamic perspective on elections is
+still less discussed. This research uses qualitative methods with literature and
+empirical approaches. The research results show that the electoral system in
+Indonesia has relevance to siyasah fiqh, namely the ahlul halli wal aqdi system. The
+history of elections in Indonesia developed along with the understanding of
+democracy. The concept of selecting leaders during the time of the Prophet
+Muhammad and Khulafaurrasyidin is not the same as elections today. However, the
+concept of ahlul halli wal aqdi or shura in Islam has similarities with general elections
+in Indonesia. In siyasah fiqh, the method of filling the position of head of state
+includes direct election by the people and ahlul halli wal aqdi. In Indonesia, elections
+use a direct election system by the people, in accordance with the principles of fiqh
+siyasah. This research also highlights election disputes that occurred after the
+general election. In Islam, ahlul halli wal aqdi have a role in adjudicating disputes
+over the election of the head of government, in Indonesia election disputes are
+submitted to the Constitutional Court. This research recommends that the
+government act fairly and in accordance with Islamic teachings in government. The
+public is also reminded to study government both in politics and society. If the
+concept of an Islamic state is achieved, society will be prosperous and government
+will be wise and fair in all aspects. It is hoped that this research can provide new
+views and motivate people in facing politics in Indonesia.
+
+                        </p>
+                    </div>
+                    
+                    <a href="https://jurnal.unigal.ac.id/galuhjustisi/article/view/14168/pdf" target="_blank" class="inline-flex items-center justify-center bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-800 hover:shadow-lg transition-all w-full md:w-auto text-sm">
+                        Baca Dokumen Lengkap <i class="fas fa-external-link-square-alt ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Jurnal 2 -->
+                <div class="bg-gradient-to-br from-slate-50 to-blue-50 p-6 md:p-8 rounded-2xl border border-blue-100 shadow-inner">
+                    <div class="inline-block px-3 py-1 bg-white text-primary text-xs font-bold rounded-md border border-blue-200 mb-4 shadow-sm">Jurnal 2: Jurnal Galuh Justisi</div>
+                    <h4 class="font-extrabold text-2xl text-slate-900 mb-2 leading-tight">KEKOSONGAN HUKUM MENGENAI TINDAK PIDANA PENIPUAN
+DEEPFAKE DALAM UU ITE NOMOR 1 TAHUN 2024 MENURUT
+PERSFEKTIF HUKUM PIDANA ISLAM
+</h4>
+                    <p class="text-sm text-slate-500 font-medium mb-6 flex items-center gap-2">
+                        <i class="far fa-calendar text-primary"></i> Maret 2026 | Vol. 14 No. 1
+                    </p>
+                    
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 relative">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-primary rounded-l-xl"></div>
+                        <h5 class="font-bold text-slate-800 mb-2 text-sm uppercase tracking-wide">Abstrak</h5>
+                        <p class="text-slate-600 text-sm leading-relaxed font-light text-justify">
+                            The current transformation of cybercrime is dominated by the use of Deepfake
+technology, which exploits the biometric identities of public officials for financial gain.
+However, Indonesia's positive legal instruments, specifically Article 28 paragraph (1)
+juncto Article 45A of Law Number 1 of 2024 concerning Electronic Information and
+Transactions (ITE Law), demonstrate a significant legal lag. This study focuses on
+analyzing the vacuum of norm arising because the a quo article still necessitates
+elements of "false news" and "consumer loss," which are irrelevant to the nature of this
+crime. Employing a normative juridical method with statutory and conceptual
+approaches, this research finds that the current application of the ITE Law potentially
+creates impunity. This is because Deepfake constitutes a fabrication of synthetic
+reality, rather than merely the dissemination of hoaxes within electronic transactions.
+From the perspective of Fiqh Jinayah, this act is categorized as severe Al-Ghash and
+At-Tadlis, which violate the principles of Maqashid Sharia, specifically the protection of
+intellect and property. Due to the absence of specific scriptural provisions, this offense
+falls within the realm of Jarimah Ta'zir, necessitating judges to impose maximum
+sanctions to close the loopholes for harm (Sadd ad-Dzari'ah) and uphold substantive
+justice.
+                        </p>
+                    </div>
+                    
+                    <a href="https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf" target="_blank" class="inline-flex items-center justify-center bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-800 hover:shadow-lg transition-all w-full md:w-auto text-sm">
+                        Baca Dokumen Lengkap <i class="fas fa-external-link-square-alt ml-2"></i>
+                    </a>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+    <!-- Modal PN Ciamis -->
+    <div id="modal-pn-ciamis" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary"><i class="fas fa-certificate"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800">Sertifikat Magang PN Ciamis</h3>
+                </div>
+                <button class="close" onclick="closeModal('modal-pn-ciamis')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body flex justify-center items-center bg-slate-50 min-h-[400px]">
+                <!-- Ganti div border-dashed ini dengan tag <img> sertifikat Anda -->
+                <img src="Sertifikat.PN.jpg" 
+                     alt="Sertifikat Magang Pengadilan Agama Ciamis" 
+                     class="w-full max-h-[70vh] object-contain rounded-xl shadow-md border border-slate-200">
+            </div>
+        </div>
+    </div>
+
+    <!-- Education & Skills Section -->
+    <section id="pendidikan" class="py-24 bg-white relative">
+        <div class="max-w-6xl mx-auto px-4">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Education Column -->
+                <div class="reveal">
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl shadow-inner border border-blue-100">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Pendidikan</h2>
+                    </div>
+                    
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+                        <!-- Edu 1 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-primary text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <i class="fas fa-university text-xs"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-white border border-slate-100 shadow-md group-hover:border-primary/50 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-bold text-slate-800 text-lg">UIN Sunan Gunung Djati</h3>
+                                </div>
+                                <h4 class="text-slate-600 font-medium mb-3 text-sm">S1 Hukum Pidana Islam</h4>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded">2022 - 2026</span>
+                                    <span class="text-xs font-bold text-primary bg-blue-50 px-2 py-1 rounded border border-blue-100">IPK: 3.71</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Edu 2 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-slate-300 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 group-hover:bg-slate-400 transition-colors">
+                                <i class="fas fa-school text-xs"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-white border border-slate-100 shadow-sm group-hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-bold text-slate-800 text-lg">SMKN 2 BANJAR</h3>
+                                </div>
+                                <h4 class="text-slate-600 font-medium mb-3 text-sm">Teknik Komputer dan Jaringan</h4>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded">2019 - 2022</span>
+                                    <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded border border-slate-200">Lulusan Terbaik</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="flex items-center gap-4 mb-8 mt-16">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl shadow-inner border border-blue-100">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Sertifikasi & Pelatihan</h2>
+                    </div>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-12 h-12 rounded-full bg-green-50 text-green-500 flex items-center justify-center mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Microsoft Office Specialist Word</h4>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">PTIPD UIN SGD BANDUNG With LUMINA EKA OPTIMA</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-12 h-12 rounded-full bg-green-50 text-green-500 flex items-center justify-center mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Dasar AI (Artificial Intelligence)</h4>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">DICODING</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-12 h-12 rounded-full bg-green-50 text-green-500 flex items-center justify-center mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">International Law Conferences</h4>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">Universitas Galuh</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Skills Column -->
+                <div class="reveal">
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl shadow-inner border border-blue-100">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Keahlian</h2>
+                    </div>
+                    
+                    <div class="bg-slate-900 p-8 md:p-10 rounded-[2rem] shadow-xl text-white relative overflow-hidden">
+                        <!-- BG Decoration -->
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary rounded-full blur-3xl opacity-20"></div>
+                        
+                        <p class="text-slate-300 mb-10 leading-relaxed font-light relative z-10">
+                            Kombinasi solid antara pemahaman analitis hukum, kelincahan teknis IT/Administrasi, serta soft skills yang menunjang kolaborasi efektif.
+                        </p>
+                        
+                        <div class="space-y-10 relative z-10">
+                            <!-- Technical Skills -->
+                            <div>
+                                <h3 class="font-bold text-lg text-white mb-5 flex items-center"><i class="fas fa-cogs mr-2 text-blue-400"></i> Technical & Hard Skills</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl text-slate-200 text-sm font-medium hover:border-blue-400 transition-colors flex items-center gap-2 cursor-default">
+                                        <i class="fas fa-balance-scale text-blue-400"></i> Analisis Hukum
+                                    </span>
+                                    <span class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl text-slate-200 text-sm font-medium hover:border-blue-500 transition-colors flex items-center gap-2 cursor-default">
+                                        <i class="fas fa-file-word text-blue-500"></i> MS Word
+                                    </span>
+                                    <span class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl text-slate-200 text-sm font-medium hover:border-green-500 transition-colors flex items-center gap-2 cursor-default">
+                                        <i class="fas fa-file-excel text-green-500"></i> MS Excel
+                                    </span>
+                                    <span class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl text-slate-200 text-sm font-medium hover:border-orange-500 transition-colors flex items-center gap-2 cursor-default">
+                                        <i class="fas fa-file-powerpoint text-orange-500"></i> Power Point
+                                    </span>
+                                    <span class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl text-slate-200 text-sm font-medium hover:border-indigo-400 transition-colors flex items-center gap-2 cursor-default">
+                                        <i class="fas fa-search text-indigo-400"></i> Riset & Pemberkasan
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Soft Skills -->
+                            <div>
+                                <h3 class="font-bold text-lg text-white mb-5 flex items-center"><i class="fas fa-users mr-2 text-green-400"></i> Professional Soft Skills</h3>
+                                <div class="flex flex-wrap gap-2.5">
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Berpikir Kritis</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Pemecahan Masalah</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Integritas & Etika</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Manajemen Waktu</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Detail-Oriented</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Komunikasi Efektif</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Kerjasama Tim</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Negosiasi & Persuasi</span>
+                                    <span class="bg-primary/20 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium border border-primary/30">Adaptif</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & Contact -->
+    <footer id="kontak" class="bg-slate-900 text-white pt-24 pb-12 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 items-center">
+                <div class="reveal">
+                    <span class="text-blue-400 font-bold tracking-widest text-sm uppercase mb-3 block">Mari Terhubung</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">Siap Untuk <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-primary">Berkolaborasi?</span></h2>
+                    <p class="text-slate-400 mb-10 max-w-md leading-relaxed text-lg font-light">
+                        Saya selalu terbuka untuk mendiskusikan peluang karir, proyek, atau kolaborasi profesional. Jangan ragu untuk menyapa!
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="mailto:indramulyanaa674@gmail.com" class="w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 hover:bg-primary hover:border-primary flex items-center justify-center text-2xl transition-all hover:-translate-y-2 shadow-lg">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://wa.me/6281395701071" target="_blank" class="w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 hover:bg-green-500 hover:border-green-500 flex items-center justify-center text-2xl transition-all hover:-translate-y-2 shadow-lg">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-800/50 backdrop-blur-sm p-10 rounded-[2rem] border border-slate-700 reveal">
+                    <h3 class="text-2xl font-bold mb-8 text-white">Informasi Kontak</h3>
+                    <ul class="space-y-8">
+                        <li class="flex items-center group">
+                            <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-primary mr-5 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Telepon</p>
+                                <a href="tel:+6281395701071" class="text-lg text-slate-200 hover:text-white font-medium transition-colors">0813 9570 1071</a>
+                            </div>
+                        </li>
+                        <li class="flex items-center group">
+                            <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-primary mr-5 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div class="break-all">
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
+                                <a href="mailto:indramulyanaa674@gmail.com" class="text-lg text-slate-200 hover:text-white font-medium transition-colors">indramulyanaa674@gmail.com</a>
+                            </div>
+                        </li>
+                        <li class="flex items-center group">
+                            <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-primary mr-5 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Domisili</p>
+                                <span class="text-lg text-slate-200 font-medium">Ciamis, Jawa Barat, Indonesia</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-500 text-sm text-center md:text-left mb-4 md:mb-0">
+                    &copy; <span id="year"></span> Indra Mulyana. Dirancang untuk Profesionalisme.
+                </p>
+                <div class="flex items-center">
+                    <span class="text-slate-600 font-bold tracking-widest text-xs uppercase bg-slate-800 px-3 py-1 rounded-md">Portofolio 2026</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="btn-back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-800 hover:-translate-y-1 transition-all z-40 focus:outline-none">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 1. Navigation & Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if(menu.classList.contains('hidden')){
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // 2. Avatar Dropdown Logic
+        const avatarBtn = document.getElementById('avatar-btn');
+        const avatarDropdown = document.getElementById('avatar-dropdown');
+        const avatarLinks = document.querySelectorAll('.avatar-link');
+
+        avatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            avatarDropdown.classList.toggle('hidden');
+        });
+
+        avatarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                avatarDropdown.classList.add('hidden');
+            });
+        });
+
+        // Close menus when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!menu.classList.contains('hidden') && !menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+            if (!avatarDropdown.classList.contains('hidden') && !avatarDropdown.contains(event.target) && !avatarBtn.contains(event.target)) {
+                avatarDropdown.classList.add('hidden');
+            }
+        });
+
+        // 3. Scroll Reveal Animation Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // when to trigger
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger once on load
+
+        // 4. Navbar Blur & Back-to-top button on Scroll
+        const mybutton = document.getElementById("btn-back-to-top");
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/85', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/85');
+            }
+
+            // Back to top button visibility
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.classList.add("show");
+            } else {
+                mybutton.classList.remove("show");
+            }
+        });
+
+        mybutton.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 5. Modal Logic
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
