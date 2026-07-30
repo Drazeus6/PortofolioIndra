@@ -26,7 +26,7 @@ export function GlobalCursorGlow() {
 
   return (
     <motion.div
-      className={`pointer-events-none fixed -translate-x-1/2 -translate-y-1/2 rounded-full blur-[130px] opacity-20 hidden md:block transition-colors duration-700 w-[500px] h-[500px] z-0 mix-blend-screen ${
+      className={`pointer-events-none fixed -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px] opacity-35 hidden md:block transition-colors duration-500 w-[550px] h-[550px] z-40 mix-blend-screen ${
         isDev ? 'bg-blue-600' : 'bg-amber-500'
       }`}
       style={{
