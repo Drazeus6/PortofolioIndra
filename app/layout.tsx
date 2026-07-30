@@ -4,6 +4,7 @@ import './globals.css';
 import { ViewModeProvider } from '@/context/ViewModeContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -49,6 +50,7 @@ export default function RootLayout({
     <html lang="id" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className={`${inter.className} antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100`}>
         <ViewModeProvider>
+          <ScrollProgressBar />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

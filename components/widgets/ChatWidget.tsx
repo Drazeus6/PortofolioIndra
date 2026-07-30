@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Bot, Send, User, Sparkles, RefreshCw, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ShimmerSkeleton } from '@/components/ui/ShimmerSkeleton';
 
 interface Message {
   id: string;
@@ -217,7 +218,10 @@ export function ChatWidget() {
                 }`}
               >
                 {m.content === '' && m.role === 'assistant' ? (
-                  <span className="text-slate-400 italic">...</span>
+                  <div className="space-y-1.5 py-1 w-48">
+                    <ShimmerSkeleton className="h-3 w-full" />
+                    <ShimmerSkeleton className="h-3 w-3/4" />
+                  </div>
                 ) : m.role === 'assistant' ? (
                   renderContent(m.content)
                 ) : (

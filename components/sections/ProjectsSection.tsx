@@ -26,7 +26,13 @@ export function ProjectsSection() {
     <section className="py-16 md:py-24 bg-dark-surface border-b border-dark-border text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <Badge variant={isDev ? 'blue' : 'amber'}>Live Deployed Applications</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
             Portofolio <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Project Web &amp; Database</span>
@@ -34,7 +40,7 @@ export function ProjectsSection() {
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-2xl mx-auto font-mono">
             Kumpulan 5 proyek aplikasi web interaktif live ter-deploy di Vercel, dikembangkan dengan teknologi modern &amp; integrasi basis data SQL / NoSQL.
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12 font-mono text-xs">

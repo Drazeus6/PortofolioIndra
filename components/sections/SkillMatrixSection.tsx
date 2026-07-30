@@ -19,7 +19,13 @@ export function SkillMatrixSection() {
     <section className="py-16 md:py-24 bg-dark-base border-b border-dark-border text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <Badge variant={isDev ? 'blue' : 'amber'}>Matriks Kompetensi</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
             Fullstack Web, DB &amp; Legal <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Skill Matrix</span>
@@ -27,7 +33,7 @@ export function SkillMatrixSection() {
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
             Keahlian pengembangan web modern (Next.js, Node.js, SQL/NoSQL Database), analisis hukum normatif, dan soft skill profesional.
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12 font-mono text-xs">

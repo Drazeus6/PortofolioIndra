@@ -49,6 +49,12 @@ body {
   background-size: 100% 100%, 32px 32px, 32px 32px;
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
