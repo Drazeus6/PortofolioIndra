@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ViewModeProvider } from '@/context/ViewModeContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata: Metadata = {
   title: 'Indra Mulyana — Portofolio Legal-Tech & Hukum Pidana Islam',
@@ -33,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="scroll-smooth">
-      <body className="antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <html lang="id" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className={`${inter.className} antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100`}>
         <ViewModeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

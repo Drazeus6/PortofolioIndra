@@ -1,19 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --font-inter: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-jetbrains-mono: 'JetBrains Mono', monospace;
 }
 
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-inter), system-ui, sans-serif;
   background-color: #0A0A0B;
   color: #e4e4e7;
   scroll-behavior: smooth;
+}
+
+/* Standardized Heading & Typography Scale */
+@layer base {
+  h1 {
+    @apply text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight;
+  }
+  h2 {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight;
+  }
+  h3 {
+    @apply text-xl sm:text-2xl font-bold tracking-snug;
+  }
+  h4 {
+    @apply text-lg sm:text-xl font-semibold;
+  }
 }
 
 /* Thin Line SVG Flowchart / Decision Tree Grid Background Pattern */
