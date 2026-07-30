@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { ModeSwitcher } from '@/components/widgets/ModeSwitcher';
 import { useViewMode } from '@/context/ViewModeContext';
 import { PERSONAL_DATA } from '@/lib/data';
-import { Menu, X, Home, Terminal, Briefcase, Award, Layers, Mail, Shield } from 'lucide-react';
+import { Menu, X, Home, Terminal, Briefcase, Award, Layers, Mail, Shield, Globe } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -16,6 +16,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Hero', icon: Home },
+    { href: '/projects', label: 'Projects', icon: Globe },
     { href: '/playground', label: 'Playground AI & Flow', icon: Terminal },
     { href: '/experience', label: 'Experience', icon: Briefcase },
     { href: '/skills', label: 'Skills', icon: Layers },

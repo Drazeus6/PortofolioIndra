@@ -44,6 +44,18 @@ export interface AchievementItem {
   badge: string;
 }
 
+export interface ProjectItem {
+  id: string;
+  title: string;
+  category: 'legal-tech' | 'web-app' | 'e-commerce' | 'logistics' | 'healthcare';
+  description: string;
+  liveUrl: string;
+  languages: string[];
+  database: string;
+  stack: string[];
+  badge: string;
+}
+
 export const PERSONAL_DATA = {
   name: 'Indra Mulyana, S.H.',
   title: {
@@ -63,13 +75,71 @@ export const PERSONAL_DATA = {
   avatar: '/Foto.indra2.jpeg',
   bios: {
     legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu, serta penulisan isu-isu hukum di Klikhukum.id. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
-    developer: `Fullstack Web Developer & Legal-Tech Specialist. Menguasai pengembangan web modern dari Frontend (Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion) hingga Backend & Database (Node.js, Express, REST API, PostgreSQL, MySQL, Supabase, Prisma ORM, Vercel AI SDK). Berlatar belakang Lulusan Terbaik TKJ (SMK Negeri 2 Banjar) dan Sarjana Hukum Cumlaude (UIN Sunan Gunung Djati).`,
+    developer: `Fullstack Web Developer & Legal-Tech Specialist. Pengembang 5 aplikasi web live (Jinayah App, Ryoku, Coffee Shop Web, WUS Cargo, Jejak Sehat) menggunakan Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, dan Prisma ORM. Berlatar belakang Lulusan Terbaik TKJ dan Sarjana Hukum Cumlaude.`,
   },
   languages: [
     { name: 'English Proficiency Test', score: 'Certified', issuer: 'PT Daily Cipta Dwipta', valid: '2026 - 2027' },
     { name: 'TOAFL (Test of Arabic as a Foreign Language)', score: 'Certified', issuer: 'Pusat Bahasa UIN SGD', valid: '2024 - 2026' },
   ],
 };
+
+export const PROJECTS: ProjectItem[] = [
+  {
+    id: 'jinayah-app',
+    title: 'Jinayah App — Platform Analisis Hukum Pidana Islam & Cybercrime',
+    category: 'legal-tech',
+    description: 'Aplikasi web analisis yuridis normatif Hukum Pidana Islam (Fiqh Jinayah) dan eksplorasi tindak pidana Cybercrime / Deepfake AI biometrik sintetis.',
+    liveUrl: 'https://jinayah-2yio.vercel.app/',
+    languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3 / Tailwind'],
+    database: 'PostgreSQL (Supabase)',
+    stack: ['React 19', 'Vite', 'TypeScript', 'Tailwind CSS', 'Lucide Icons', 'PostgreSQL / Supabase'],
+    badge: 'Legal-Tech & AI',
+  },
+  {
+    id: 'ryoku',
+    title: 'Ryoku — Anime Streaming & Information Portal',
+    category: 'web-app',
+    description: 'Platform web streaming anime modern dengan fitur pencarian cepat, katalog interaktif, kategorisasi genre, dan responsivitas tinggi.',
+    liveUrl: 'https://ryoku-seven.vercel.app/',
+    languages: ['Next.js (App Router)', 'TypeScript', 'JavaScript', 'HTML5', 'Tailwind CSS'],
+    database: 'PostgreSQL (Vercel Postgres)',
+    stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind CSS', 'REST API', 'PostgreSQL'],
+    badge: 'Web App & Media',
+  },
+  {
+    id: 'wus-cargo',
+    title: 'WUS Cargo — Logistics & Cargo Tracking System',
+    category: 'logistics',
+    description: 'Sistem aplikasi ekspedisi kargo dan pelacakan pengiriman barang real-time dengan manajemen nomor resi, rute armada, dan status kurir.',
+    liveUrl: 'https://wuscargo.vercel.app/',
+    languages: ['Next.js', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
+    database: 'PostgreSQL & Supabase',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js REST API', 'PostgreSQL'],
+    badge: 'Logistics & Tracking',
+  },
+  {
+    id: 'jejak-sehat',
+    title: 'Jejak Sehat — Platform Manajemen Kesehatan & Rekam Medis',
+    category: 'healthcare',
+    description: 'Aplikasi web pemantauan kesehatan masyarakat, rekam jejak pemeriksaan medis, kalkulasi indikator vital, dan portal artikel kesehatan.',
+    liveUrl: 'https://jejaksehat.vercel.app/',
+    languages: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
+    database: 'MySQL & PostgreSQL',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'REST API', 'MySQL'],
+    badge: 'Healthcare Tech',
+  },
+  {
+    id: 'coffee-shop',
+    title: 'Coffee Shop Web App — Platform E-Commerce Cafe Digital',
+    category: 'e-commerce',
+    description: 'Website pemesanan kopi digital dengan katalog menu interaktif, fitur keranjang belanja, sistem ulasan rasa, dan antarmuka kafe modern.',
+    liveUrl: 'https://coffeshopwebsite.vercel.app/',
+    languages: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS'],
+    database: 'MongoDB & Supabase',
+    stack: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS', 'MongoDB'],
+    badge: 'E-Commerce Cafe',
+  },
+];
 
 export const ACHIEVEMENTS: AchievementItem[] = [
   {
