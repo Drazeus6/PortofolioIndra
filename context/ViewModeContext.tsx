@@ -38,7 +38,7 @@ export function ViewModeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ViewModeContext.Provider value={{ viewMode, toggleViewMode, setViewMode }}>
-      <div class={mounted ? (viewMode === 'developer' ? 'dark' : 'light') : 'dark'}>
+      <div className={mounted ? (viewMode === 'developer' ? 'dark' : 'light') : 'dark'}>
         {children}
       </div>
     </ViewModeContext.Provider>

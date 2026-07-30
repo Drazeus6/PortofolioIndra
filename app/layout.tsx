@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" class="scroll-smooth">
+    <html lang="id" className="scroll-smooth">
       <body className="antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100">
         <ViewModeProvider>
           <Navbar />
