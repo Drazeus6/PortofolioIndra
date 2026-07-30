@@ -3,27 +3,7 @@ import { createGroq } from '@ai-sdk/groq';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { AI_ASSISTANT_SYSTEM_PROMPT } from '@/lib/prompts';
 import { PERSONAL_DATA } from '@/lib/data';
-
-// Simple In-Memory Rate Limiter (IP-based, 15 req/min)
-const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 15;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const userRate = rateLimitMap.get(ip);
-  if (!userRate) {
-    rateLimitMap.set(ip, { count: 1, lastReset: now });
-    return true;
-  }
-  if (now - userRate.lastReset > RATE_LIMIT_WINDOW_MS) {
-    rateLimitMap.set(ip, { count: 1, lastReset: now });
-    return true;
-  }
-  if (userRate.count >= MAX_REQUESTS_PER_WINDOW) return false;
-  userRate.count += 1;
-  return true;
-}
+import { checkChatRateLimit } from '@/lib/ratelimit';
 
 // Prompt Injection Sanitizer
 function sanitizeInput(text: string): string {
@@ -66,7 +46,7 @@ export async function POST(req: Request) {
   try {
     // 1. IP Rate Limiting
     const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
-    if (!checkRateLimit(ip)) {
+    if (!(await checkChatRateLimit(ip))) {
       return new Response(
         JSON.stringify({ error: 'Batas penggunaan tercapai. Tunggu 1 menit sebelum mengirim pesan lagi.' }),
         { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' } }

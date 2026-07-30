@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { EXPERIENCES, ExperienceItem } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -146,9 +147,11 @@ export function TimelineSection() {
                 {selectedExp.certificateImg && (
                   <div>
                     <strong className="text-white block font-mono text-xs uppercase mb-2">Dokumen Sertifikat:</strong>
-                    <img
+                    <Image
                       src={selectedExp.certificateImg}
                       alt={selectedExp.title}
+                      width={600}
+                      height={400}
                       className="w-full max-h-[350px] object-contain rounded-sm border border-dark-border bg-black"
                     />
                   </div>

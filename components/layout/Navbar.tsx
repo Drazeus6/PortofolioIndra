@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ModeSwitcher } from '@/components/widgets/ModeSwitcher';
 import { useViewMode } from '@/context/ViewModeContext';
@@ -35,13 +36,12 @@ export function Navbar() {
                 isDev ? 'border-blue-500/80 bg-dark-card' : 'border-amber-500/80 bg-dark-card'
               }`}
             >
-              <img
+              <Image
                 src={PERSONAL_DATA.avatar}
                 alt={PERSONAL_DATA.name}
+                width={36}
+                height={36}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
               />
             </div>
             <div>

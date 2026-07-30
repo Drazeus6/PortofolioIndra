@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
+import { checkContactRateLimit } from '@/lib/ratelimit';
 
 // Contact Form Schema
 const contactSchema = z.object({
@@ -10,38 +11,11 @@ const contactSchema = z.object({
   message: z.string().min(10, 'Pesan minimal 10 karakter').max(2000, 'Pesan maksimal 2000 karakter'),
 });
 
-// In-Memory Rate Limiter for Contact Form (5 requests per 10 mins)
-const contactRateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const CONTACT_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const MAX_CONTACT_REQUESTS = 5;
-
-function checkContactRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const userRate = contactRateLimitMap.get(ip);
-
-  if (!userRate) {
-    contactRateLimitMap.set(ip, { count: 1, lastReset: now });
-    return true;
-  }
-
-  if (now - userRate.lastReset > CONTACT_LIMIT_WINDOW_MS) {
-    contactRateLimitMap.set(ip, { count: 1, lastReset: now });
-    return true;
-  }
-
-  if (userRate.count >= MAX_CONTACT_REQUESTS) {
-    return false;
-  }
-
-  userRate.count += 1;
-  return true;
-}
-
 export async function POST(req: Request) {
   try {
     // 1. IP Rate Limiting Check
     const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
-    if (!checkContactRateLimit(ip)) {
+    if (!(await checkContactRateLimit(ip))) {
       return NextResponse.json(
         { error: 'Terlalu banyak pengiriman pesan. Silakan tunggu 10 menit sebelum mencoba lagi.' },
         { status: 429 }

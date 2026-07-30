@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useViewMode } from '@/context/ViewModeContext';
 import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
@@ -126,13 +127,13 @@ export function HeroSection() {
                       isDev ? 'border-blue-500/80 bg-dark-card' : 'border-amber-500/80 bg-dark-card'
                     }`}
                   >
-                    <img
+                    <Image
                       src={PERSONAL_DATA.avatar}
                       alt={PERSONAL_DATA.name}
+                      width={64}
+                      height={64}
+                      priority
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = 'none';
-                      }}
                     />
                   </div>
                   <div>
