@@ -22,7 +22,6 @@ export interface SkillCategory {
     name: string;
     level: number; // 0-100
     category: 'legal' | 'tech' | 'soft';
-    iconName?: string;
   }[];
 }
 
@@ -33,126 +32,172 @@ export interface CertificationItem {
   issuer: string;
   year: string;
   pdfUrl?: string;
-  imgUrl?: string;
   description: string;
   commandName: string;
 }
 
+export interface AchievementItem {
+  title: string;
+  event: string;
+  year: string;
+  description: string;
+  badge: string;
+}
+
 export const PERSONAL_DATA = {
-  name: 'Indra Mulyana',
+  name: 'Indra Mulyana, S.H.',
   title: {
-    legal: 'S1 Hukum Pidana Islam — Specialist Hukum, Riset & Administrasi',
-    developer: 'Legal-Tech Enthusiast & Systems Analyst — S1 Hukum Pidana Islam',
+    legal: 'Sarjana Hukum Cumlaude (IPK 3.71) — Specialist Peradilan, Legal Drafting & Riset',
+    developer: 'Legal-Tech & AI Systems Analyst — S1 Hukum Pidana Islam (Cumlaude)',
   },
-  location: 'Ciamis, Jawa Barat, Indonesia',
+  location: 'Dusun Bojonghurip, Kepel, Cisaga, Kab. Ciamis, Jawa Barat',
+  shortLocation: 'Ciamis, Jawa Barat, Indonesia',
   email: 'indramulyanaa674@gmail.com',
   whatsapp: '081395701071',
   formattedWhatsapp: '0813 9570 1071',
-  gpa: '3.71 / 4.00',
+  gpa: '3.71 / 4.00 (Cumlaude)',
   university: 'UIN Sunan Gunung Djati Bandung',
   degree: 'S1 Hukum Pidana Islam',
   gradYear: '2022 - 2026',
+  smk: 'SMK Negeri 2 Banjar (Teknik Komputer & Jaringan - Lulusan Terbaik)',
   avatar: '/Foto.indra2.jpeg',
   bios: {
-    legal: `Lulusan S1 Hukum Pidana Islam dari UIN Sunan Gunung Djati Bandung dengan IPK 3.71 (Sangat Memuaskan). Memiliki pengalaman magang peradilan di Pengadilan Negeri Ciamis & Pengadilan Agama Ciamis, serta mempublikasikan 2 Jurnal Ilmiah Hukum di Galuh Justisi. Ahli dalam prosedur peradilan, analisis normatif, drafting, dan administrasi kepatuhan.`,
-    developer: `Pakar gabungan Hukum Pidana & Digital Technologies. Berlatar belakang Teknik Komputer & Jaringan (SMKN 2 Banjar) serta Hukum Pidana Islam (UIN Sunan Gunung Djati). Berfokus pada analisis regulasi AI/ITE, penelitian kekosongan hukum Cybercrime/Deepfake, otomatisasi riset hukum, dan sistem informasi peradilan.`,
+    legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu, serta penulisan isu-isu hukum di Klikhukum.id. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
+    developer: `Pakar gabungan Hukum Pidana & Digital Technologies. Berlatar belakang Lulusan Terbaik Teknik Komputer & Jaringan (SMK Negeri 2 Banjar) serta Sarjana Hukum Cumlaude (UIN Sunan Gunung Djati). Berfokus pada analisis regulasi AI/ITE, penelitian kekosongan hukum Cybercrime/Deepfake biometrik, otomasi riset hukum, dan sistem informasi peradilan (SIPP/e-Court).`,
   },
+  languages: [
+    { name: 'English Proficiency Test', score: 'Certified', issuer: 'PT Daily Cipta Dwipta', valid: '2026 - 2027' },
+    { name: 'TOAFL (Test of Arabic as a Foreign Language)', score: 'Certified', issuer: 'Pusat Bahasa UIN SGD', valid: '2024 - 2026' },
+  ],
 };
+
+export const ACHIEVEMENTS: AchievementItem[] = [
+  {
+    title: 'Juara 1 Lomba Menulis Surat Tingkat Nasional',
+    event: 'Lomba Menulis Surat Nasional "Dari Aku Yang Merindukanmu"',
+    year: '2025',
+    description: 'Berhasil meraih Juara 1 Nasional mengalahkan lebih dari 100 peserta dari berbagai perguruan tinggi dan instansi se-Indonesia.',
+    badge: 'Juara 1 Nasional',
+  },
+  {
+    title: 'Lulusan Terbaik SMK Negeri 2 Banjar',
+    event: 'Kelulusan Kompetensi Keahlian Teknik Komputer & Jaringan',
+    year: '2022',
+    description: 'Dianugerahi predikat Lulusan Terbaik pada jurusan Teknik Komputer dan Jaringan dengan rata-rata nilai 86.',
+    badge: 'Lulusan Terbaik',
+  },
+];
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
     id: 'pa-ciamis',
-    title: 'Pengadilan Agama Ciamis',
-    role: 'Magang Peradilan & Administrasi',
+    title: 'Pengadilan Agama Kelas 1A Ciamis',
+    role: 'Magang Internship Peradilan & Administrasi Kepaniteraan',
     period: 'Januari 2025 – Februari 2025',
-    institution: 'Pengadilan Agama Ciamis',
-    location: 'Ciamis, Jawa Barat',
+    institution: 'Pengadilan Agama Kelas 1A Ciamis',
+    location: 'Kab. Ciamis, Jawa Barat',
     description: {
-      legal: 'Mempelajari & mengimplementasikan prosedur peradilan agama, penanganan berkas perkara perceraian & waris, digitalisasi arsip hukum, serta verifikasi kelengkapan berkas administrasi kepaniteraan.',
-      developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan, dan efisiensi alur administrasi panitera.',
+      legal: 'Mengikuti magang peradilan di Pengadilan Agama Kelas 1A Ciamis. Menangani perkara kewenangan peradilan agama, verifikasi kelengkapan administrasi berkas perceraian & waris, digitalisasi arsip hukum, serta menyaksikan langsung proses persidangan di ruang sidang.',
+      developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan agama, dan efisiensi alur administrasi panitera.',
     },
-    tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Digitalisasi Berkas', 'SIPP'],
+    tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Kepaniteraan PA 1A', 'Digitalisasi Berkas'],
     certificateImg: '/Sertifikat.PA.jpg',
   },
   {
     id: 'jurnal-galuh-1',
-    title: 'Jurnal Galuh Justisi (Vol 12 No 2)',
-    role: 'Author & Penulis Riset Hukum',
+    title: 'Publikasi Jurnal Galuh Justisi (SINTA 4)',
+    role: 'Author & Penulis Riset Hukum Tata Negara / Siyasah',
     period: 'September 2024',
-    institution: 'Jurnal Galuh Justisi - Universitas Galuh',
+    institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
     location: 'Ciamis, Jawa Barat',
     description: {
-      legal: 'Riset normatif & komparatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah". Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan MK.',
+      legal: 'Riset normatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah" (Vol 12 No 2). Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan penyelesaian sengketa di Mahkamah Konstitusi.',
       developer: 'Pemodelan konsep komparatif sistem voting & penyelesaian sengketa konstitusional dengan metode penelitian kualitatif berbasis literatur digital.',
     },
-    tags: ['Fiqh Siyasah', 'Hukum Tata Negara', 'Riset Akademik', 'Sengketa Pemilu'],
+    tags: ['SINTA 4', 'Fiqh Siyasah', 'Hukum Tata Negara', 'Sengketa Pemilu MK'],
     journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/14168/pdf',
     abstract: `Penelitian menguji relevansi sistem pemilu di Indonesia dengan fiqh siyasah (ahlul halli wal aqdi) serta mekanisme peradilan sengketa di Mahkamah Konstitusi.`,
   },
   {
     id: 'jurnal-galuh-2',
-    title: 'Jurnal Galuh Justisi (Vol 14 No 1)',
-    role: 'Author & Penulis Riset AI & Cybercrime',
+    title: 'Publikasi Jurnal Galuh Justisi (SINTA 4) - AI Deepfake',
+    role: 'Author & Penulis Riset Cybercrime AI & Fiqh Jinayah',
     period: 'Maret 2026',
-    institution: 'Jurnal Galuh Justisi - Universitas Galuh',
+    institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
     location: 'Ciamis, Jawa Barat',
     description: {
-      legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam". Menganalisis Jarimah Ta\'zir & Al-Ghash.',
+      legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam" (Vol 14 No 1). Menganalisis celah norma Pasal 28 & 45A UU ITE serta sanksi Jarimah Ta\'zir (Al-Ghash & At-Tadlis).',
       developer: 'Analisis mutakhir mengenai fenomena biometrik sintetis Deepfake AI, celah hukum UU ITE No 1 2024 (Pasal 28 & 45A), dan formulasi Sadd ad-Dzari\'ah untuk penegakan hukum AI.',
     },
-    tags: ['Cybercrime AI', 'Deepfake Fraud', 'UU ITE 2024', 'Fiqh Jinayah', 'AI Ethics'],
+    tags: ['SINTA 4', 'Cybercrime AI', 'Deepfake Fraud', 'UU ITE 2024', 'Fiqh Jinayah'],
     journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf',
     abstract: `Mengkaji vakum norma UU ITE 2024 terkait rekayasa biometrik Deepfake dan rekonstruksi sanksi berbasis Jarimah Ta'zir & Maqashid Sharia.`,
   },
   {
-    id: 'pn-ciamis',
-    title: 'Pengadilan Negeri Ciamis',
-    role: 'Magang Peradilan Pidana & Perdata',
-    period: 'Juli 2024 – Agustus 2024',
-    institution: 'Pengadilan Negeri Ciamis',
-    location: 'Ciamis, Jawa Barat',
+    id: 'klikhukum-writer',
+    title: 'Klikhukum.id — Penulis Esai Hukum Publik',
+    role: 'Author & Writer Isu Hukum Pidana & KUHP Baru',
+    period: 'Juli 2026',
+    institution: 'Klikhukum.id',
+    location: 'Indonesia',
     description: {
-      legal: 'Observasi langsung persidangan perkara pidana & perdata, membantu penyusunan berita acara persidangan, pengarsipan berkas perkara umum, dan pelayanan publik hukum di PTSP.',
+      legal: 'Menulis artikel analisis isu-isu hukum publik aktual. Karya publikasi membahas penanganan perkara pidana oleh pelaku gangguan jiwa (ODGJ) dalam perspektif KUHP baru & KUHAP, mengulas pertanggungjawaban pidana & pertimbangan hakim.',
+      developer: 'Sintesis narasi hukum publik dan penyampaian wawasan perundang-undangan baru secara terstruktur untuk pembaca profesional dan masyarakat luas.',
+    },
+    tags: ['Klikhukum.id', 'KUHP Baru', 'Pertanggungjawaban Pidana', 'Legal Writer'],
+  },
+  {
+    id: 'pn-ciamis',
+    title: 'Pengadilan Negeri Kelas 1B Ciamis',
+    role: 'Magang Internship Kepaniteraan Pidana, Perdata & Hukum',
+    period: 'Juli 2024 – Agustus 2024',
+    institution: 'Pengadilan Negeri Kelas 1B Ciamis',
+    location: 'Kab. Ciamis, Jawa Barat',
+    description: {
+      legal: 'Magang di Pengadilan Negeri Ciamis Kelas 1B. Membantu 3 kepaniteraan utama: Panitera Pidana, Panitera Perdata, dan Panitera Hukum. Mengelola administrasi berkas perkara, pengarsipan peradilan, serta mengamati langsung persidangan pidana & perdata.',
       developer: 'Pemeriksaan alur kerja persidangan fisik vs e-Court, manajemen registrasi berkas umum, serta verifikasi kelayakan dokumen persidangan.',
     },
-    tags: ['Hukum Acara Pidana', 'Hukum Acara Perdata', 'PTSP', 'e-Court'],
+    tags: ['Kepaniteraan Pidana', 'Kepaniteraan Perdata', 'Kepaniteraan Hukum', 'e-Court'],
     certificateImg: '/Sertifikat.PN.jpg',
   },
 ];
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    category: 'Keahlian Hukum & Analisis',
-    description: 'Kapabilitas utama dalam riset, litigasi, dan kepatuhan hukum.',
+    category: 'Competencies: Legal & Litigation',
+    description: 'Kapabilitas utama dalam analisis norma peradilan, drafting, dan kepatuhan.',
     skills: [
-      { name: 'Analisis Hukum Normatif & Jinayah', level: 95, category: 'legal' },
-      { name: 'Legal Drafting & Naskah Akademik', level: 90, category: 'legal' },
-      { name: 'Hukum Acara Peradilan (PA & PN)', level: 92, category: 'legal' },
-      { name: 'Riset Regulasi Cybercrime & AI (UU ITE)', level: 88, category: 'legal' },
-      { name: 'Kepatuhan & Etika Peradilan', level: 94, category: 'legal' },
+      { name: 'Legal Analysis & Riset Hukum Normatif', level: 96, category: 'legal' },
+      { name: 'Legal Drafting & Naskah Akademik', level: 92, category: 'legal' },
+      { name: 'Hukum Acara Peradilan (PA & PN)', level: 94, category: 'legal' },
+      { name: 'Riset Regulasi Cybercrime & AI (UU ITE 2024)', level: 90, category: 'legal' },
+      { name: 'Fiqh Jinayah & Fiqh Siyasah', level: 95, category: 'legal' },
+      { name: 'Legal Writing & Article Publishing', level: 91, category: 'legal' },
     ],
   },
   {
-    category: 'Keahlian IT & Administrasi Modern',
-    description: 'Penguasaan perangkat lunak, sistem informasi, dan teknologi administrasi.',
+    category: 'Competencies: IT & Office Systems',
+    description: 'Penguasaan perangkat lunak administrasi modern dan teknologi AI.',
     skills: [
-      { name: 'Microsoft Word (Certified MOS)', level: 96, category: 'tech' },
-      { name: 'Microsoft Excel & Data Management', level: 88, category: 'tech' },
-      { name: 'PowerPoint & Presentation Design', level: 90, category: 'tech' },
-      { name: 'Dasar Artificial Intelligence & Prompting', level: 85, category: 'tech' },
-      { name: 'Teknik Komputer & Jaringan (TKJ)', level: 86, category: 'tech' },
-      { name: 'Sistem Informasi Peradilan (SIPP & e-Court)', level: 89, category: 'tech' },
+      { name: 'Microsoft Word (MOS Certified)', level: 98, category: 'tech' },
+      { name: 'Microsoft Excel & Data Management', level: 90, category: 'tech' },
+      { name: 'Microsoft PowerPoint & Presentation', level: 92, category: 'tech' },
+      { name: 'Artificial Intelligence (AI) & Prompt Engineering', level: 88, category: 'tech' },
+      { name: 'Teknik Komputer & Jaringan (TKJ)', level: 88, category: 'tech' },
+      { name: 'Sistem Informasi Peradilan (SIPP & e-Court)', level: 90, category: 'tech' },
+      { name: 'Adobe Photoshop & Digital Design', level: 84, category: 'tech' },
+      { name: 'Copywriting & Content Editing', level: 86, category: 'tech' },
     ],
   },
   {
     category: 'Professional Soft Skills',
-    description: 'Keterampilan interpersonal dan manajemen profesional.',
+    description: 'Keterampilan interpersonal,integritas peradilan, dan kepemimpinan.',
     skills: [
-      { name: 'Berpikir Kritis & Problem Solving', level: 95, category: 'soft' },
-      { name: 'Detail-Oriented & Ketelitian Dokumen', level: 96, category: 'soft' },
-      { name: 'Integritas & Etika Profesi', level: 98, category: 'soft' },
-      { name: 'Komunikasi Efektif & Negosiasi', level: 90, category: 'soft' },
-      { name: 'Manajemen Waktu & Kerja Tim', level: 92, category: 'soft' },
+      { name: 'Berpikir Kritis & Problem Solving', level: 96, category: 'soft' },
+      { name: 'Detail-Oriented & Ketelitian Dokumen', level: 98, category: 'soft' },
+      { name: 'Integritas & Etika Profesi Hukum', level: 99, category: 'soft' },
+      { name: 'Komunikasi Efektif & Public Speaking', level: 92, category: 'soft' },
+      { name: 'Manajemen Waktu & Kerja Tim', level: 94, category: 'soft' },
     ],
   },
 ];
@@ -161,19 +206,19 @@ export const CERTIFICATIONS: CertificationItem[] = [
   {
     id: 'mos-word',
     filename: 'mos_word_certified.cert',
-    title: 'Microsoft Office Specialist Word',
-    issuer: 'PTIPD UIN SGD Bandung & Lumina Eka Optima',
+    title: 'Microsoft Office Specialist: Word',
+    issuer: 'Lumina Eka Optima & PTIPD UIN SGD',
     year: '2024',
     pdfUrl: '/Completion Certificate _ SkillsBuild.pdf',
-    description: 'Sertifikasi internasional penguasaan Microsoft Word profesional untuk penyusunan naskah hukum, format dokumen resmi, dan pengolahan teks kompleks.',
+    description: 'Sertifikasi penguasaan Microsoft Word tingkat profesional (Certified MOS) untuk penyusunan naskah hukum, format dokumen resmi, dan pengolahan teks kompleks.',
     commandName: 'cat certs/mos_word.cert',
   },
   {
     id: 'ai-dicoding',
     filename: 'belajar_dasar_ai.cert',
-    title: 'Sertifikasi Dasar Artificial Intelligence',
+    title: 'Dicoding: Belajar Dasar AI',
     issuer: 'Dicoding Indonesia',
-    year: '2024',
+    year: '2025',
     pdfUrl: '/sertifikat Belajar Dasar AI.pdf',
     description: 'Kurikulum pemahaman konsep AI, Machine Learning fundamentals, Etika AI, dan penerapan AI untuk analisis data.',
     commandName: 'cat certs/ai_dicoding.cert',
@@ -183,30 +228,50 @@ export const CERTIFICATIONS: CertificationItem[] = [
     filename: 'prompt_engineering.cert',
     title: 'Prompt Engineering for AI',
     issuer: 'Dicoding / Course Certification',
-    year: '2024',
+    year: '2025',
     pdfUrl: '/sertifikat prompt enginering.pdf',
     description: 'Teknik formulasi prompt canggih untuk LLM, otomasi analisis dokumen hukum, dan sintesis data terstruktur.',
     commandName: 'cat certs/prompt_eng.cert',
   },
   {
-    id: 'ibm-ai-legal',
-    filename: 'ibm_ai_legal.cert',
-    title: 'IBM SkillsBuild: AI Legal & Ethics',
+    id: 'ibm-ai-literacy',
+    filename: 'ibm_ai_literacy.cert',
+    title: 'IBM SkillsBuild: AI Literacy & Legal Ethics',
     issuer: 'IBM SkillsBuild',
-    year: '2024',
+    year: '2026',
     pdfUrl: '/Completion Certificate _ SkillsBuild AI Legal.pdf',
     description: 'Studi komprehensif mengenai regulasi AI, privasi data, kewajiban etis, dan implikasi hukum kecerdasan buatan.',
-    commandName: 'cat certs/ibm_ai_legal.cert',
+    commandName: 'cat certs/ibm_ai_literacy.cert',
   },
   {
     id: 'ibm-ai-interaction',
     filename: 'ibm_ai_interaction.cert',
-    title: 'IBM SkillsBuild: AI Interaction & Prompting',
+    title: 'IBM SkillsBuild: AI Interaction',
     issuer: 'IBM SkillsBuild',
-    year: '2024',
+    year: '2026',
     pdfUrl: '/Completion Certificate _ SkillsBuild AI Interaction.pdf',
     description: 'Spesialisasi interaksi manusia-komputer dan penerapan agen cerdas dalam dunia profesional.',
     commandName: 'cat certs/ibm_ai_interaction.cert',
+  },
+  {
+    id: 'english-test',
+    filename: 'english_proficiency.cert',
+    title: 'English Proficiency Test (Certified)',
+    issuer: 'PT Daily Cipta Dwipta',
+    year: '2026 - 2027',
+    pdfUrl: '/Completion Certificate _ SkillsBuild bary.pdf',
+    description: 'Tes kemampuan bahasa Inggris profesional untuk komunikasi bisnis dan akademik.',
+    commandName: 'cat certs/english_test.cert',
+  },
+  {
+    id: 'toafl-arabic',
+    filename: 'toafl_arabic.cert',
+    title: 'Test of Arabic as a Foreign Language (TOAFL)',
+    issuer: 'Pusat Pengembangan Bahasa UIN Sunan Gunung Djati',
+    year: '2024 - 2026',
+    pdfUrl: '/Toefl Indra.pdf',
+    description: 'Sertifikasi kemahiran Bahasa Arab akademik & studi teks literatur hukum pidana Islam.',
+    commandName: 'cat certs/toafl_arabic.cert',
   },
   {
     id: 'financial-literacy',

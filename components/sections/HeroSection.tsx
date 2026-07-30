@@ -3,11 +3,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useViewMode } from '@/context/ViewModeContext';
-import { PERSONAL_DATA } from '@/lib/data';
+import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Scale, Terminal, ArrowRight, Download, ShieldCheck, MapPin, Code2 } from 'lucide-react';
+import { Scale, Terminal, ArrowRight, Download, ShieldCheck, MapPin, Code2, Trophy } from 'lucide-react';
 
 export function HeroSection() {
   const { viewMode } = useViewMode();
@@ -28,7 +28,7 @@ export function HeroSection() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-7 text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-2 mb-6">
+            <div className="inline-flex flex-wrap items-center gap-2 mb-6">
               <Badge variant={isDev ? 'blue' : 'amber'}>
                 <span className="flex h-2 w-2 relative mr-2">
                   <span
@@ -42,11 +42,11 @@ export function HeroSection() {
                     }`}
                   />
                 </span>
-                {isDev ? 'Agentic AI & Systems Analyst' : 'S1 Hukum Pidana Islam (Precision Legal)'}
+                {isDev ? 'Agentic AI & Systems Analyst' : 'S1 Hukum Pidana Islam (Cumlaude 3.71)'}
               </Badge>
 
-              <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-slate-500" /> {PERSONAL_DATA.location}
+              <span className="text-xs font-mono text-amber-400 flex items-center gap-1 font-bold">
+                <Trophy className="w-3.5 h-3.5 text-amber-400" /> Juara 1 Menulis Surat Nasional
               </span>
             </div>
 
@@ -92,7 +92,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right Column Sharp Card */}
+          {/* Right Column Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -115,7 +115,7 @@ export function HeroSection() {
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="w-3 h-3 text-amber-400" /> LEGAL SEAL
+                      <ShieldCheck className="w-3 h-3 text-amber-400" /> CUMLAUDE SEAL
                     </>
                   )}
                 </div>
@@ -148,21 +148,31 @@ export function HeroSection() {
 
                 <div className="grid grid-cols-2 gap-3 border-t pt-5 border-dark-border font-mono">
                   <div className="p-3 rounded-md bg-dark-card border border-dark-border text-center">
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">IPK Akademik</span>
-                    <span className={`text-lg font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Predikat IPK</span>
+                    <span className={`text-sm md:text-base font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
                       {PERSONAL_DATA.gpa}
                     </span>
                   </div>
                   <div className="p-3 rounded-md bg-dark-card border border-dark-border text-center">
                     <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Publikasi Riset</span>
-                    <span className="text-lg font-extrabold text-slate-200">2 Jurnal Justisi</span>
+                    <span className="text-sm md:text-base font-extrabold text-slate-200">2 Jurnal SINTA 4</span>
                   </div>
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-dark-border text-xs font-mono text-slate-400 flex items-center justify-between">
-                  <span className="flex items-center gap-1 text-[11px]">
+                {/* Achievements List Pill */}
+                <div className="mt-4 pt-4 border-t border-dark-border space-y-2 font-mono text-xs">
+                  {ACHIEVEMENTS.map((ach) => (
+                    <div key={ach.title} className="flex items-center justify-between text-[11px] bg-dark-card p-2 rounded-sm border border-dark-border">
+                      <span className="text-slate-300 font-bold truncate max-w-[210px]">{ach.title}</span>
+                      <span className="text-amber-400 font-bold px-1.5 py-0.5 bg-amber-950 border border-amber-800 rounded-sm text-[9px]">{ach.badge}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-dark-border text-xs font-mono text-slate-400 flex items-center justify-between">
+                  <span className="flex items-center gap-1 text-[11px] text-emerald-400 font-bold">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    Verified Profile
+                    Verified Indeed &amp; LinkedIn
                   </span>
                   <a
                     href="/CV_ATS_INDRA MULYANA Baru.pdf"
