@@ -97,7 +97,7 @@ export async function POST(req: Request) {
       const google = createGoogleGenerativeAI({ apiKey: geminiKey });
 
       const result = await streamText({
-        model: google('gemini-1.5-flash'),
+        model: google('gemini-flash-latest'),
         system: AI_ASSISTANT_SYSTEM_PROMPT,
         messages: sanitizedMessages,
         maxTokens: 600,

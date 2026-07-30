@@ -176,11 +176,11 @@ export function ChatWidget() {
               Indra AI Assistant
               <Sparkles className="w-3 h-3 text-amber-400" />
               <span className="text-[9px] bg-blue-950 border border-blue-800 text-blue-300 px-1.5 py-0.5 rounded-sm uppercase tracking-wider font-bold flex items-center gap-1">
-                <Zap className="w-2.5 h-2.5" /> Gemini AI
+                <Zap className="w-2.5 h-2.5" /> Gemini 2.5
               </span>
             </h3>
             <p className={`text-[10px] ${isStreaming ? 'text-amber-400 animate-pulse' : 'text-blue-400'}`}>
-              {isStreaming ? '● Generating response...' : '● AI-Assisted Q&A — Powered by Gemini'}
+              {isStreaming ? '● Generating response...' : '● AI-Assisted Q&A — Gemini Flash'}
             </p>
           </div>
         </div>
