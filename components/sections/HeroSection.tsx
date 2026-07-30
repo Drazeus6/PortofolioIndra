@@ -175,7 +175,7 @@ export function HeroSection() {
                     Verified Indeed &amp; LinkedIn
                   </span>
                   <a
-                    href="/CV_ATS_INDRA MULYANA Baru.pdf"
+                    href="/CV-ATS-Indra-Mulyana.pdf"
                     target="_blank"
                     className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-bold hover:underline text-[11px]"
                   >
