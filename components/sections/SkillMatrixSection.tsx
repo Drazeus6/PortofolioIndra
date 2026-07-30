@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import { SKILL_CATEGORIES } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
-import { Scale, Cpu, Users, CheckCircle } from 'lucide-react';
+import { Scale, Cpu, Users, CheckCircle, Database, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function SkillMatrixSection() {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
-  const [filter, setFilter] = useState<'all' | 'legal' | 'tech' | 'soft'>('all');
+  const [filter, setFilter] = useState<'all' | 'web' | 'tech' | 'legal' | 'soft'>('all');
 
   const allSkills = SKILL_CATEGORIES.flatMap((c) => c.skills);
   const filteredSkills = filter === 'all' ? allSkills : allSkills.filter((s) => s.category === filter);
@@ -22,10 +22,10 @@ export function SkillMatrixSection() {
         <div className="text-center mb-12">
           <Badge variant={isDev ? 'blue' : 'amber'}>Matriks Kompetensi</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            Technical &amp; Legal <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Skill Matrix</span>
+            Fullstack Web, DB &amp; Legal <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Skill Matrix</span>
           </h2>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            Grid filterable per kategori: Analisis regulasi hukum normatif, penguasaan IT/Administrasi AI, dan soft skill profesional.
+            Keahlian pengembangan web modern (Next.js, Node.js, SQL/NoSQL Database), analisis hukum normatif, dan soft skill profesional.
           </p>
         </div>
 
@@ -33,7 +33,7 @@ export function SkillMatrixSection() {
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12 font-mono text-xs">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all ${
+            className={`px-3.5 py-1.5 rounded-sm border font-bold uppercase transition-all ${
               filter === 'all'
                 ? isDev
                   ? 'bg-blue-600 border-blue-400 text-white shadow-md'
@@ -44,8 +44,20 @@ export function SkillMatrixSection() {
             Semua ({allSkills.length})
           </button>
           <button
+            onClick={() => setFilter('web')}
+            className={`px-3.5 py-1.5 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
+              filter === 'web'
+                ? isDev
+                  ? 'bg-blue-600 border-blue-400 text-white shadow-md'
+                  : 'bg-amber-600 border-amber-400 text-slate-950 shadow-md'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5" /> Fullstack Web &amp; DB
+          </button>
+          <button
             onClick={() => setFilter('tech')}
-            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
               filter === 'tech'
                 ? isDev
                   ? 'bg-blue-600 border-blue-400 text-white shadow-md'
@@ -53,11 +65,11 @@ export function SkillMatrixSection() {
                 : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            <Cpu className="w-3.5 h-3.5" /> AI &amp; Fullstack Tech
+            <Cpu className="w-3.5 h-3.5" /> AI &amp; Office IT
           </button>
           <button
             onClick={() => setFilter('legal')}
-            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
               filter === 'legal'
                 ? isDev
                   ? 'bg-blue-600 border-blue-400 text-white shadow-md'
@@ -65,11 +77,11 @@ export function SkillMatrixSection() {
                 : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            <Scale className="w-3.5 h-3.5" /> Legal &amp; Analysis
+            <Scale className="w-3.5 h-3.5" /> Legal &amp; Litigation
           </button>
           <button
             onClick={() => setFilter('soft')}
-            className={`px-4 py-2 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-sm border font-bold uppercase transition-all flex items-center gap-1.5 ${
               filter === 'soft'
                 ? isDev
                   ? 'bg-blue-600 border-blue-400 text-white shadow-md'
@@ -86,10 +98,10 @@ export function SkillMatrixSection() {
           {filteredSkills.map((skill, idx) => (
             <motion.div
               key={skill.name}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2, delay: idx * 0.03 }}
+              transition={{ duration: 0.2, delay: idx * 0.02 }}
               className={`p-5 rounded-sm border transition-all duration-300 ${
                 isDev
                   ? 'bg-dark-surface border-dark-border hover:border-blue-500/60 hover:shadow-[0_0_15px_rgba(0,102,255,0.2)]'
@@ -98,7 +110,11 @@ export function SkillMatrixSection() {
             >
               <div className="flex items-center justify-between mb-2 font-mono">
                 <span className="font-bold text-xs md:text-sm flex items-center gap-2 text-white">
-                  <CheckCircle className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
+                  {skill.category === 'web' ? (
+                    <Database className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
+                  ) : (
+                    <CheckCircle className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
+                  )}
                   {skill.name}
                 </span>
                 <span className={`text-xs font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>

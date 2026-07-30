@@ -21,7 +21,7 @@ export interface SkillCategory {
   skills: {
     name: string;
     level: number; // 0-100
-    category: 'legal' | 'tech' | 'soft';
+    category: 'legal' | 'tech' | 'web' | 'soft';
   }[];
 }
 
@@ -48,7 +48,7 @@ export const PERSONAL_DATA = {
   name: 'Indra Mulyana, S.H.',
   title: {
     legal: 'Sarjana Hukum Cumlaude (IPK 3.71) — Specialist Peradilan, Legal Drafting & Riset',
-    developer: 'Legal-Tech & AI Systems Analyst — S1 Hukum Pidana Islam (Cumlaude)',
+    developer: 'Fullstack Web Developer & Legal-Tech Systems Analyst — S1 Hukum Pidana Islam (Cumlaude)',
   },
   location: 'Dusun Bojonghurip, Kepel, Cisaga, Kab. Ciamis, Jawa Barat',
   shortLocation: 'Ciamis, Jawa Barat, Indonesia',
@@ -63,7 +63,7 @@ export const PERSONAL_DATA = {
   avatar: '/Foto.indra2.jpeg',
   bios: {
     legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu, serta penulisan isu-isu hukum di Klikhukum.id. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
-    developer: `Pakar gabungan Hukum Pidana & Digital Technologies. Berlatar belakang Lulusan Terbaik Teknik Komputer & Jaringan (SMK Negeri 2 Banjar) serta Sarjana Hukum Cumlaude (UIN Sunan Gunung Djati). Berfokus pada analisis regulasi AI/ITE, penelitian kekosongan hukum Cybercrime/Deepfake biometrik, otomasi riset hukum, dan sistem informasi peradilan (SIPP/e-Court).`,
+    developer: `Fullstack Web Developer & Legal-Tech Specialist. Menguasai pengembangan web modern dari Frontend (Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion) hingga Backend & Database (Node.js, Express, REST API, PostgreSQL, MySQL, Supabase, Prisma ORM, Vercel AI SDK). Berlatar belakang Lulusan Terbaik TKJ (SMK Negeri 2 Banjar) dan Sarjana Hukum Cumlaude (UIN Sunan Gunung Djati).`,
   },
   languages: [
     { name: 'English Proficiency Test', score: 'Certified', issuer: 'PT Daily Cipta Dwipta', valid: '2026 - 2027' },
@@ -164,6 +164,22 @@ export const EXPERIENCES: ExperienceItem[] = [
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
+    category: 'Competencies: Fullstack Web Development & Database',
+    description: 'Penguasaan arsitektur web modern, frontend, backend API, dan manajemen basis data.',
+    skills: [
+      { name: 'Next.js (App Router) & React 18/19', level: 94, category: 'web' },
+      { name: 'TypeScript & JavaScript (ES6+)', level: 92, category: 'web' },
+      { name: 'Tailwind CSS & Framer Motion (Animations)', level: 95, category: 'web' },
+      { name: 'Node.js, Express & RESTful API Design', level: 90, category: 'web' },
+      { name: 'PostgreSQL & Relational Database Design', level: 88, category: 'web' },
+      { name: 'MySQL & SQL Query Optimization', level: 89, category: 'web' },
+      { name: 'Supabase & Database Authentication', level: 87, category: 'web' },
+      { name: 'Prisma ORM & Data Modeling', level: 86, category: 'web' },
+      { name: 'Vercel AI SDK & LLM Integration (Streaming)', level: 91, category: 'web' },
+      { name: 'Git, GitHub, Vercel & CI/CD Deployment', level: 93, category: 'web' },
+    ],
+  },
+  {
     category: 'Competencies: Legal & Litigation',
     description: 'Kapabilitas utama dalam analisis norma peradilan, drafting, dan kepatuhan.',
     skills: [
@@ -191,7 +207,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     category: 'Professional Soft Skills',
-    description: 'Keterampilan interpersonal,integritas peradilan, dan kepemimpinan.',
+    description: 'Keterampilan interpersonal, integritas peradilan, dan kepemimpinan.',
     skills: [
       { name: 'Berpikir Kritis & Problem Solving', level: 96, category: 'soft' },
       { name: 'Detail-Oriented & Ketelitian Dokumen', level: 98, category: 'soft' },
