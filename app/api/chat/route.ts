@@ -1,12 +1,13 @@
 import { streamText } from 'ai';
+import { createGroq } from '@ai-sdk/groq';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { AI_ASSISTANT_SYSTEM_PROMPT } from '@/lib/prompts';
 import { PERSONAL_DATA } from '@/lib/data';
 
-// Simple In-Memory Rate Limiter (IP-based, 10 req/min)
+// Simple In-Memory Rate Limiter (IP-based, 15 req/min)
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 10;
+const MAX_REQUESTS_PER_WINDOW = 15;
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -34,7 +35,7 @@ function sanitizeInput(text: string): string {
     .slice(0, 1000);
 }
 
-// Grounded Fallback Q&A Engine (no LLM needed)
+// Grounded Fallback Q&A Engine
 function groundedFallback(query: string): string {
   const q = query.toLowerCase();
   if (q.includes('ipk') || q.includes('pendidikan') || q.includes('lulus') || q.includes('cumlaude')) {
@@ -58,7 +59,7 @@ function groundedFallback(query: string): string {
   if (q.includes('prestasi') || q.includes('juara') || q.includes('penghargaan') || q.includes('achievement')) {
     return `Prestasi Indra Mulyana:\n- 🏆 **Juara 1 Lomba Menulis Surat Tingkat Nasional** (100+ peserta se-Indonesia, 2025).\n- 🏅 **Lulusan Terbaik SMK Negeri 2 Banjar** jurusan Teknik Komputer & Jaringan, 2022.`;
   }
-  return `Terima kasih! Saya **Indra AI Assistant** — didukung **Google Gemini AI**. Indra Mulyana, S.H. adalah Sarjana Hukum Cumlaude (IPK 3.71/4.00), Fullstack Web Developer, dengan 2 Jurnal SINTA 4 dan 5 aplikasi web live. Ada yang ingin Anda tanyakan lebih lanjut?`;
+  return `Terima kasih! Saya **Indra AI Assistant**. Indra Mulyana, S.H. adalah Sarjana Hukum Cumlaude (IPK 3.71/4.00), Fullstack Web Developer, dengan 2 Jurnal SINTA 4 dan 5 aplikasi web live. Ada yang ingin Anda tanyakan lebih lanjut?`;
 }
 
 export async function POST(req: Request) {
@@ -91,23 +92,43 @@ export async function POST(req: Request) {
       content: idx === messages.length - 1 ? cleanedContent : String(m.content).slice(0, 500),
     }));
 
-    // 3. Try Real Gemini Streaming via Vercel AI SDK
-    const geminiKey = process.env.GEMINI_API_KEY;
-    if (geminiKey) {
-      const google = createGoogleGenerativeAI({ apiKey: geminiKey });
-
-      const result = await streamText({
-        model: google('gemini-flash-latest'),
-        system: AI_ASSISTANT_SYSTEM_PROMPT,
-        messages: sanitizedMessages,
-        maxTokens: 600,
-        temperature: 0.7,
-      });
-
-      return result.toDataStreamResponse();
+    // 3. Try Groq Streaming (Ultra Fast Llama 3.3 70B)
+    const groqKey = process.env.GROQ_API_KEY;
+    if (groqKey) {
+      try {
+        const groq = createGroq({ apiKey: groqKey });
+        const result = await streamText({
+          model: groq('llama-3.3-70b-versatile'),
+          system: AI_ASSISTANT_SYSTEM_PROMPT,
+          messages: sanitizedMessages,
+          maxTokens: 800,
+          temperature: 0.7,
+        });
+        return result.toDataStreamResponse();
+      } catch (groqErr: any) {
+        console.warn('Groq API Error, falling back:', groqErr?.message);
+      }
     }
 
-    // 4. Fallback: Grounded Q&A (when no API key configured)
+    // 4. Try Gemini Streaming as Fallback
+    const geminiKey = process.env.GEMINI_API_KEY;
+    if (geminiKey) {
+      try {
+        const google = createGoogleGenerativeAI({ apiKey: geminiKey });
+        const result = await streamText({
+          model: google('gemini-flash-latest'),
+          system: AI_ASSISTANT_SYSTEM_PROMPT,
+          messages: sanitizedMessages,
+          maxTokens: 600,
+          temperature: 0.7,
+        });
+        return result.toDataStreamResponse();
+      } catch (geminiErr: any) {
+        console.warn('Gemini API Error, falling back:', geminiErr?.message);
+      }
+    }
+
+    // 5. Fallback: Grounded Q&A (when no API key or both failed)
     const fallbackReply = groundedFallback(cleanedContent);
     return new Response(JSON.stringify({ reply: fallbackReply }), {
       headers: { 'Content-Type': 'application/json' },

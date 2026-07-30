@@ -14,7 +14,7 @@ const WELCOME: Message = {
   id: 'welcome',
   role: 'assistant',
   content:
-    'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+    'Halo! Saya **Indra AI Assistant** — didukung Groq Llama 3.3 (70B). Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
 };
 
 const SUGGESTED_PROMPTS = [
@@ -175,12 +175,12 @@ export function ChatWidget() {
             <h3 className="font-bold text-xs text-white flex items-center gap-1.5">
               Indra AI Assistant
               <Sparkles className="w-3 h-3 text-amber-400" />
-              <span className="text-[9px] bg-blue-950 border border-blue-800 text-blue-300 px-1.5 py-0.5 rounded-sm uppercase tracking-wider font-bold flex items-center gap-1">
-                <Zap className="w-2.5 h-2.5" /> Gemini 2.5
+              <span className="text-[9px] bg-amber-950 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded-sm uppercase tracking-wider font-bold flex items-center gap-1">
+                <Zap className="w-2.5 h-2.5" /> Groq AI
               </span>
             </h3>
             <p className={`text-[10px] ${isStreaming ? 'text-amber-400 animate-pulse' : 'text-blue-400'}`}>
-              {isStreaming ? '● Generating response...' : '● AI-Assisted Q&A — Gemini Flash'}
+              {isStreaming ? '● Generating response...' : '● Groq Llama 3.3 70B — Ultra Fast Streaming'}
             </p>
           </div>
         </div>
