@@ -91,26 +91,14 @@ export async function POST(req: Request) {
         </div>
       `;
 
-      // Try sending to primary address
+      // Send to verified account email for onboarding@resend.dev (or both)
       let resendResponse = await resend.emails.send({
         from: 'Portfolio Contact <onboarding@resend.dev>',
-        to: ['indramulyanaa674@gmail.com'],
+        to: ['indratea80@gmail.com'],
         replyTo: email,
         subject: `[Portfolio Inquiry] ${subject} — dari ${name}`,
         html: emailHtml,
       });
-
-      // Handle Resend free tier unverified domain restriction (403)
-      if (resendResponse.error && (resendResponse.error as any).statusCode === 403) {
-        console.warn('Resend 403 Test Mode detected. Redirecting to Resend account owner email (indratea80@gmail.com)...');
-        resendResponse = await resend.emails.send({
-          from: 'Portfolio Contact <onboarding@resend.dev>',
-          to: ['indratea80@gmail.com'],
-          replyTo: email,
-          subject: `[Portfolio Inquiry - Test Mode] ${subject} — dari ${name}`,
-          html: emailHtml,
-        });
-      }
 
       if (resendResponse.error) {
         console.error('Resend Dispatch Error:', resendResponse.error);
