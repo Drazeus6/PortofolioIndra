@@ -7,6 +7,7 @@ import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, ExternalLink, FileText, Award, X, ShieldCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
 export function TimelineSection() {
   const { viewMode } = useViewMode();
@@ -14,7 +15,7 @@ export function TimelineSection() {
   const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
 
   return (
-    <section className="py-16 md:py-24 border-y border-dark-border bg-dark-base relative">
+    <InteractiveGlowBackground className="py-16 md:py-24 border-y border-dark-border">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -180,6 +181,6 @@ export function TimelineSection() {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </InteractiveGlowBackground>
   );
 }

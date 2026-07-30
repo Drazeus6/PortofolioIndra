@@ -9,6 +9,7 @@ import { PERSONAL_DATA } from '@/lib/data';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
+import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Nama minimal 2 karakter.'),
@@ -58,7 +59,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-20 bg-dark-base text-white">
+    <InteractiveGlowBackground className="min-h-screen pt-28 pb-20 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 font-sans">
@@ -241,6 +242,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </div>
+    </InteractiveGlowBackground>
   );
 }

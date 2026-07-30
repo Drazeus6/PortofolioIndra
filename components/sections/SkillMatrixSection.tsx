@@ -6,6 +6,7 @@ import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { Scale, Cpu, Users, CheckCircle, Database, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
 export function SkillMatrixSection() {
   const { viewMode } = useViewMode();
@@ -15,20 +16,38 @@ export function SkillMatrixSection() {
   const allSkills = SKILL_CATEGORIES.flatMap((c) => c.skills);
   const filteredSkills = filter === 'all' ? allSkills : allSkills.filter((s) => s.category === filter);
 
+  const getHeaderTitle = () => {
+    switch (filter) {
+      case 'web':
+        return 'Fullstack Web & DB';
+      case 'tech':
+        return 'AI & Office IT';
+      case 'legal':
+        return 'Legal & Litigation';
+      case 'soft':
+        return 'Professional Soft';
+      default:
+        return 'Competency';
+    }
+  };
+
   return (
-    <section className="py-16 md:py-24 bg-dark-base border-b border-dark-border text-white">
+    <InteractiveGlowBackground className="py-16 md:py-24 border-b border-dark-border text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Dynamic Header */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          key={filter}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           className="text-center mb-12"
         >
           <Badge variant={isDev ? 'blue' : 'amber'}>Matriks Kompetensi</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            Fullstack Web, DB &amp; Legal <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Skill Matrix</span>
+            {getHeaderTitle()}{' '}
+            <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
+              Skill Matrix
+            </span>
           </h2>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
             Keahlian pengembangan web modern (Next.js, Node.js, SQL/NoSQL Database), analisis hukum normatif, dan soft skill profesional.
@@ -153,6 +172,6 @@ export function SkillMatrixSection() {
           ))}
         </div>
       </div>
-    </section>
+    </InteractiveGlowBackground>
   );
 }

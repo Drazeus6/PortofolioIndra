@@ -6,6 +6,7 @@ import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { ExternalLink, Database, Code, Globe, Shield, Cpu, ShoppingBag, Truck, HeartPulse } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
 export function ProjectsSection() {
   const { viewMode } = useViewMode();
@@ -23,7 +24,7 @@ export function ProjectsSection() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-dark-surface border-b border-dark-border text-white relative">
+    <InteractiveGlowBackground className="py-16 md:py-24 border-b border-dark-border text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -207,6 +208,6 @@ export function ProjectsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </InteractiveGlowBackground>
   );
 }
