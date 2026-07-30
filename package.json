@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",
-    "@ai-sdk/react": "^4.0.45",
     "@hookform/resolvers": "^3.9.1",
     "@xyflow/react": "^12.3.2",
     "ai": "^4.3.19",
@@ -21,6 +20,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",
+    "resend": "^6.18.1",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8"
   },

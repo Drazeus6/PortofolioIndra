@@ -1,9 +1,21 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { useChat } from '@ai-sdk/react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Bot, Send, User, Sparkles, RefreshCw, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+const WELCOME: Message = {
+  id: 'welcome',
+  role: 'assistant',
+  content:
+    'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+};
 
 const SUGGESTED_PROMPTS = [
   'Latar belakang & IPK Indra Mulyana?',
@@ -13,9 +25,13 @@ const SUGGESTED_PROMPTS = [
   'Aplikasi web yang sudah dibuat?',
 ];
 
+function genId() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
 // Render **bold** markdown inline
 function renderContent(text: string) {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) =>
     part.startsWith('**') && part.endsWith('**') ? (
       <strong key={i} className="text-white font-bold">
@@ -29,52 +45,122 @@ function renderContent(text: string) {
 
 export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // useChat v4 API: uses sendMessage, status, messages, setMessages, error
-  const { messages, sendMessage, setMessages, status, error } = useChat({
-    api: '/api/chat',
-    initialMessages: [
-      {
-        id: 'welcome',
-        role: 'assistant',
-        content:
-          'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
-        parts: [{ type: 'text', text: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.' }],
-      },
-    ],
-  });
-
-  const isLoading = status === 'streaming' || status === 'submitted';
-
-  // Auto-scroll to bottom on new messages
+  // Auto-scroll
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isLoading]);
+  }, [messages, isStreaming]);
 
-  const handleSend = (text: string) => {
-    if (!text.trim() || isLoading) return;
-    setInput('');
-    sendMessage({ role: 'user', content: text });
-  };
+  const sendMessage = useCallback(async (text: string) => {
+    if (!text.trim() || isStreaming) return;
+    setError(null);
+
+    const userMsg: Message = { id: genId(), role: 'user', content: text };
+    const assistantId = genId();
+    const assistantMsg: Message = { id: assistantId, role: 'assistant', content: '' };
+
+    setMessages((prev) => [...prev, userMsg, assistantMsg]);
+    setIsStreaming(true);
+
+    // Build history for API (last 10 messages max)
+    const history = [...messages, userMsg].slice(-10).map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
+
+    try {
+      abortRef.current = new AbortController();
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+        signal: abortRef.current.signal,
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
+
+      const contentType = res.headers.get('content-type') || '';
+
+      // --- Streaming response (streamText toDataStreamResponse) ---
+      if (contentType.includes('text/plain') || contentType.includes('octet-stream') || contentType.includes('x-ndjson')) {
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        let accumulated = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+
+          // AI SDK data stream format: lines like `0:"token"\n`
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            if (line.startsWith('0:')) {
+              try {
+                const token = JSON.parse(line.slice(2));
+                accumulated += token;
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: accumulated } : m
+                  )
+                );
+              } catch {}
+            }
+          }
+        }
+
+        // Fallback: if nothing was parsed from stream format, use raw text
+        if (accumulated === '') {
+          const text = await res.text().catch(() => '');
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, content: text || 'Tidak ada respons.' } : m
+            )
+          );
+        }
+      } else {
+        // --- JSON fallback response ---
+        const data = await res.json();
+        const reply = data.reply || data.text || data.content || 'Maaf, tidak ada respons.';
+        setMessages((prev) =>
+          prev.map((m) => (m.id === assistantId ? { ...m, content: reply } : m))
+        );
+      }
+    } catch (err: any) {
+      if (err?.name === 'AbortError') return;
+      const errMsg = err?.message || 'Gagal menghubungi AI. Coba lagi.';
+      setError(errMsg);
+      setMessages((prev) => prev.filter((m) => m.id !== assistantId));
+    } finally {
+      setIsStreaming(false);
+    }
+  }, [messages, isStreaming]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleSend(input);
+    if (!input.trim()) return;
+    const text = input;
+    setInput('');
+    sendMessage(text);
   };
 
   const resetChat = () => {
-    setMessages([
-      {
-        id: 'welcome',
-        role: 'assistant',
-        content: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI. Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
-        parts: [{ type: 'text', text: 'Halo! Saya **Indra AI Assistant** — didukung Google Gemini AI.' }],
-      },
-    ]);
+    abortRef.current?.abort();
+    setMessages([WELCOME]);
     setInput('');
+    setError(null);
+    setIsStreaming(false);
   };
 
   return (
@@ -93,8 +179,8 @@ export function ChatWidget() {
                 <Zap className="w-2.5 h-2.5" /> Gemini AI
               </span>
             </h3>
-            <p className={`text-[10px] ${isLoading ? 'text-amber-400 animate-pulse' : 'text-blue-400'}`}>
-              {isLoading ? '● Generating response...' : '● Gemini 1.5 Flash — Real Streaming'}
+            <p className={`text-[10px] ${isStreaming ? 'text-amber-400 animate-pulse' : 'text-blue-400'}`}>
+              {isStreaming ? '● Generating response...' : '● AI-Assisted Q&A — Powered by Gemini'}
             </p>
           </div>
         </div>
@@ -107,7 +193,7 @@ export function ChatWidget() {
         </button>
       </div>
 
-      {/* Messages Scroll Area */}
+      {/* Messages */}
       <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-3 font-sans text-xs">
         <AnimatePresence initial={false}>
           {messages.map((m) => (
@@ -124,13 +210,19 @@ export function ChatWidget() {
                 </div>
               )}
               <div
-                className={`max-w-[85%] p-3 rounded-md text-xs leading-relaxed font-mono whitespace-pre-wrap ${
+                className={`max-w-[85%] p-3 rounded-md text-xs leading-relaxed font-mono whitespace-pre-wrap break-words ${
                   m.role === 'user'
                     ? 'bg-blue-600 text-white border border-blue-400'
                     : 'bg-dark-card border border-dark-border text-slate-200'
                 }`}
               >
-                {m.role === 'assistant' ? renderContent(m.content) : m.content}
+                {m.content === '' && m.role === 'assistant' ? (
+                  <span className="text-slate-400 italic">...</span>
+                ) : m.role === 'assistant' ? (
+                  renderContent(m.content)
+                ) : (
+                  m.content
+                )}
               </div>
               {m.role === 'user' && (
                 <div className="w-7 h-7 rounded-sm bg-dark-border flex items-center justify-center text-slate-300 shrink-0 mt-0.5">
@@ -141,11 +233,11 @@ export function ChatWidget() {
           ))}
         </AnimatePresence>
 
-        {/* Streaming Bounce Indicator */}
-        {isLoading && (
-          <div className="flex items-center gap-2 text-xs text-blue-400 font-mono">
+        {/* Streaming bounce indicator */}
+        {isStreaming && messages[messages.length - 1]?.content === '' && (
+          <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-sm bg-blue-950 border border-blue-800 flex items-center justify-center shrink-0">
-              <Bot className="w-3.5 h-3.5" />
+              <Bot className="w-3.5 h-3.5 text-blue-400" />
             </div>
             <div className="bg-dark-card border border-dark-border rounded-md px-3 py-2 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:0ms]" />
@@ -155,21 +247,21 @@ export function ChatWidget() {
           </div>
         )}
 
-        {/* Error Display */}
+        {/* Error */}
         {error && (
           <div className="text-xs text-red-400 font-mono bg-red-950/60 border border-red-800 rounded-sm px-3 py-2">
-            ⚠ {error.message || 'Gagal menghubungi AI. Coba lagi.'}
+            ⚠ {error}
           </div>
         )}
       </div>
 
       {/* Suggested Prompts */}
-      <div className="px-3 py-2 bg-dark-base border-t border-dark-border flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono shrink-0">
+      <div className="px-3 py-2 bg-dark-base border-t border-dark-border flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0">
         {SUGGESTED_PROMPTS.map((p, idx) => (
           <button
             key={idx}
-            onClick={() => handleSend(p)}
-            disabled={isLoading}
+            onClick={() => { setInput(''); sendMessage(p); }}
+            disabled={isStreaming}
             className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-sm bg-dark-card hover:bg-blue-600/30 border border-dark-border hover:border-blue-500 text-slate-300 transition-colors disabled:opacity-50"
           >
             {p}
@@ -184,12 +276,12 @@ export function ChatWidget() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Tanya Indra AI tentang profil, keahlian, atau proyek..."
-          disabled={isLoading}
+          disabled={isStreaming}
           className="flex-1 bg-dark-card border border-dark-border rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono placeholder:text-slate-500 disabled:opacity-60"
         />
         <button
           type="submit"
-          disabled={isLoading || !input.trim()}
+          disabled={isStreaming || !input.trim()}
           className="p-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50 transition-colors"
         >
           <Send className="w-3.5 h-3.5" />

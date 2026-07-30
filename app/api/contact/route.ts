@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { Resend } from 'resend';
 
 // Contact Form Schema
 const contactSchema = z.object({
@@ -58,44 +59,47 @@ export async function POST(req: Request) {
 
     const { name, email, subject, message } = validation.data;
 
-    // 3. Email Dispatch Integration (Resend API if key is present)
+    // 3. Email Dispatch via Resend SDK
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
       try {
-        const resendRes = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${resendApiKey}`,
-          },
-          body: JSON.stringify({
-            from: 'Portfolio Inquiry <onboarding@resend.dev>',
-            to: ['indramulyanaa674@gmail.com'],
-            subject: `[Portfolio Inquiry] ${subject} - ${name}`,
-            html: `
-              <h3>Pesan Baru dari Portofolio Website</h3>
-              <p><strong>Nama:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Subjek:</strong> ${subject}</p>
-              <p><strong>Pesan:</strong></p>
-              <blockquote style="background: #f4f4f4; padding: 12px; border-left: 4px solid #0066ff;">${message}</blockquote>
-            `,
-          }),
+        const resend = new Resend(resendApiKey);
+        const { error: resendError } = await resend.emails.send({
+          from: 'Portfolio Contact <onboarding@resend.dev>',
+          to: ['indramulyanaa674@gmail.com'],
+          replyTo: email,
+          subject: `[Portfolio Inquiry] ${subject} — dari ${name}`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 8px;">
+              <h2 style="color: #1e40af; margin-top: 0;">📨 Pesan Baru dari Portofolio</h2>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 8px 0; color: #6b7280; width: 100px;">Nama</td><td style="padding: 8px 0; font-weight: 600;">${name}</td></tr>
+                <tr><td style="padding: 8px 0; color: #6b7280;">Email</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+                <tr><td style="padding: 8px 0; color: #6b7280;">Subjek</td><td style="padding: 8px 0; font-weight: 600;">${subject}</td></tr>
+              </table>
+              <div style="margin-top: 16px; padding: 16px; background: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
+                <p style="margin: 0; white-space: pre-wrap; color: #1e293b;">${message}</p>
+              </div>
+              <p style="margin-top: 16px; font-size: 12px; color: #9ca3af;">Dikirim pada: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB</p>
+            </div>
+          `,
         });
 
-        if (resendRes.ok) {
+        if (resendError) {
+          console.warn('Resend error:', resendError);
+        } else {
           return NextResponse.json({
             success: true,
-            message: 'Pesan Anda telah berhasil terkirim melalui Resend API!',
+            message: 'Pesan Anda telah berhasil terkirim! Indra akan segera merespons.',
           });
         }
       } catch (err) {
-        console.warn('Resend API delivery failed, fallback to local log:', err);
+        console.warn('Resend SDK error:', err);
       }
     }
 
-    // 4. Default Success Response
-    console.log('Contact Submission Received:', { name, email, subject, message, timestamp: new Date().toISOString() });
+    // 4. Fallback log if no Resend key
+    console.log('Contact Submission:', { name, email, subject, message, timestamp: new Date().toISOString() });
 
     return NextResponse.json({
       success: true,
