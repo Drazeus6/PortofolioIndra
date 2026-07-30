@@ -150,7 +150,7 @@ export function ProjectsSection() {
                   {project.title}
                 </h3>
                 <p className="text-xs text-slate-300 font-sans font-light leading-relaxed mb-4">
-                  {project.description}
+                  {isDev ? project.description.developer : project.description.legal}
                 </p>
               </div>
 

@@ -48,7 +48,10 @@ export interface ProjectItem {
   id: string;
   title: string;
   category: 'legal-tech' | 'web-app' | 'e-commerce' | 'logistics' | 'healthcare';
-  description: string;
+  description: {
+    legal: string;
+    developer: string;
+  };
   liveUrl: string;
   languages: string[];
   database: string;
@@ -88,7 +91,10 @@ export const PROJECTS: ProjectItem[] = [
     id: 'jinayah-app',
     title: 'Jinayah App — Platform Analisis Hukum Pidana Islam & Cybercrime',
     category: 'legal-tech',
-    description: 'Aplikasi web analisis yuridis normatif Hukum Pidana Islam (Fiqh Jinayah) dan eksplorasi tindak pidana Cybercrime / Deepfake AI biometrik sintetis.',
+    description: {
+      legal: 'Platform analisis yuridis normatif Hukum Pidana Islam (Fiqh Jinayah) dan studi kepatuhan norma sanksi Jarimah Ta\'zir terhadap tindak pidana biometrik sintetis Cybercrime / Deepfake AI dalam UU ITE No 1 2024.',
+      developer: 'SPA modern React 19 + TypeScript + Supabase PostgreSQL untuk pemodelan data delik pidana, filtering sanksi Ta\'zir, dan arsitektur database relasional terenkripsi.',
+    },
     liveUrl: 'https://jinayah-2yio.vercel.app/',
     languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3 / Tailwind'],
     database: 'PostgreSQL (Supabase)',
@@ -99,7 +105,10 @@ export const PROJECTS: ProjectItem[] = [
     id: 'ryoku',
     title: 'Ryoku — Anime Streaming & Information Portal',
     category: 'web-app',
-    description: 'Platform web streaming anime modern dengan fitur pencarian cepat, katalog interaktif, kategorisasi genre, dan responsivitas tinggi.',
+    description: {
+      legal: 'Media portal informasi dan katalog penyiaran konten multimedia berbasis kepatuhan hak cipta (HAKI), lisensi distribusi publik, dan regulasi konten penyiaran.',
+      developer: 'Next.js 14 App Router portal streaming anime dengan ISR (Incremental Static Regeneration), Vercel Postgres DB, dan arsitektur REST API ultra cepat.',
+    },
     liveUrl: 'https://ryoku-seven.vercel.app/',
     languages: ['Next.js (App Router)', 'TypeScript', 'JavaScript', 'HTML5', 'Tailwind CSS'],
     database: 'PostgreSQL (Vercel Postgres)',
@@ -110,7 +119,10 @@ export const PROJECTS: ProjectItem[] = [
     id: 'wus-cargo',
     title: 'WUS Cargo — Logistics & Cargo Tracking System',
     category: 'logistics',
-    description: 'Sistem aplikasi ekspedisi kargo dan pelacakan pengiriman barang real-time dengan manajemen nomor resi, rute armada, dan status kurir.',
+    description: {
+      legal: 'Sistem kepatuhan pengiriman barang, legalitas manifes logistik ekspedisi, transparansi klausula nomor resi konsumen, dan mitigasi risiko sengketa pengangkutan.',
+      developer: 'Fullstack Logistics tracking engine berbasis Next.js + Node.js REST API dengan DB relasional PostgreSQL dan integrasi Supabase Auth.',
+    },
     liveUrl: 'https://wuscargo.vercel.app/',
     languages: ['Next.js', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
     database: 'PostgreSQL & Supabase',
@@ -121,7 +133,10 @@ export const PROJECTS: ProjectItem[] = [
     id: 'jejak-sehat',
     title: 'Jejak Sehat — Platform Manajemen Kesehatan & Rekam Medis',
     category: 'healthcare',
-    description: 'Aplikasi web pemantauan kesehatan masyarakat, rekam jejak pemeriksaan medis, kalkulasi indikator vital, dan portal artikel kesehatan.',
+    description: {
+      legal: 'Platform digital rekam medis dan kepatuhan privasi data kesehatan pasien (KPRS) sesuai ketentuan Undang-Undang Kesehatan Nomor 17 Tahun 2023.',
+      developer: 'Healthcare Web App React + Express.js + MySQL relasional DB dengan kalkulator indikator vital dan arsitektur komponen modular.',
+    },
     liveUrl: 'https://jejaksehat.vercel.app/',
     languages: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
     database: 'MySQL & PostgreSQL',
@@ -132,7 +147,10 @@ export const PROJECTS: ProjectItem[] = [
     id: 'coffee-shop',
     title: 'Coffee Shop Web App — Platform E-Commerce Cafe Digital',
     category: 'e-commerce',
-    description: 'Website pemesanan kopi digital dengan katalog menu interaktif, fitur keranjang belanja, sistem ulasan rasa, dan antarmuka kafe modern.',
+    description: {
+      legal: 'Sistem e-commerce transaksi bisnis digital, kepatuhan syarat & ketentuan (TOC) jual-beli konsumen, serta perlindungan hak konsumen e-commerce.',
+      developer: 'E-Commerce Web App React + Node.js Express + MongoDB NoSQL database dengan cart state management dan Tailwind CSS UI.',
+    },
     liveUrl: 'https://coffeshopwebsite.vercel.app/',
     languages: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS'],
     database: 'MongoDB & Supabase',
