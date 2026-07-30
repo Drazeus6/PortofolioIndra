@@ -22,24 +22,24 @@ function CustomNode({ data }: { data: any }) {
   const isDev = viewMode === 'developer';
 
   const getIcon = () => {
-    if (data.badge?.includes('Trigger')) return <ShieldAlert className="w-4 h-4 text-amber-400" />;
-    if (data.badge?.includes('Celah')) return <Cpu className="w-4 h-4 text-cyan-400" />;
-    if (data.badge?.includes('Prinsip')) return <Scale className="w-4 h-4 text-emerald-400" />;
-    if (data.badge?.includes('Yurisprudensi')) return <FileCode className="w-4 h-4 text-violet-400" />;
-    return <CheckCircle2 className="w-4 h-4 text-emerald-400" />;
+    if (data.badge?.includes('Trigger')) return <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />;
+    if (data.badge?.includes('Celah')) return <Cpu className="w-4 h-4 text-cyan-400 shrink-0" />;
+    if (data.badge?.includes('Prinsip')) return <Scale className="w-4 h-4 text-emerald-400 shrink-0" />;
+    if (data.badge?.includes('Yurisprudensi')) return <FileCode className="w-4 h-4 text-violet-400 shrink-0" />;
+    return <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />;
   };
 
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
-      className={`p-4 rounded-md border max-w-xs transition-all duration-300 font-mono ${
+      className={`p-4 rounded-sm border min-w-[240px] max-w-xs transition-all duration-300 font-mono min-h-[48px] ${
         isDev
           ? 'bg-dark-card border-dark-border text-slate-100 backdrop-blur-md hover:border-blue-500/80 hover:shadow-[0_0_20px_rgba(0,102,255,0.25)]'
           : 'bg-dark-card border-amber-900/80 text-slate-100 backdrop-blur-md hover:border-amber-400/80 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)]'
       }`}
     >
-      <Handle type="target" position={Position.Top} className={`!w-3 !h-3 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
+      <Handle type="target" position={Position.Top} className={`!w-3.5 !h-3.5 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
       <div className="flex items-center gap-2 mb-2">
         {getIcon()}
         <span
@@ -54,7 +54,7 @@ function CustomNode({ data }: { data: any }) {
       <p className="text-xs text-slate-300 leading-relaxed font-mono">
         {data.description}
       </p>
-      <Handle type="source" position={Position.Bottom} className={`!w-3 !h-3 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
+      <Handle type="source" position={Position.Bottom} className={`!w-3.5 !h-3.5 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
     </motion.div>
   );
 }
@@ -84,16 +84,16 @@ export function DecisionTree() {
         </div>
         <button
           onClick={() => setShowAccessibleText(!showAccessibleText)}
-          className="px-3 py-1 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider"
+          className="px-3 py-2 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider min-h-[40px]"
           title="Tampilkan daftar teks untuk pembaca layar / layar sentuh"
         >
-          {showAccessibleText ? <Eye className="w-3.5 h-3.5" /> : <ListFilter className="w-3.5 h-3.5" />}
+          {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
           {showAccessibleText ? 'Graph View' : 'Text Mode'}
         </button>
       </div>
 
       {showAccessibleText ? (
-        <div className="p-6 space-y-4 h-[360px] sm:h-[440px] lg:h-[520px] overflow-y-auto font-mono text-xs">
+        <div className="p-6 space-y-4 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto font-mono text-xs">
           <p className="text-amber-400 font-bold uppercase tracking-wider text-xs">
             Daftar Langkah Alur Keputusan Hukum (Text Alternative):
           </p>
@@ -107,15 +107,18 @@ export function DecisionTree() {
           </ol>
         </div>
       ) : (
-        <div className="w-full h-[360px] sm:h-[440px] lg:h-[520px] relative bg-dark-surface">
+        <div className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative bg-dark-surface">
           <ReactFlow
             nodes={nodes}
             edges={edges}
             nodeTypes={nodeTypes}
             fitView
             colorMode="dark"
+            minZoom={0.5}
+            maxZoom={1.5}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.85 }}
           >
-            <Controls className="!bg-dark-card !border-dark-border !fill-slate-200" />
+            <Controls className="!bg-dark-card !border-dark-border !fill-slate-200 shadow-xl !rounded-sm !p-1" />
             <Background
               variant={BackgroundVariant.Dots}
               gap={16}

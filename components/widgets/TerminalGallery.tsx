@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { CERTIFICATIONS, CertificationItem } from '@/lib/data';
-import { Terminal as TerminalIcon, CornerDownLeft, FileText, Download, Play, HelpCircle, Grid, Monitor } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { CERTIFICATIONS } from '@/lib/data';
+import { Terminal as TerminalIcon, CornerDownLeft, FileText, Download, Grid, Monitor } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface TerminalLine {
   id: string;
@@ -86,9 +86,9 @@ export function TerminalGallery() {
               <button
                 key={cert.id}
                 onClick={() => handleCommand(`cat certs/${cert.id}.cert`)}
-                className="flex items-center gap-2 p-2 rounded bg-slate-800/80 border border-slate-700 hover:border-emerald-500 text-left transition-colors group"
+                className="flex items-center gap-2 p-2.5 rounded bg-dark-card border border-dark-border hover:border-emerald-500 text-left transition-colors group min-h-[44px]"
               >
-                <FileText className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <FileText className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
                 <div>
                   <span className="text-cyan-300 block font-bold text-xs">{cert.filename}</span>
                   <span className="text-slate-400 text-[10px]">{cert.issuer} ({cert.year})</span>
@@ -110,23 +110,23 @@ export function TerminalGallery() {
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-4 rounded-xl bg-slate-900 border border-slate-700 font-mono text-xs md:text-sm text-slate-200 my-2 space-y-2"
+              className="p-4 rounded-sm bg-dark-card border border-dark-border font-mono text-xs md:text-sm text-slate-200 my-2 space-y-2"
             >
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div className="flex items-center justify-between border-b border-dark-border pb-2">
                 <span className="text-emerald-400 font-bold">{found.title}</span>
                 <span className="text-xs text-slate-400">{found.year}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs">{found.description}</p>
-              <div className="text-xs text-slate-400">Penerbit: <span className="text-amber-300">{found.issuer}</span></div>
+              <div className="text-xs text-slate-400">Penerbit: <span className="text-amber-300 font-bold">{found.issuer}</span></div>
               {found.pdfUrl && (
                 <div className="pt-2">
                   <a
                     href={found.pdfUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-sans text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white font-sans text-xs font-semibold transition-colors min-h-[40px]"
                   >
-                    <Download className="w-3.5 h-3.5" /> Unduh / Lihat PDF Sertifikat
+                    <Download className="w-4 h-4" /> Unduh / Lihat PDF Sertifikat
                   </a>
                 </div>
               )}
@@ -167,16 +167,16 @@ export function TerminalGallery() {
   });
 
   return (
-    <div className="w-full rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden font-mono">
+    <div className="w-full rounded-md bg-dark-base border border-dark-border shadow-2xl overflow-hidden font-mono">
       {/* Header Bar */}
-      <div className="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+      <div className="bg-dark-surface px-4 py-3 border-b border-dark-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
           <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
           <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
           <span className="ml-2 text-xs text-slate-300 font-bold flex items-center gap-1.5">
             <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
-            certifications-cli — {viewType === 'terminal' ? 'CLI Mode' : 'Grid Mode'}
+            certifications-cli
           </span>
         </div>
 
@@ -184,10 +184,10 @@ export function TerminalGallery() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewType(viewType === 'terminal' ? 'grid' : 'terminal')}
-            className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-cyan-300 font-sans font-semibold transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs text-cyan-300 font-sans font-semibold transition-colors flex items-center gap-1.5 min-h-[36px]"
           >
-            {viewType === 'terminal' ? <Grid className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
-            {viewType === 'terminal' ? 'Lihat Filterable Grid' : 'Lihat CLI Console'}
+            {viewType === 'terminal' ? <Grid className="w-4 h-4" /> : <Monitor className="w-4 h-4" />}
+            {viewType === 'terminal' ? 'Filterable Grid' : 'CLI Console'}
           </button>
         </div>
       </div>
@@ -195,11 +195,47 @@ export function TerminalGallery() {
       {viewType === 'terminal' ? (
         <>
           {/* Terminal Body */}
-          <div className="p-4 md:p-6 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
+          <div className="p-4 md:p-6 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-dark-border">
             {history.map((item) => (
               <div key={item.id}>{item.content}</div>
             ))}
             <div ref={bottomRef} />
+          </div>
+
+          {/* Quick Command Tap Pills for Mobile & Touch Users */}
+          <div className="px-3 py-2 bg-dark-surface border-t border-dark-border flex items-center gap-2 overflow-x-auto scrollbar-none font-mono text-xs">
+            <span className="text-[10px] text-slate-400 font-bold shrink-0 uppercase tracking-wider">Tap Commands:</span>
+            <button
+              type="button"
+              onClick={() => handleCommand('ls')}
+              className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-emerald-400 hover:bg-emerald-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
+            >
+              ls
+            </button>
+            <button
+              type="button"
+              onClick={() => handleCommand('help')}
+              className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-amber-400 hover:bg-amber-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
+            >
+              help
+            </button>
+            {CERTIFICATIONS.map((cert) => (
+              <button
+                key={cert.id}
+                type="button"
+                onClick={() => handleCommand(`cat certs/${cert.id}.cert`)}
+                className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-cyan-300 hover:bg-cyan-950/40 text-[11px] font-semibold shrink-0 min-h-[36px] flex items-center gap-1"
+              >
+                cat {cert.filename}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleCommand('clear')}
+              className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-red-400 hover:bg-red-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
+            >
+              clear
+            </button>
           </div>
 
           {/* Terminal Input Line */}
@@ -209,17 +245,17 @@ export function TerminalGallery() {
               handleCommand(input);
               setInput('');
             }}
-            className="bg-slate-900/90 border-t border-slate-800 p-3 flex items-center gap-2"
+            className="bg-dark-base border-t border-dark-border p-3 flex items-center gap-2"
           >
-            <span className="text-emerald-400 text-xs md:text-sm font-bold">indra@legal-tech:~/certs$</span>
+            <span className="text-emerald-400 text-xs md:text-sm font-bold shrink-0">indra@legal-tech:~/certs$</span>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="type 'ls', 'help', or 'cat certs/mos_word.cert'..."
-              className="flex-1 bg-transparent text-slate-100 text-xs md:text-sm focus:outline-none placeholder:text-slate-600 font-mono"
+              placeholder="type 'ls', 'help', or tap a command above..."
+              className="flex-1 bg-transparent text-slate-100 text-xs md:text-sm focus:outline-none placeholder:text-slate-600 font-mono min-h-[40px]"
             />
-            <button type="submit" className="p-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
+            <button type="submit" className="p-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center">
               <CornerDownLeft className="w-4 h-4" />
             </button>
           </form>
@@ -230,32 +266,32 @@ export function TerminalGallery() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                selectedCategory === 'all' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
+                selectedCategory === 'all' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
             >
               Semua Sertifikat ({CERTIFICATIONS.length})
             </button>
             <button
               onClick={() => setSelectedCategory('ai')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                selectedCategory === 'ai' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
+                selectedCategory === 'ai' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
             >
               AI &amp; Tech
             </button>
             <button
               onClick={() => setSelectedCategory('office')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                selectedCategory === 'office' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
+                selectedCategory === 'office' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
             >
               Office &amp; Finance
             </button>
             <button
               onClick={() => setSelectedCategory('law')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                selectedCategory === 'law' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'
+              className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
+                selectedCategory === 'law' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
             >
               IBM Legal &amp; Ethics
@@ -267,7 +303,7 @@ export function TerminalGallery() {
               <motion.div
                 key={cert.id}
                 whileHover={{ scale: 1.02 }}
-                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2 hover:border-emerald-500/50 transition-all"
+                className="p-5 rounded-sm bg-dark-card border border-dark-border space-y-2 hover:border-emerald-500/50 transition-all"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-emerald-400 font-bold text-sm">{cert.title}</span>
@@ -282,9 +318,9 @@ export function TerminalGallery() {
                     href={cert.pdfUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 pt-2 text-xs text-cyan-400 font-semibold hover:underline"
+                    className="inline-flex items-center gap-1.5 pt-2 text-xs text-cyan-400 font-semibold hover:underline min-h-[40px]"
                   >
-                    <Download className="w-3.5 h-3.5" /> Buka PDF Sertifikat
+                    <Download className="w-4 h-4" /> Buka PDF Sertifikat
                   </a>
                 )}
               </motion.div>
