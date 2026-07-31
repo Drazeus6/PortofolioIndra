@@ -34,6 +34,13 @@ export const metadata: Metadata = {
     'Pengadilan Agama Ciamis',
   ],
   authors: [{ name: 'Indra Mulyana' }],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'Indra Mulyana — Portofolio Legal-Tech & Hukum Pidana Islam',
     description:

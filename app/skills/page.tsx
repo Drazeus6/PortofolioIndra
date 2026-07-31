@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import { SkillMatrixSection } from '@/components/sections/SkillMatrixSection';
+
+export const metadata: Metadata = {
+  title: 'Skill Matrix — Indra Mulyana | Fullstack Web, Database & Hukum',
+  description:
+    'Matriks kompetensi Indra Mulyana: fullstack web development (React, Next.js, Node.js), database, AI/Agentic, analisis hukum, riset legal, dan administrasi peradilan.',
+  openGraph: {
+    title: 'Skill Matrix Indra Mulyana — Developer & Legal Expert',
+    description:
+      'Kompetensi teknis dan hukum: Next.js, React, Python, AI tools, analisis hukum pidana Islam, dan administrasi pengadilan.',
+    type: 'website',
+  },
+};
 
 export default function SkillsPage() {
   return (
