@@ -93,9 +93,6 @@ export function Footer() {
 
         <div className="pt-6 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} {PERSONAL_DATA.name}. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Design System: Dark Base (#0A0A0B) • Electric Blue &amp; Legal Seal Accent
-          </p>
         </div>
       </div>
     </footer>
