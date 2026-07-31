@@ -42,6 +42,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () => void } }) {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
 
   // Sticky Note node (special yellow card from screenshot)
