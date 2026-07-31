@@ -48,6 +48,9 @@ export const UI_TRANSLATIONS = {
     taskDesc: { id: 'Deskripsi Tugas & Prosedur:', en: 'Task Description & Procedure:' },
     abstractHeader: { id: 'Abstrak Jurnal:', en: 'Journal Abstract:' },
     photosHeader: { id: 'Dokumentasi Foto Magang', en: 'Internship Photos' },
+    viewGallery: { id: 'Lihat Galeri Foto', en: 'View Photo Gallery' },
+    photosCount: { id: 'foto', en: 'photos' },
+    viewDetail: { id: 'Lihat Detail', en: 'View Details' },
   },
   skills: {
     badge: { id: 'Matriks Kompetensi', en: 'Competency Matrix' },
