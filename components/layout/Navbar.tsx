@@ -21,18 +21,18 @@ export function Navbar() {
     { href: '/playground', label: 'Playground', icon: Terminal },
     { href: '/experience', label: 'Experience', icon: Briefcase },
     { href: '/skills', label: 'Skills', icon: Layers },
-    { href: '/certifications', label: 'Certifications', icon: Award },
+    { href: '/certifications', label: 'Certs', icon: Award },
     { href: '/contact', label: 'Contact', icon: Mail },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-dark-base/95 backdrop-blur-md border-b border-dark-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-dark-base/90 backdrop-blur-md border-b border-dark-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
             <div
-              className={`w-9 h-9 rounded-md overflow-hidden border transition-transform group-hover:scale-105 flex items-center justify-center ${
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-md overflow-hidden border transition-transform group-hover:scale-105 flex items-center justify-center ${
                 isDev ? 'border-blue-500/80 bg-dark-card' : 'border-amber-500/80 bg-dark-card'
               }`}
             >
@@ -45,7 +45,7 @@ export function Navbar() {
               />
             </div>
             <div>
-              <span className="font-mono font-bold text-sm text-white tracking-tight flex items-center gap-1.5">
+              <span className="font-mono font-bold text-xs sm:text-sm text-white tracking-tight flex items-center gap-1">
                 {PERSONAL_DATA.name}
                 <Shield className={`w-3.5 h-3.5 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
               </span>
@@ -55,7 +55,7 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Links (Breakpoint at xl to avoid crowding) */}
+          {/* Desktop Links */}
           <nav className="hidden xl:flex items-center gap-1 bg-dark-surface p-1 rounded-md border border-dark-border font-mono">
             {navLinks.map((link) => {
               const active = pathname === link.href;
@@ -64,15 +64,15 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[11px] font-semibold uppercase tracking-wider transition-all whitespace-nowrap border ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-sm text-[11px] font-semibold uppercase tracking-wider whitespace-nowrap border transition-all ${
                     active
                       ? isDev
                         ? 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-950/40'
                         : 'bg-amber-600 text-slate-950 border-amber-400 shadow-md shadow-amber-950/40 font-bold'
-                      : 'border-transparent text-slate-400 hover:text-white hover:bg-dark-card hover:border-dark-border'
+                      : 'text-slate-400 border-transparent hover:text-white hover:bg-dark-card hover:border-dark-border'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
                   {link.label}
                 </Link>
               );
@@ -80,12 +80,12 @@ export function Navbar() {
           </nav>
 
           {/* Right Mode Switcher & Mobile Menu Toggle */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <ModeSwitcher />
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-md border border-dark-border bg-dark-card text-slate-300 hover:text-white transition-colors"
+              className="xl:hidden p-2 rounded-md border border-dark-border bg-dark-card text-slate-300 hover:text-white transition-colors min-h-[38px] min-w-[38px] flex items-center justify-center"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -94,7 +94,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile & Tablet Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="xl:hidden border-b border-dark-border bg-dark-surface px-4 pt-3 pb-6 space-y-2 font-mono text-xs">
           {navLinks.map((link) => {

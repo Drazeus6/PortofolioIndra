@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useViewMode } from '@/context/ViewModeContext';
-import { Code2, Scale, ShieldCheck } from 'lucide-react';
+import { Code2, ShieldCheck } from 'lucide-react';
 
 export function ModeSwitcher() {
   const { viewMode, toggleViewMode } = useViewMode();
@@ -15,7 +15,7 @@ export function ModeSwitcher() {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={toggleViewMode}
-        className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-md border text-xs font-bold transition-all duration-500 shadow-md ${
+        className={`relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3.5 py-1.5 rounded-md border text-xs font-bold transition-all duration-500 shadow-md ${
           isDev
             ? 'bg-dark-card border-blue-500/60 text-blue-400 shadow-blue-950/40'
             : 'bg-dark-card border-amber-500/80 text-amber-400 shadow-amber-950/40'
@@ -30,10 +30,10 @@ export function ModeSwitcher() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 6 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center gap-2 text-blue-400 uppercase tracking-wider text-[11px]"
+              className="flex items-center gap-1.5 text-blue-400 uppercase tracking-wider text-[11px]"
             >
-              <Code2 className="w-3.5 h-3.5 text-blue-400" />
-              <span>Developer Agentic</span>
+              <Code2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+              <span className="hidden sm:inline">Developer Agentic</span>
             </motion.span>
           ) : (
             <motion.span
@@ -42,10 +42,10 @@ export function ModeSwitcher() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 6 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center gap-2 text-amber-400 uppercase tracking-wider text-[11px]"
+              className="flex items-center gap-1.5 text-amber-400 uppercase tracking-wider text-[11px]"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              <span>Legal Seal &amp; Precision</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="hidden sm:inline">Legal Seal &amp; Precision</span>
             </motion.span>
           )}
         </AnimatePresence>
