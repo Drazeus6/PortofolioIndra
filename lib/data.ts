@@ -191,6 +191,28 @@ export const EXPERIENCES: ExperienceItem[] = [
     },
     tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Kepaniteraan PA 1A', 'Digitalisasi Berkas'],
     certificateImg: '/Sertifikat-PA.jpg',
+    photos: [
+      {
+        src: '/pa-ciamis-1-pembukaan.jpeg',
+        alt: 'Pembukaan program magang kerja peradilan di Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-2-briefing.jpeg',
+        alt: 'Sesi pengarahan dengan pegawai Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-3-diskusi.jpeg',
+        alt: 'Diskusi kelompok bersama pejabat Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-4-penutupan.jpeg',
+        alt: 'Penutupan program magang kerja peradilan Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-5-depan-gedung.jpeg',
+        alt: 'Foto bersama di depan Pengadilan Agama Ciamis',
+      },
+    ],
   },
   {
     id: 'jurnal-galuh-1',

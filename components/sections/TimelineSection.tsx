@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { EXPERIENCES, ExperienceItem } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, ExternalLink, FileText, X, ShieldCheck, Images, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, ExternalLink, FileText, X, ShieldCheck, Images } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
+import { PhotoLightbox, PhotoGalleryGrid } from '@/components/widgets/PhotoLightbox';
 
 export function TimelineSection() {
   const { viewMode } = useViewMode();
@@ -15,15 +16,18 @@ export function TimelineSection() {
   const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  const photos = selectedExp?.photos ?? [];
+
   const openLightbox = (idx: number) => setLightboxIndex(idx);
   const closeLightbox = () => setLightboxIndex(null);
-  const prevPhoto = () => {
-    if (lightboxIndex === null || !selectedExp?.photos) return;
-    setLightboxIndex((lightboxIndex - 1 + selectedExp.photos.length) % selectedExp.photos.length);
-  };
-  const nextPhoto = () => {
-    if (lightboxIndex === null || !selectedExp?.photos) return;
-    setLightboxIndex((lightboxIndex + 1) % selectedExp.photos.length);
+  const prevPhoto = () =>
+    setLightboxIndex((i) => (i === null ? 0 : (i - 1 + photos.length) % photos.length));
+  const nextPhoto = () =>
+    setLightboxIndex((i) => (i === null ? 0 : (i + 1) % photos.length));
+
+  const closeModal = () => {
+    setSelectedExp(null);
+    setLightboxIndex(null);
   };
 
   return (
@@ -87,15 +91,13 @@ export function TimelineSection() {
                   {exp.role}
                 </h4>
 
-                <p
-                  className={`text-xs md:text-sm leading-relaxed mb-6 ${
-                    isDev ? 'text-slate-300 font-mono' : 'text-slate-300 font-sans font-light'
-                  }`}
-                >
+                <p className={`text-xs md:text-sm leading-relaxed mb-6 ${
+                  isDev ? 'text-slate-300 font-mono' : 'text-slate-300 font-sans font-light'
+                }`}>
                   {isDev ? exp.description.developer : exp.description.legal}
                 </p>
 
-                {/* Tags & Action Notice */}
+                {/* Tags & CTA */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-dark-border">
                   <div className="flex flex-wrap gap-2 font-mono">
                     {exp.tags.map((tag) => (
@@ -107,16 +109,11 @@ export function TimelineSection() {
                       </span>
                     ))}
                   </div>
-
                   <span className="text-xs font-mono text-blue-400 font-bold group-hover:underline flex items-center gap-1">
                     {exp.photos?.length ? (
-                      <>
-                        <Images className="w-3.5 h-3.5" /> Foto &amp; Dokumen
-                      </>
+                      <><Images className="w-3.5 h-3.5" /> Foto &amp; Dokumen</>
                     ) : (
-                      <>
-                        Detail Dokumen <ExternalLink className="w-3.5 h-3.5" />
-                      </>
+                      <>Detail Dokumen <ExternalLink className="w-3.5 h-3.5" /></>
                     )}
                   </span>
                 </div>
@@ -131,7 +128,7 @@ export function TimelineSection() {
         {selectedExp && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-            onClick={() => setSelectedExp(null)}
+            onClick={closeModal}
             role="dialog"
             aria-modal="true"
             aria-label={`Detail pengalaman: ${selectedExp.title}`}
@@ -144,14 +141,15 @@ export function TimelineSection() {
               className="bg-dark-surface border border-dark-border rounded-md max-w-2xl w-full max-h-[88vh] overflow-y-auto p-6 md:p-8 text-white relative shadow-2xl font-mono"
             >
               <button
-                onClick={() => setSelectedExp(null)}
+                onClick={closeModal}
                 className="absolute top-6 right-6 p-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-slate-400 hover:text-white transition-colors"
                 aria-label="Tutup modal detail pengalaman"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-3 mb-4">
+              {/* Modal header */}
+              <div className="flex items-center gap-3 mb-5">
                 <div className="p-2.5 rounded-sm bg-blue-950/80 border border-blue-800 text-blue-400">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
@@ -161,41 +159,17 @@ export function TimelineSection() {
                 </div>
               </div>
 
-              {/* ── Photo Gallery (shown if photos exist) ── */}
-              {selectedExp.photos && selectedExp.photos.length > 0 && (
-                <div className="mb-6">
-                  <strong className="text-white block font-mono text-xs uppercase mb-3 flex items-center gap-2">
-                    <Images className="w-4 h-4 text-amber-400" />
-                    <span>Dokumentasi Foto Magang</span>
-                  </strong>
-                  <div className="grid grid-cols-3 gap-2" role="list" aria-label="Galeri foto dokumentasi magang">
-                    {selectedExp.photos.map((photo, idx) => (
-                      <motion.button
-                        key={idx}
-                        whileHover={{ scale: 1.03 }}
-                        onClick={() => openLightbox(idx)}
-                        className="relative aspect-square rounded-sm overflow-hidden border border-dark-border hover:border-amber-400/70 transition-all focus:outline-none focus:ring-2 focus:ring-amber-400"
-                        aria-label={`Lihat foto ${idx + 1}: ${photo.alt}`}
-                        role="listitem"
-                      >
-                        <Image
-                          src={photo.src}
-                          alt={photo.alt}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 30vw, 180px"
-                        />
-                        <div className="absolute inset-0 bg-black/20 hover:bg-black/0 transition-colors" />
-                      </motion.button>
-                    ))}
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-mono mt-2">Klik foto untuk memperbesar</p>
-                </div>
+              {/* ── Photo Gallery Grid (visual proof first) ── */}
+              {photos.length > 0 && (
+                <PhotoGalleryGrid photos={photos} onPhotoClick={openLightbox} />
               )}
 
-              <div className="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed font-sans font-light my-6">
+              {/* ── Text detail ── */}
+              <div className="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed font-sans font-light mb-6">
                 <div>
-                  <strong className="text-white block font-mono mb-1 text-xs uppercase text-blue-400">Deskripsi Tugas &amp; Prosedur:</strong>
+                  <strong className="text-white block font-mono mb-1 text-xs uppercase text-blue-400">
+                    Deskripsi Tugas &amp; Prosedur:
+                  </strong>
                   <p>{selectedExp.description.legal}</p>
                 </div>
 
@@ -206,9 +180,12 @@ export function TimelineSection() {
                   </div>
                 )}
 
+                {/* ── Certificate image (formal proof, after visual) ── */}
                 {selectedExp.certificateImg && (
                   <div>
-                    <strong className="text-white block font-mono text-xs uppercase mb-2">Dokumen Sertifikat:</strong>
+                    <strong className="text-white block font-mono text-xs uppercase mb-2">
+                      Dokumen Sertifikat:
+                    </strong>
                     <Image
                       src={selectedExp.certificateImg}
                       alt={`Sertifikat magang ${selectedExp.title}`}
@@ -233,7 +210,7 @@ export function TimelineSection() {
                   </a>
                 )}
                 <button
-                  onClick={() => setSelectedExp(null)}
+                  onClick={closeModal}
                   aria-label="Tutup detail pengalaman"
                   className="px-4 py-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-xs font-mono"
                 >
@@ -245,77 +222,16 @@ export function TimelineSection() {
         )}
       </AnimatePresence>
 
-      {/* ── Lightbox ── */}
-      <AnimatePresence>
-        {selectedExp?.photos && lightboxIndex !== null && (
-          <div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-sm"
-            onClick={closeLightbox}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Lightbox foto dokumentasi magang"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full mx-4"
-            >
-              {/* Close */}
-              <button
-                onClick={closeLightbox}
-                className="absolute -top-12 right-0 p-2 rounded-sm bg-dark-card border border-dark-border text-slate-300 hover:text-white transition-colors"
-                aria-label="Tutup lightbox foto"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Image */}
-              <div className="relative w-full rounded-md overflow-hidden border border-dark-border bg-dark-surface">
-                <Image
-                  src={selectedExp.photos[lightboxIndex].src}
-                  alt={selectedExp.photos[lightboxIndex].alt}
-                  width={900}
-                  height={600}
-                  className="w-full max-h-[75vh] object-contain"
-                  priority
-                />
-              </div>
-
-              {/* Caption */}
-              <p className="text-center text-xs text-slate-400 font-mono mt-3 px-4">
-                {selectedExp.photos[lightboxIndex].alt}
-              </p>
-
-              {/* Counter */}
-              <p className="text-center text-[10px] text-slate-600 font-mono mt-1">
-                {lightboxIndex + 1} / {selectedExp.photos.length}
-              </p>
-
-              {/* Navigation */}
-              {selectedExp.photos.length > 1 && (
-                <>
-                  <button
-                    onClick={prevPhoto}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 p-2.5 rounded-sm bg-black/60 hover:bg-black/80 border border-dark-border text-white transition-colors"
-                    aria-label="Foto sebelumnya"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={nextPhoto}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 rounded-sm bg-black/60 hover:bg-black/80 border border-dark-border text-white transition-colors"
-                    aria-label="Foto berikutnya"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* ── Lightbox (full-screen, above modal) ── */}
+      {photos.length > 0 && (
+        <PhotoLightbox
+          photos={photos}
+          activeIndex={lightboxIndex}
+          onClose={closeLightbox}
+          onPrev={prevPhoto}
+          onNext={nextPhoto}
+        />
+      )}
     </InteractiveGlowBackground>
   );
 }
