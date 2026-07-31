@@ -70,6 +70,7 @@ export const metadata: Metadata = {
 };
 
 import { LanguageProvider } from '@/context/LanguageContext';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function RootLayout({
   children,
@@ -86,6 +87,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
+            <Analytics />
           </ViewModeProvider>
         </LanguageProvider>
       </body>
