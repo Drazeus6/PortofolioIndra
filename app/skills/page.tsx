@@ -10,6 +10,11 @@ export const metadata: Metadata = {
     description:
       'Kompetensi teknis dan hukum: Next.js, React, Python, AI tools, analisis hukum pidana Islam, dan administrasi pengadilan.',
     type: 'website',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Skill Matrix Indra Mulyana' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.jpg'],
   },
 };
 

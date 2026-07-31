@@ -9,6 +9,11 @@ export const metadata: Metadata = {
     description:
       'Terhubung langsung via email atau WhatsApp untuk tawaran kerja, konsultasi hukum-teknologi, atau diskusi proyek.',
     type: 'website',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Kontak Indra Mulyana' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.jpg'],
   },
 };
 

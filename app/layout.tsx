@@ -19,7 +19,12 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://portofolioindra.vercel.app');
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Indra Mulyana — Portofolio Legal-Tech & Hukum Pidana Islam',
   description:
     'Portofolio profesional Indra Mulyana, S.H., Lulusan S1 Hukum Pidana Islam UIN Sunan Gunung Djati Bandung. Ahli analisis hukum, riset AI & Cybercrime, dan administrasi peradilan.',
@@ -35,17 +40,32 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Indra Mulyana' }],
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     shortcut: '/icon.svg',
     apple: '/icon.svg',
   },
   openGraph: {
     title: 'Indra Mulyana — Portofolio Legal-Tech & Hukum Pidana Islam',
     description:
-      'Portofolio profesional Indra Mulyana, S.H., S1 Hukum Pidana Islam UIN SGD Bandung.',
+      'Portofolio profesional Indra Mulyana, S.H., S1 Hukum Pidana Islam UIN SGD Bandung. Ahli analisis hukum, riset AI & Cybercrime, dan administrasi peradilan.',
     type: 'website',
+    url: siteUrl,
+    siteName: 'Portofolio Indra Mulyana',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Indra Mulyana — Legal-Tech & Fullstack Developer Portfolio',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Indra Mulyana — Portofolio Legal-Tech & Hukum Pidana Islam',
+    description:
+      'Portofolio profesional Indra Mulyana, S.H. — Legal-Tech, AI Hukum, Fullstack Web Developer.',
+    images: ['/og-image.jpg'],
   },
 };
 

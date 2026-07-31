@@ -9,6 +9,11 @@ export const metadata: Metadata = {
     description:
       'Kumpulan sertifikat profesional: IBM SkillsBuild, Dicoding, AI Interaction, Legal AI, Prompt Engineering, dan TOEFL.',
     type: 'website',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Sertifikat Indra Mulyana' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.jpg'],
   },
 };
 
