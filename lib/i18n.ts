@@ -58,6 +58,22 @@ export const UI_TRANSLATIONS = {
       id: 'Keahlian pengembangan web modern (Next.js, Node.js, SQL/NoSQL Database), analisis hukum normatif, dan soft skill profesional.',
       en: 'Modern web development skills (Next.js, Node.js, SQL/NoSQL Database), normative legal analysis, and professional soft skills.',
     },
+    subWeb: {
+      id: 'Penguasaan arsitektur web modern, bahasa pemrograman fullstack (TypeScript, React, Next.js, Python), backend REST API, dan tata kelola basis data SQL & NoSQL.',
+      en: 'Mastery of modern web architecture, fullstack programming (TypeScript, React, Next.js, Python), backend REST APIs, and SQL & NoSQL database management.',
+    },
+    subTech: {
+      id: 'Penguasaan software perkantoran profesional (MOS Certified Word/Excel/PowerPoint), Prompt Engineering AI, infrastruktur jaringan TKJ, dan sistem peradilan digital (SIPP & e-Court).',
+      en: 'Mastery of professional office software (MOS Certified Word/Excel/PowerPoint), AI Prompt Engineering, network infrastructure, and digital court systems (SIPP & e-Court).',
+    },
+    subLegal: {
+      id: 'Kapabilitas utama dalam riset hukum normatif, legal drafting naskah akademik, penerapan Hukum Acara Peradilan (PA & PN), dan analisis regulasi Cybercrime AI.',
+      en: 'Core capabilities in normative legal research, academic legal drafting, court procedure enforcement (Religious & District Courts), and AI Cybercrime regulation analysis.',
+    },
+    subSoft: {
+      id: 'Keterampilan interpersonal unggulan, berpikir kritis-analitis, detail-oriented, integritas etika profesi hukum, serta kepemimpinan kerja tim.',
+      en: 'Outstanding interpersonal skills, critical-analytical thinking, detail orientation, legal professional ethics integrity, and teamwork leadership.',
+    },
     titleDev: { id: 'Fullstack Web & DB', en: 'Fullstack Web & DB' },
     titleTech: { id: 'AI & Office IT', en: 'AI & Office IT' },
     titleLegal: { id: 'Legal & Litigation', en: 'Legal & Litigation' },

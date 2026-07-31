@@ -35,6 +35,21 @@ export function SkillMatrixSection() {
     }
   };
 
+  const getHeaderSub = () => {
+    switch (filter) {
+      case 'web':
+        return UI_TRANSLATIONS.skills.subWeb[language];
+      case 'tech':
+        return UI_TRANSLATIONS.skills.subTech[language];
+      case 'legal':
+        return UI_TRANSLATIONS.skills.subLegal[language];
+      case 'soft':
+        return UI_TRANSLATIONS.skills.subSoft[language];
+      default:
+        return UI_TRANSLATIONS.skills.sub[language];
+    }
+  };
+
   return (
     <InteractiveGlowBackground className="py-16 md:py-24 border-b border-dark-border text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,8 +68,8 @@ export function SkillMatrixSection() {
               Skill Matrix
             </span>
           </h2>
-          <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            {UI_TRANSLATIONS.skills.sub[language]}
+          <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-2xl mx-auto font-mono">
+            {getHeaderSub()}
           </p>
         </motion.div>
 
