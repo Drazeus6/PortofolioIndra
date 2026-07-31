@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { EXPERIENCES, ExperienceItem } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, ExternalLink, FileText, Award, X, ShieldCheck } from 'lucide-react';
+import { Calendar, MapPin, ExternalLink, FileText, X, ShieldCheck, Images, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
@@ -13,6 +13,18 @@ export function TimelineSection() {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
   const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = (idx: number) => setLightboxIndex(idx);
+  const closeLightbox = () => setLightboxIndex(null);
+  const prevPhoto = () => {
+    if (lightboxIndex === null || !selectedExp?.photos) return;
+    setLightboxIndex((lightboxIndex - 1 + selectedExp.photos.length) % selectedExp.photos.length);
+  };
+  const nextPhoto = () => {
+    if (lightboxIndex === null || !selectedExp?.photos) return;
+    setLightboxIndex((lightboxIndex + 1) % selectedExp.photos.length);
+  };
 
   return (
     <InteractiveGlowBackground className="py-16 md:py-24 border-y border-dark-border">
@@ -39,6 +51,7 @@ export function TimelineSection() {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               onClick={() => setSelectedExp(exp)}
               className="relative pl-8 md:pl-12 cursor-pointer group"
+              aria-label={`Buka detail pengalaman: ${exp.title}`}
             >
               {/* Timeline Dot */}
               <div
@@ -47,7 +60,7 @@ export function TimelineSection() {
                 }`}
               />
 
-              {/* Card Container with Sharp Corners & Subtle Hover Glow */}
+              {/* Card */}
               <motion.div
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.2 }}
@@ -96,7 +109,15 @@ export function TimelineSection() {
                   </div>
 
                   <span className="text-xs font-mono text-blue-400 font-bold group-hover:underline flex items-center gap-1">
-                    Detail Dokumen <ExternalLink className="w-3.5 h-3.5" />
+                    {exp.photos?.length ? (
+                      <>
+                        <Images className="w-3.5 h-3.5" /> Foto &amp; Dokumen
+                      </>
+                    ) : (
+                      <>
+                        Detail Dokumen <ExternalLink className="w-3.5 h-3.5" />
+                      </>
+                    )}
                   </span>
                 </div>
               </motion.div>
@@ -105,19 +126,27 @@ export function TimelineSection() {
         </div>
       </div>
 
-      {/* Modal Popup */}
+      {/* ── Detail Modal ── */}
       <AnimatePresence>
         {selectedExp && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedExp(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Detail pengalaman: ${selectedExp.title}`}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              className="bg-dark-surface border border-dark-border rounded-md max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 text-white relative shadow-2xl font-mono"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-dark-surface border border-dark-border rounded-md max-w-2xl w-full max-h-[88vh] overflow-y-auto p-6 md:p-8 text-white relative shadow-2xl font-mono"
             >
               <button
                 onClick={() => setSelectedExp(null)}
                 className="absolute top-6 right-6 p-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-slate-400 hover:text-white transition-colors"
+                aria-label="Tutup modal detail pengalaman"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -131,6 +160,38 @@ export function TimelineSection() {
                   <p className="text-xs text-amber-400">{selectedExp.role}</p>
                 </div>
               </div>
+
+              {/* ── Photo Gallery (shown if photos exist) ── */}
+              {selectedExp.photos && selectedExp.photos.length > 0 && (
+                <div className="mb-6">
+                  <strong className="text-white block font-mono text-xs uppercase mb-3 flex items-center gap-2">
+                    <Images className="w-4 h-4 text-amber-400" />
+                    <span>Dokumentasi Foto Magang</span>
+                  </strong>
+                  <div className="grid grid-cols-3 gap-2" role="list" aria-label="Galeri foto dokumentasi magang">
+                    {selectedExp.photos.map((photo, idx) => (
+                      <motion.button
+                        key={idx}
+                        whileHover={{ scale: 1.03 }}
+                        onClick={() => openLightbox(idx)}
+                        className="relative aspect-square rounded-sm overflow-hidden border border-dark-border hover:border-amber-400/70 transition-all focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        aria-label={`Lihat foto ${idx + 1}: ${photo.alt}`}
+                        role="listitem"
+                      >
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 30vw, 180px"
+                        />
+                        <div className="absolute inset-0 bg-black/20 hover:bg-black/0 transition-colors" />
+                      </motion.button>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-mono mt-2">Klik foto untuk memperbesar</p>
+                </div>
+              )}
 
               <div className="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed font-sans font-light my-6">
                 <div>
@@ -150,7 +211,7 @@ export function TimelineSection() {
                     <strong className="text-white block font-mono text-xs uppercase mb-2">Dokumen Sertifikat:</strong>
                     <Image
                       src={selectedExp.certificateImg}
-                      alt={selectedExp.title}
+                      alt={`Sertifikat magang ${selectedExp.title}`}
                       width={600}
                       height={400}
                       className="w-full max-h-[350px] object-contain rounded-sm border border-dark-border bg-black"
@@ -165,6 +226,7 @@ export function TimelineSection() {
                     href={selectedExp.journalPdfUrl}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label={`Buka PDF jurnal: ${selectedExp.title}`}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 border border-blue-400 text-white font-mono text-xs font-bold transition-colors"
                   >
                     <FileText className="w-4 h-4" /> Buka PDF Jurnal
@@ -172,11 +234,84 @@ export function TimelineSection() {
                 )}
                 <button
                   onClick={() => setSelectedExp(null)}
+                  aria-label="Tutup detail pengalaman"
                   className="px-4 py-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-xs font-mono"
                 >
                   Tutup
                 </button>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Lightbox ── */}
+      <AnimatePresence>
+        {selectedExp?.photos && lightboxIndex !== null && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-sm"
+            onClick={closeLightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Lightbox foto dokumentasi magang"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full mx-4"
+            >
+              {/* Close */}
+              <button
+                onClick={closeLightbox}
+                className="absolute -top-12 right-0 p-2 rounded-sm bg-dark-card border border-dark-border text-slate-300 hover:text-white transition-colors"
+                aria-label="Tutup lightbox foto"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Image */}
+              <div className="relative w-full rounded-md overflow-hidden border border-dark-border bg-dark-surface">
+                <Image
+                  src={selectedExp.photos[lightboxIndex].src}
+                  alt={selectedExp.photos[lightboxIndex].alt}
+                  width={900}
+                  height={600}
+                  className="w-full max-h-[75vh] object-contain"
+                  priority
+                />
+              </div>
+
+              {/* Caption */}
+              <p className="text-center text-xs text-slate-400 font-mono mt-3 px-4">
+                {selectedExp.photos[lightboxIndex].alt}
+              </p>
+
+              {/* Counter */}
+              <p className="text-center text-[10px] text-slate-600 font-mono mt-1">
+                {lightboxIndex + 1} / {selectedExp.photos.length}
+              </p>
+
+              {/* Navigation */}
+              {selectedExp.photos.length > 1 && (
+                <>
+                  <button
+                    onClick={prevPhoto}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 p-2.5 rounded-sm bg-black/60 hover:bg-black/80 border border-dark-border text-white transition-colors"
+                    aria-label="Foto sebelumnya"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={nextPhoto}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 rounded-sm bg-black/60 hover:bg-black/80 border border-dark-border text-white transition-colors"
+                    aria-label="Foto berikutnya"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </>
+              )}
             </motion.div>
           </div>
         )}

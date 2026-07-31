@@ -13,6 +13,7 @@ export interface ExperienceItem {
   certificateImg?: string;
   journalPdfUrl?: string;
   abstract?: string;
+  photos?: { src: string; alt: string }[];
 }
 
 export interface SkillCategory {
@@ -247,6 +248,20 @@ export const EXPERIENCES: ExperienceItem[] = [
     },
     tags: ['Kepaniteraan Pidana', 'Kepaniteraan Perdata', 'Kepaniteraan Hukum', 'e-Court'],
     certificateImg: '/Sertifikat-PN.jpg',
+    photos: [
+      {
+        src: '/pn-ciamis-1.jpg',
+        alt: 'Serah terima plakat kenang-kenangan di lobi Pengadilan Negeri Ciamis Kelas 1B bersama pembimbing dan rekan magang',
+      },
+      {
+        src: '/pn-ciamis-2.jpg',
+        alt: 'Indra Mulyana melakukan stempel dan verifikasi berkas administrasi kepaniteraan di Pengadilan Negeri Ciamis',
+      },
+      {
+        src: '/pn-ciamis-3.jpg',
+        alt: 'Suasana pengamatan langsung persidangan pidana di ruang sidang Pengadilan Negeri Ciamis Kelas 1B',
+      },
+    ],
   },
 ];
 
