@@ -16,6 +16,8 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { RAG_PIPELINE_GRAPH, RagPipelineNodeData } from '@/lib/data';
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
 import {
   MessageSquare,
   FileUp,
@@ -161,6 +163,7 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
 
 function FlowInner() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const { fitView } = useReactFlow();
   const [showAccessibleText, setShowAccessibleText] = useState(false);
@@ -191,6 +194,7 @@ function FlowInner() {
       style: { strokeWidth: 2, stroke: isDev ? '#3b82f6' : '#f59e0b' },
       labelStyle: { fill: '#cbd5e1', fontSize: 10, fontFamily: 'monospace' },
       labelBgStyle: { fill: '#090d16', fillOpacity: 0.9, rx: 3 },
+      labelBgPadding: [4, 2] as [number, number],
     }))
   );
   const [mounted, setMounted] = useState(false);
@@ -207,11 +211,11 @@ function FlowInner() {
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-              Langflow RAG Architecture Flow Simulator (9-Node Pipeline)
+              {UI_TRANSLATIONS.playground.flowTitle[language]}
             </h3>
           </div>
           <p className="text-[11px] font-sans text-slate-400 font-light">
-            Alur pipelines RAG Hukum AI — Klik node untuk pratinjau detail Developer View &amp; Legal View.
+            {UI_TRANSLATIONS.playground.flowSub[language]}
           </p>
         </div>
 
@@ -222,7 +226,7 @@ function FlowInner() {
             title="Reset tampilan grafik"
             aria-label="Reset zoom grafik"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-slate-400" /> Reset Fit
+            <RotateCcw className="w-3.5 h-3.5 text-slate-400" /> {UI_TRANSLATIONS.playground.resetFit[language]}
           </button>
           <button
             onClick={() => setShowAccessibleText(!showAccessibleText)}
@@ -232,7 +236,7 @@ function FlowInner() {
             aria-pressed={showAccessibleText}
           >
             {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
-            {showAccessibleText ? 'Graph View' : 'Text Mode'}
+            {showAccessibleText ? UI_TRANSLATIONS.playground.graphView[language] : UI_TRANSLATIONS.playground.textMode[language]}
           </button>
         </div>
       </div>
@@ -240,7 +244,7 @@ function FlowInner() {
       {showAccessibleText ? (
         <div className="p-6 space-y-4 h-[380px] sm:h-[460px] lg:h-[520px] overflow-y-auto font-mono text-xs">
           <p className="text-amber-400 font-bold uppercase tracking-wider text-xs">
-            Daftar Modul RAG Pipeline LangkahHukum AI (Text Alternative):
+            {UI_TRANSLATIONS.playground.textAltTitle[language]}
           </p>
           <ol className="space-y-3 list-decimal list-inside text-slate-300">
             {RAG_PIPELINE_GRAPH.nodes.map((node) => (
@@ -286,7 +290,7 @@ function FlowInner() {
           {/* Mobile hint overlay */}
           <div className="absolute bottom-3 left-3 bg-dark-card/90 border border-dark-border px-3 py-1.5 rounded text-[10px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
             <Maximize2 className="w-3 h-3 text-amber-400" />
-            <span>Klik node untuk detail • Geser/cubit layar untuk navigasi</span>
+            <span>{UI_TRANSLATIONS.playground.mobileHint[language]}</span>
           </div>
         </div>
       )}
@@ -326,21 +330,21 @@ function FlowInner() {
               <div className="space-y-4 text-xs font-sans text-slate-300">
                 <div className="p-3 rounded bg-dark-card border border-dark-border">
                   <strong className="text-blue-400 block font-mono text-[11px] uppercase mb-1">
-                    💻 Developer View (Teknis Systems Analyst):
+                    {UI_TRANSLATIONS.playground.devViewHeader[language]}
                   </strong>
                   <p className="font-mono text-slate-200">{selectedNode.developerDesc}</p>
                 </div>
 
                 <div className="p-3 rounded bg-dark-card border border-dark-border">
                   <strong className="text-amber-400 block font-mono text-[11px] uppercase mb-1">
-                    ⚖️ Legal View (Fungsi &amp; Dampak Hukum):
+                    {UI_TRANSLATIONS.playground.legalViewHeader[language]}
                   </strong>
                   <p className="font-light leading-relaxed text-slate-200">{selectedNode.legalDesc}</p>
                 </div>
 
                 {selectedNode.params && (
                   <div className="p-3 rounded bg-dark-base border border-dark-border font-mono text-[11px]">
-                    <strong className="text-slate-400 block uppercase mb-1">Parameter Konfigurasi Langflow:</strong>
+                    <strong className="text-slate-400 block uppercase mb-1">{UI_TRANSLATIONS.playground.paramsHeader[language]}</strong>
                     <div className="space-y-1 text-slate-300">
                       {Object.entries(selectedNode.params).map(([k, v]) => (
                         <p key={k}>
@@ -357,7 +361,7 @@ function FlowInner() {
                   onClick={() => setSelectedNode(null)}
                   className="px-4 py-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-xs font-mono text-slate-200"
                 >
-                  Tutup
+                  {UI_TRANSLATIONS.playground.closeBtn[language]}
                 </button>
               </div>
             </motion.div>

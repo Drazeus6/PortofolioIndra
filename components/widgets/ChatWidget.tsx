@@ -5,26 +5,36 @@ import { Bot, Send, User, Sparkles, RefreshCw, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShimmerSkeleton } from '@/components/ui/ShimmerSkeleton';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
 }
 
-const WELCOME: Message = {
-  id: 'welcome',
-  role: 'assistant',
-  content:
-    'Halo! Saya **Indra AI Assistant** — didukung Groq Llama 3.3 (70B). Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+const WELCOME_MESSAGES = {
+  id: 'Halo! Saya **Indra AI Assistant** — didukung Groq Llama 3.3 (70B). Tanya mengenai kualifikasi hukum, riset peradilan, keahlian Fullstack Web/Database, atau riwayat magang Indra Mulyana, S.H.',
+  en: 'Hello! I am **Indra AI Assistant** — powered by Groq Llama 3.3 (70B). Ask about legal qualifications, judicial research, Fullstack Web/Database skills, or internship history of Indra Mulyana, S.H.',
 };
 
-const SUGGESTED_PROMPTS = [
-  'Latar belakang & IPK Indra Mulyana?',
-  'Jurnal Deepfake AI & UU ITE 2024?',
-  'Magang Pengadilan Negeri & Agama?',
-  'Keahlian Fullstack Web & Database?',
-  'Aplikasi web yang sudah dibuat?',
-];
+const SUGGESTED_PROMPTS = {
+  id: [
+    'Latar belakang & IPK Indra Mulyana?',
+    'Jurnal Deepfake AI & UU ITE 2024?',
+    'Magang Pengadilan Negeri & Agama?',
+    'Keahlian Fullstack Web & Database?',
+    'Aplikasi web yang sudah dibuat?',
+  ],
+  en: [
+    'Indra Mulyana background & GPA?',
+    'Deepfake AI & ITE Law 2024 research?',
+    'District & Religious Court internship?',
+    'Fullstack Web & Database skills?',
+    'Web applications built?',
+  ],
+};
 
 function genId() {
   return Math.random().toString(36).slice(2, 10);
@@ -45,13 +55,26 @@ function renderContent(text: string) {
 }
 
 export function ChatWidget() {
+  const { language } = useLanguage();
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  const [messages, setMessages] = useState<Message[]>([WELCOME]);
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[language] },
+  ]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Update welcome message when language toggles if it's the only message
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id === 'welcome') {
+        return [{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[language] }];
+      }
+      return prev;
+    });
+  }, [language]);
 
   // Auto-scroll
   useEffect(() => {
@@ -158,7 +181,7 @@ export function ChatWidget() {
 
   const resetChat = () => {
     abortRef.current?.abort();
-    setMessages([WELCOME]);
+    setMessages([{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[language] }]);
     setInput('');
     setError(null);
     setIsStreaming(false);
@@ -181,7 +204,7 @@ export function ChatWidget() {
               </span>
             </h3>
             <p className={`text-[10px] ${isStreaming ? 'text-amber-400 animate-pulse' : 'text-blue-400'}`}>
-              {isStreaming ? '● Generating response...' : '● Groq Llama 3.3 70B — Ultra Fast Streaming'}
+              {isStreaming ? UI_TRANSLATIONS.playground.chatStreaming[language] : UI_TRANSLATIONS.playground.chatIdle[language]}
             </p>
           </div>
         </div>
@@ -214,7 +237,7 @@ export function ChatWidget() {
               <div
                 className={`max-w-[85%] p-3 rounded-md text-xs leading-relaxed font-mono whitespace-pre-wrap break-words ${
                   m.role === 'user'
-                    ? 'bg-blue-600 text-white border border-blue-400'
+                    ? 'bg-blue-600 text-white border border border-blue-400'
                     : 'bg-dark-card border border-dark-border text-slate-200'
                 }`}
               >
@@ -262,7 +285,7 @@ export function ChatWidget() {
 
       {/* Suggested Prompts */}
       <div className="px-3 py-2 bg-dark-base border-t border-dark-border flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0">
-        {SUGGESTED_PROMPTS.map((p, idx) => (
+        {SUGGESTED_PROMPTS[language].map((p, idx) => (
           <button
             key={idx}
             onClick={() => { setInput(''); sendMessage(p); }}
@@ -282,7 +305,7 @@ export function ChatWidget() {
           id="chat-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Tanya Indra AI tentang profil, keahlian, atau proyek..."
+          placeholder={UI_TRANSLATIONS.playground.chatPlaceholder[language]}
           disabled={isStreaming}
           aria-label="Ketik pertanyaan untuk Indra AI Assistant"
           autoComplete="off"

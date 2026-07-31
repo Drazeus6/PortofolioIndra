@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/Badge';
 import { Network, MessageSquareCode } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 const ChatWidget = dynamic(
   () => import('@/components/widgets/ChatWidget').then((mod) => mod.ChatWidget),
   {
@@ -33,6 +36,7 @@ const DecisionTree = dynamic(
 
 export default function PlaygroundPage() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
 
   return (
@@ -49,16 +53,15 @@ export default function PlaygroundPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <Badge variant={isDev ? 'blue' : 'amber'}>Interactive Playground</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.playground.badge[language]}</Badge>
           <h1 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            AI Assistant &amp;{' '}
+            {UI_TRANSLATIONS.playground.titlePrefix[language]}{' '}
             <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
-              Legal &amp; Deepfake AI Flow Simulator
+              {UI_TRANSLATIONS.playground.titleSuffix[language]}
             </span>
           </h1>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-2xl mx-auto font-mono">
-            Eksplorasi interaktif dua modul utama: Tanya jawab cerdas berbasis profil Indra Mulyana dan
-            simulasi interaktif arsitektur Langflow RAG 9 Node asli di balik engine analisis hukum &amp; AI.
+            {UI_TRANSLATIONS.playground.sub[language]}
           </p>
         </motion.div>
 
@@ -67,7 +70,7 @@ export default function PlaygroundPage() {
           <div className="lg:col-span-5 space-y-3 font-mono">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <MessageSquareCode className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
-              <span>AI Chat Assistant (LLM Agentic)</span>
+              <span>{UI_TRANSLATIONS.playground.chatSectionHeader[language]}</span>
             </div>
             <ChatWidget />
           </div>
@@ -76,7 +79,7 @@ export default function PlaygroundPage() {
           <div className="lg:col-span-7 space-y-3 font-mono">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <Network className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
-              <span>Legal &amp; Deepfake AI Flow Simulator (Langflow RAG)</span>
+              <span>{UI_TRANSLATIONS.playground.flowSectionHeader[language]}</span>
             </div>
             <DecisionTree />
           </div>

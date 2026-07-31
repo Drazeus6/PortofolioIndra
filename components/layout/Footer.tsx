@@ -22,11 +22,11 @@ export function Footer() {
               {PERSONAL_DATA.name}
               {isDev ? (
                 <span className="text-[10px] text-blue-400 bg-blue-950 px-2 py-0.5 rounded-sm border border-blue-800">
-                  Electric Blue Agentic
+                  Developer
                 </span>
               ) : (
                 <span className="text-[10px] text-amber-400 bg-amber-950 px-2 py-0.5 rounded-sm border border-amber-800">
-                  Legal Seal &amp; Precision
+                  Legal
                 </span>
               )}
             </h3>

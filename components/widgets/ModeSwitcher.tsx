@@ -33,7 +33,7 @@ export function ModeSwitcher() {
               className="flex items-center gap-1.5 text-blue-400 uppercase tracking-wider text-[11px]"
             >
               <Code2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-              <span className="hidden sm:inline">Developer Agentic</span>
+              <span>Developer</span>
             </motion.span>
           ) : (
             <motion.span
@@ -45,7 +45,7 @@ export function ModeSwitcher() {
               className="flex items-center gap-1.5 text-amber-400 uppercase tracking-wider text-[11px]"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="hidden sm:inline">Legal Seal &amp; Precision</span>
+              <span>Legal</span>
             </motion.span>
           )}
         </AnimatePresence>
