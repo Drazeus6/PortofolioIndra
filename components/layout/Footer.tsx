@@ -33,9 +33,6 @@ export function Footer() {
             <p className="text-xs leading-relaxed max-w-md text-slate-400 mb-4 font-sans font-light">
               {isDev ? PERSONAL_DATA.title[language].developer : PERSONAL_DATA.title[language].legal}
             </p>
-            <p className="text-[11px] text-slate-500">
-              UIN Sunan Gunung Djati Bandung • IPK {PERSONAL_DATA.gpa}
-            </p>
           </div>
 
           <div>
