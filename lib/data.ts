@@ -109,6 +109,30 @@ export function getLocalizedText(obj: any, lang: 'id' | 'en'): string {
   return '';
 }
 
+export function getLocalizedDesc(
+  descObj: any,
+  lang: 'id' | 'en',
+  viewMode: 'legal' | 'developer'
+): string {
+  if (!descObj) return '';
+  if (typeof descObj === 'string') return descObj;
+  if (descObj[lang]) {
+    if (typeof descObj[lang] === 'string') {
+      return descObj[lang];
+    }
+    if (typeof descObj[lang] === 'object' && descObj[lang][viewMode]) {
+      return descObj[lang][viewMode];
+    }
+  }
+  if (descObj[viewMode]) {
+    if (typeof descObj[viewMode] === 'string') return descObj[viewMode];
+    if (typeof descObj[viewMode] === 'object' && descObj[viewMode][lang]) {
+      return descObj[viewMode][lang];
+    }
+  }
+  return '';
+}
+
 export const PROJECTS: ProjectItem[] = [
   {
     id: 'jinayah-app',
