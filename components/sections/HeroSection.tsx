@@ -10,7 +10,7 @@ import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Scale, Terminal, ArrowRight, Download, ShieldCheck, Code2 } from 'lucide-react';
+import { Scale, Terminal, ArrowRight, Download } from 'lucide-react';
 
 export function HeroSection() {
   const { viewMode } = useViewMode();
@@ -123,19 +123,6 @@ export function HeroSection() {
                     : 'bg-dark-surface border-amber-500/50 shadow-amber-950/30'
                 }`}
               >
-                {/* Stamp Seal Indicator */}
-                <div className="absolute top-4 right-4 font-mono text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-sm bg-dark-card border border-dark-border flex items-center gap-1 text-slate-300">
-                  {isDev ? (
-                    <>
-                      <Code2 className="w-3 h-3 text-blue-400" /> {UI_TRANSLATIONS.hero.sealDev[language]}
-                    </>
-                  ) : (
-                    <>
-                      <ShieldCheck className="w-3 h-3 text-amber-400" /> {UI_TRANSLATIONS.hero.sealLegal[language]}
-                    </>
-                  )}
-                </div>
-
                 <div className="flex items-center gap-4 mb-6">
                   <div
                     className={`w-16 h-16 rounded-md overflow-hidden border ${
