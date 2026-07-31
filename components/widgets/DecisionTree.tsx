@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   ReactFlow,
   Controls,
@@ -195,16 +196,19 @@ function FlowInner() {
   );
 
   return (
-    <div
-      className={`w-full rounded-md border overflow-hidden relative flex flex-col transition-all duration-300 ${
-        isDev ? 'bg-dark-surface border-dark-border shadow-2xl' : 'bg-dark-surface border-amber-900/60 shadow-2xl'
-      }`}
-    >
-      {/* Header Bar */}
-      <div className="p-3 bg-dark-base border-b border-dark-border flex flex-wrap items-center justify-between gap-2 z-10 font-mono">
-        <div className="flex items-center gap-2 text-white">
-          <Sparkles className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
-          <span className="font-bold text-xs">Langflow RAG Architecture (9 Nodes)</span>
+    <div className="rounded-md border border-dark-border bg-dark-base overflow-hidden relative shadow-xl">
+      {/* ── Header Toolbar ── */}
+      <div className="p-4 border-b border-dark-border bg-dark-surface flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+              Langflow RAG Architecture Flow Simulator (9-Node Pipeline)
+            </h3>
+          </div>
+          <p className="text-[11px] font-sans text-slate-400 font-light">
+            Alur pipelines RAG Hukum AI — Klik node untuk pratinjau detail Developer View &amp; Legal View.
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -259,14 +263,19 @@ function FlowInner() {
             colorMode="dark"
             minZoom={0.25}
             maxZoom={2}
-            defaultViewport={{ x: 0, y: 0, zoom: 0.75 }}
+            proOptions={{ hideAttribution: true }}
+            className={isDev ? 'bg-flowchart-grid' : 'bg-flowchart-grid-legal'}
           >
-            <Controls className="!bg-dark-card !border-dark-border !fill-slate-200 shadow-xl !rounded-sm !p-1" />
             <Background
-              variant={BackgroundVariant.Dots}
-              gap={18}
-              size={1.2}
-              color={isDev ? '#1e293b' : '#451a03'}
+              color={isDev ? '#0066FF' : '#D97706'}
+              variant={isDev ? BackgroundVariant.Lines : BackgroundVariant.Dots}
+              gap={24}
+              size={1}
+              className="opacity-15"
+            />
+            <Controls
+              showInteractive={false}
+              className="bg-dark-card border border-dark-border text-white rounded fill-white overflow-hidden shadow-lg"
             />
           </ReactFlow>
 
@@ -278,11 +287,11 @@ function FlowInner() {
         </div>
       )}
 
-      {/* ── Node Detail Modal ── */}
-      <AnimatePresence>
-        {selectedNode && (
+      {/* ── Node Detail Modal (Rendered via React Portal onto document.body) ── */}
+      {mounted && selectedNode && createPortal(
+        <AnimatePresence>
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
             onClick={() => setSelectedNode(null)}
             role="dialog"
             aria-modal="true"
@@ -349,8 +358,9 @@ function FlowInner() {
               </div>
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }

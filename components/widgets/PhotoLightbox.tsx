@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Images } from 'lucide-react';
@@ -20,16 +21,22 @@ interface PhotoLightboxProps {
   onNext: () => void;
 }
 
-/** Full-screen lightbox overlay with prev/next navigation */
+/** Full-screen lightbox overlay with prev/next navigation (Rendered into document.body) */
 export function PhotoLightbox({ photos, activeIndex, onClose, onPrev, onNext }: PhotoLightboxProps) {
-  if (activeIndex === null) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (activeIndex === null || !mounted) return null;
 
   const photo = photos[activeIndex];
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <div
-        className="fixed inset-0 z-[120] flex items-center justify-center bg-black/95 backdrop-blur-md"
+        className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 backdrop-blur-md"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -110,7 +117,8 @@ export function PhotoLightbox({ photos, activeIndex, onClose, onPrev, onNext }: 
           )}
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 
