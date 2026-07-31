@@ -222,19 +222,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf',
     abstract: `Mengkaji vakum norma UU ITE 2024 terkait rekayasa biometrik Deepfake dan rekonstruksi sanksi berbasis Jarimah Ta'zir & Maqashid Sharia.`,
   },
-  {
-    id: 'klikhukum-writer',
-    title: 'Klikhukum.id — Penulis Esai Hukum Publik',
-    role: 'Author & Writer Isu Hukum Pidana & KUHP Baru',
-    period: 'Juli 2026',
-    institution: 'Klikhukum.id',
-    location: 'Indonesia',
-    description: {
-      legal: 'Menulis artikel analisis isu-isu hukum publik aktual. Karya publikasi membahas penanganan perkara pidana oleh pelaku gangguan jiwa (ODGJ) dalam perspektif KUHP baru & KUHAP, mengulas pertanggungjawaban pidana & pertimbangan hakim.',
-      developer: 'Sintesis narasi hukum publik dan penyampaian wawasan perundang-undangan baru secara terstruktur untuk pembaca profesional dan masyarakat luas.',
-    },
-    tags: ['Klikhukum.id', 'KUHP Baru', 'Pertanggungjawaban Pidana', 'Legal Writer'],
-  },
+
   {
     id: 'pn-ciamis',
     title: 'Pengadilan Negeri Kelas 1B Ciamis',
