@@ -86,6 +86,8 @@ export function DecisionTree() {
           onClick={() => setShowAccessibleText(!showAccessibleText)}
           className="px-3 py-2 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider min-h-[40px]"
           title="Tampilkan daftar teks untuk pembaca layar / layar sentuh"
+          aria-label={showAccessibleText ? 'Beralih ke tampilan grafik pohon keputusan' : 'Beralih ke tampilan teks alternatif pohon keputusan'}
+          aria-pressed={showAccessibleText}
         >
           {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
           {showAccessibleText ? 'Graph View' : 'Text Mode'}
@@ -107,7 +109,11 @@ export function DecisionTree() {
           </ol>
         </div>
       ) : (
-        <div className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative bg-dark-surface">
+        <div
+          className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative bg-dark-surface"
+          role="img"
+          aria-label="Diagram pohon keputusan alur sanksi Ta'zir pada kekosongan hukum AI: gunakan tombol Text Mode untuk versi teks yang dapat dibaca layar."
+        >
           <ReactFlow
             nodes={nodes}
             edges={edges}

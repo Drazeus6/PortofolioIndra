@@ -184,6 +184,7 @@ export function TerminalGallery() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewType(viewType === 'terminal' ? 'grid' : 'terminal')}
+            aria-label={viewType === 'terminal' ? 'Beralih ke tampilan Grid Sertifikat' : 'Beralih ke tampilan Terminal CLI'}
             className="px-3 py-1.5 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs text-cyan-300 font-sans font-semibold transition-colors flex items-center gap-1.5 min-h-[36px]"
           >
             {viewType === 'terminal' ? <Grid className="w-4 h-4" /> : <Monitor className="w-4 h-4" />}
@@ -208,6 +209,7 @@ export function TerminalGallery() {
             <button
               type="button"
               onClick={() => handleCommand('ls')}
+              aria-label="Jalankan perintah ls: tampilkan semua sertifikat"
               className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-emerald-400 hover:bg-emerald-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
             >
               ls
@@ -215,6 +217,7 @@ export function TerminalGallery() {
             <button
               type="button"
               onClick={() => handleCommand('help')}
+              aria-label="Jalankan perintah help: tampilkan panduan perintah"
               className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-amber-400 hover:bg-amber-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
             >
               help
@@ -224,6 +227,7 @@ export function TerminalGallery() {
                 key={cert.id}
                 type="button"
                 onClick={() => handleCommand(`cat certs/${cert.id}.cert`)}
+                aria-label={`Buka detail sertifikat: ${cert.title}`}
                 className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-cyan-300 hover:bg-cyan-950/40 text-[11px] font-semibold shrink-0 min-h-[36px] flex items-center gap-1"
               >
                 cat {cert.filename}
@@ -232,6 +236,7 @@ export function TerminalGallery() {
             <button
               type="button"
               onClick={() => handleCommand('clear')}
+              aria-label="Bersihkan layar terminal"
               className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border text-red-400 hover:bg-red-950/40 text-[11px] font-bold shrink-0 min-h-[36px] flex items-center gap-1"
             >
               clear
@@ -250,12 +255,15 @@ export function TerminalGallery() {
             <span className="text-emerald-400 text-xs md:text-sm font-bold shrink-0">indra@legal-tech:~/certs$</span>
             <input
               type="text"
+              id="terminal-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="type 'ls', 'help', or tap a command above..."
+              aria-label="Input perintah terminal sertifikat"
+              autoComplete="off"
               className="flex-1 bg-transparent text-slate-100 text-xs md:text-sm focus:outline-none placeholder:text-slate-600 font-mono min-h-[40px]"
             />
-            <button type="submit" className="p-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center">
+            <button type="submit" aria-label="Eksekusi perintah terminal" className="p-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center">
               <CornerDownLeft className="w-4 h-4" />
             </button>
           </form>
@@ -266,6 +274,8 @@ export function TerminalGallery() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory('all')}
+              aria-label="Tampilkan semua sertifikat"
+              aria-pressed={selectedCategory === 'all'}
               className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
                 selectedCategory === 'all' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
@@ -274,6 +284,8 @@ export function TerminalGallery() {
             </button>
             <button
               onClick={() => setSelectedCategory('ai')}
+              aria-label="Filter sertifikat AI dan Teknologi"
+              aria-pressed={selectedCategory === 'ai'}
               className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
                 selectedCategory === 'ai' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
@@ -282,6 +294,8 @@ export function TerminalGallery() {
             </button>
             <button
               onClick={() => setSelectedCategory('office')}
+              aria-label="Filter sertifikat Office dan Keuangan"
+              aria-pressed={selectedCategory === 'office'}
               className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
                 selectedCategory === 'office' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
@@ -290,6 +304,8 @@ export function TerminalGallery() {
             </button>
             <button
               onClick={() => setSelectedCategory('law')}
+              aria-label="Filter sertifikat IBM Legal dan Etika AI"
+              aria-pressed={selectedCategory === 'law'}
               className={`px-3 py-2 rounded-sm text-xs font-semibold uppercase min-h-[40px] ${
                 selectedCategory === 'law' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}

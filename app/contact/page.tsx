@@ -167,60 +167,76 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-xs">
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1 text-slate-300">Nama Lengkap *</label>
+                    <label htmlFor="contact-name" className="block text-xs uppercase font-bold mb-1 text-slate-300">Nama Lengkap *</label>
                     <input
                       {...register('name')}
+                      id="contact-name"
                       type="text"
                       placeholder="Masukkan nama Anda..."
+                      aria-label="Nama lengkap Anda"
+                      aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                      aria-invalid={!!errors.name}
                       className="w-full bg-dark-card border border-dark-border rounded-sm px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-500 placeholder:text-slate-500"
                     />
                     {errors.name && (
-                      <p className="text-[11px] text-red-400 mt-1 flex items-center gap-1">
+                      <p id="contact-name-error" className="text-[11px] text-red-400 mt-1 flex items-center gap-1" role="alert">
                         <AlertCircle className="w-3 h-3" /> {errors.name.message}
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1 text-slate-300">Email Kontak *</label>
+                    <label htmlFor="contact-email" className="block text-xs uppercase font-bold mb-1 text-slate-300">Email Kontak *</label>
                     <input
                       {...register('email')}
+                      id="contact-email"
                       type="email"
                       placeholder="nama@perusahaan.com"
+                      aria-label="Alamat email Anda"
+                      aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                      aria-invalid={!!errors.email}
                       className="w-full bg-dark-card border border-dark-border rounded-sm px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-500 placeholder:text-slate-500"
                     />
                     {errors.email && (
-                      <p className="text-[11px] text-red-400 mt-1 flex items-center gap-1">
+                      <p id="contact-email-error" className="text-[11px] text-red-400 mt-1 flex items-center gap-1" role="alert">
                         <AlertCircle className="w-3 h-3" /> {errors.email.message}
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1 text-slate-300">Subjek *</label>
+                    <label htmlFor="contact-subject" className="block text-xs uppercase font-bold mb-1 text-slate-300">Subjek *</label>
                     <input
                       {...register('subject')}
+                      id="contact-subject"
                       type="text"
                       placeholder="Contoh: Tawaran Perkerjaan / Konsultasi Legal-Tech"
+                      aria-label="Subjek atau topik pesan"
+                      aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
+                      aria-invalid={!!errors.subject}
                       className="w-full bg-dark-card border border-dark-border rounded-sm px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-500 placeholder:text-slate-500"
                     />
                     {errors.subject && (
-                      <p className="text-[11px] text-red-400 mt-1 flex items-center gap-1">
+                      <p id="contact-subject-error" className="text-[11px] text-red-400 mt-1 flex items-center gap-1" role="alert">
                         <AlertCircle className="w-3 h-3" /> {errors.subject.message}
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1 text-slate-300">Pesan *</label>
+                    <label htmlFor="contact-message" className="block text-xs uppercase font-bold mb-1 text-slate-300">Pesan *</label>
                     <textarea
                       {...register('message')}
+                      id="contact-message"
                       rows={5}
                       placeholder="Tuliskan rincian pesan atau tawaran Anda..."
+                      aria-label="Isi pesan yang ingin Anda sampaikan"
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                      aria-invalid={!!errors.message}
                       className="w-full bg-dark-card border border-dark-border rounded-sm px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-500 placeholder:text-slate-500 resize-none"
                     />
                     {errors.message && (
-                      <p className="text-[11px] text-red-400 mt-1 flex items-center gap-1">
+                      <p id="contact-message-error" className="text-[11px] text-red-400 mt-1 flex items-center gap-1" role="alert">
                         <AlertCircle className="w-3 h-3" /> {errors.message.message}
                       </p>
                     )}
@@ -231,6 +247,7 @@ export default function ContactPage() {
                     variant={isDev ? 'dev' : 'legal'}
                     size="lg"
                     disabled={isSubmitting}
+                    aria-label={isSubmitting ? 'Mengirim pesan, harap tunggu...' : 'Kirim pesan ke Indra Mulyana'}
                     className="w-full gap-2"
                   >
                     {isSubmitting ? 'Mengirim Backend...' : 'Kirim Pesan (Verify Backend)'}

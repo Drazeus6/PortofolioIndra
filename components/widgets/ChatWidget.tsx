@@ -189,6 +189,7 @@ export function ChatWidget() {
           onClick={resetChat}
           className="p-1.5 rounded-sm bg-dark-card hover:bg-dark-border text-slate-400 hover:text-white transition-colors"
           title="Reset Chat"
+          aria-label="Reset percakapan AI"
         >
           <RefreshCw className="w-3.5 h-3.5" />
         </button>
@@ -266,6 +267,7 @@ export function ChatWidget() {
             key={idx}
             onClick={() => { setInput(''); sendMessage(p); }}
             disabled={isStreaming}
+            aria-label={`Kirim pertanyaan: ${p}`}
             className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-sm bg-dark-card hover:bg-blue-600/30 border border-dark-border hover:border-blue-500 text-slate-300 transition-colors disabled:opacity-50"
           >
             {p}
@@ -277,15 +279,19 @@ export function ChatWidget() {
       <form onSubmit={handleSubmit} className="p-2.5 bg-dark-base border-t border-dark-border flex items-center gap-2 shrink-0">
         <input
           type="text"
+          id="chat-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Tanya Indra AI tentang profil, keahlian, atau proyek..."
           disabled={isStreaming}
+          aria-label="Ketik pertanyaan untuk Indra AI Assistant"
+          autoComplete="off"
           className="flex-1 bg-dark-card border border-dark-border rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono placeholder:text-slate-500 disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={isStreaming || !input.trim()}
+          aria-label="Kirim pesan ke AI"
           className="p-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50 transition-colors"
         >
           <Send className="w-3.5 h-3.5" />
