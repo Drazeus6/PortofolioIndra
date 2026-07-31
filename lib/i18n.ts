@@ -72,6 +72,9 @@ export const UI_TRANSLATIONS = {
       id: 'Konsol CLI interaktif: Ketik perintah terminal "ls" atau "cat certs/<name>.cert" untuk menampilkan sertifikat resmi.',
       en: 'Interactive CLI Console: Type terminal commands "ls" or "cat certs/<name>.cert" to inspect official certificates.',
     },
+    allBtn: { id: 'Semua Sertifikat', en: 'All Certificates' },
+    downloadBtn: { id: 'Unduh / Lihat PDF Sertifikat', en: 'Download / View PDF Certificate' },
+    issuerLabel: { id: 'Penerbit:', en: 'Issuer:' },
   },
   contact: {
     badge: { id: 'Kemitraan & Karir', en: 'Career & Partnership' },
