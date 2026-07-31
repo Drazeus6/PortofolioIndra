@@ -10,8 +10,12 @@ import { Badge } from '@/components/ui/Badge';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 import { PhotoLightbox, PhotoGalleryGrid } from '@/components/widgets/PhotoLightbox';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 export function TimelineSection() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -35,12 +39,12 @@ export function TimelineSection() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant={isDev ? 'blue' : 'amber'}>Jejak Karir &amp; Riset</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.timeline.badge[language]}</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            Pengalaman <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Peradilan &amp; Riset</span>
+            {UI_TRANSLATIONS.timeline.titlePrefix[language]} <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>{UI_TRANSLATIONS.timeline.titleSuffix[language]}</span>
           </h2>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            Staggered timeline: Klik kartu di bawah untuk membuka pratinjau sertifikat peradilan atau publikasi jurnal ilmiah.
+            {UI_TRANSLATIONS.timeline.sub[language]}
           </p>
         </div>
 

@@ -69,6 +69,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { LanguageProvider } from '@/context/LanguageContext';
+
 export default function RootLayout({
   children,
 }: {
@@ -77,13 +79,15 @@ export default function RootLayout({
   return (
     <html lang="id" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className={`${inter.className} antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100`}>
-        <ViewModeProvider>
-          <GlobalCursorGlow />
-          <ScrollProgressBar />
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </ViewModeProvider>
+        <LanguageProvider>
+          <ViewModeProvider>
+            <GlobalCursorGlow />
+            <ScrollProgressBar />
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </ViewModeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

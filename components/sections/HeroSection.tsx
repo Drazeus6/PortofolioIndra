@@ -4,14 +4,17 @@ import React from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useViewMode } from '@/context/ViewModeContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
 import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Scale, Terminal, ArrowRight, Download, ShieldCheck, MapPin, Code2 } from 'lucide-react';
+import { Scale, Terminal, ArrowRight, Download, ShieldCheck, Code2 } from 'lucide-react';
 
 export function HeroSection() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
 
   const mouseX = useMotionValue(-500);
@@ -25,6 +28,10 @@ export function HeroSection() {
 
   const smoothX = useSpring(mouseX, { stiffness: 150, damping: 25 });
   const smoothY = useSpring(mouseY, { stiffness: 150, damping: 25 });
+
+  const bioText = isDev ? PERSONAL_DATA.bios[language].developer : PERSONAL_DATA.bios[language].legal;
+  const badgeText = isDev ? UI_TRANSLATIONS.hero.badgeDev[language] : UI_TRANSLATIONS.hero.badgeLegal[language];
+  const degreeText = PERSONAL_DATA.degree[language];
 
   return (
     <section
@@ -55,12 +62,12 @@ export function HeroSection() {
                     }`}
                   />
                 </span>
-                {isDev ? 'Agentic AI & Systems Analyst' : 'S1 Hukum Pidana Islam (Cumlaude 3.71)'}
+                {badgeText}
               </Badge>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 font-sans">
-              Halo, Saya <br />
+              {UI_TRANSLATIONS.hero.greeting[language]} <br />
               <span
                 className={`bg-clip-text text-transparent bg-gradient-to-r font-mono ${
                   isDev ? 'from-blue-400 via-cyan-400 to-blue-600' : 'from-amber-400 via-amber-300 to-yellow-600'
@@ -75,7 +82,7 @@ export function HeroSection() {
                 isDev ? 'text-slate-300 font-mono' : 'text-slate-300 font-sans font-light'
               }`}
             >
-              {isDev ? PERSONAL_DATA.bios.developer : PERSONAL_DATA.bios.legal}
+              {bioText}
             </p>
 
             {/* CTAs */}
@@ -84,7 +91,7 @@ export function HeroSection() {
                 <motion.div whileHover={{ scale: 1.02 }}>
                   <Button variant={isDev ? 'primary' : 'legal'} size="lg" className="gap-2">
                     <Terminal className="w-4 h-4" />
-                    Playground AI &amp; Simulator
+                    {UI_TRANSLATIONS.hero.ctaPlayground[language]}
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </motion.div>
@@ -94,7 +101,7 @@ export function HeroSection() {
                 <motion.div whileHover={{ scale: 1.02 }}>
                   <Button variant="outline" size="lg" className="gap-2">
                     <Scale className="w-4 h-4 text-amber-400" />
-                    Interactive Timeline &amp; Riset
+                    {UI_TRANSLATIONS.hero.ctaExperience[language]}
                   </Button>
                 </motion.div>
               </Link>
@@ -120,11 +127,11 @@ export function HeroSection() {
                 <div className="absolute top-4 right-4 font-mono text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-sm bg-dark-card border border-dark-border flex items-center gap-1 text-slate-300">
                   {isDev ? (
                     <>
-                      <Code2 className="w-3 h-3 text-blue-400" /> AI LOGIC
+                      <Code2 className="w-3 h-3 text-blue-400" /> {UI_TRANSLATIONS.hero.sealDev[language]}
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="w-3 h-3 text-amber-400" /> CUMLAUDE SEAL
+                      <ShieldCheck className="w-3 h-3 text-amber-400" /> {UI_TRANSLATIONS.hero.sealLegal[language]}
                     </>
                   )}
                 </div>
@@ -150,20 +157,24 @@ export function HeroSection() {
                       {PERSONAL_DATA.university}
                     </p>
                     <p className="text-[11px] font-mono text-slate-400 mt-0.5">
-                      {PERSONAL_DATA.degree} ({PERSONAL_DATA.gradYear})
+                      {degreeText} ({PERSONAL_DATA.gradYear})
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t pt-5 border-dark-border font-mono">
                   <div className="p-3 rounded-md bg-dark-card border border-dark-border text-center">
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Predikat IPK</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">
+                      {UI_TRANSLATIONS.hero.gpaLabel[language]}
+                    </span>
                     <span className={`text-sm md:text-base font-extrabold ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
                       {PERSONAL_DATA.gpa}
                     </span>
                   </div>
                   <div className="p-3 rounded-md bg-dark-card border border-dark-border text-center">
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Publikasi Riset</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">
+                      {UI_TRANSLATIONS.hero.researchLabel[language]}
+                    </span>
                     <span className="text-sm md:text-base font-extrabold text-slate-200">2 Jurnal SINTA 4</span>
                   </div>
                 </div>
@@ -188,7 +199,7 @@ export function HeroSection() {
                     target="_blank"
                     className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-bold hover:underline text-[11px]"
                   >
-                    <Download className="w-3.5 h-3.5" /> CV ATS PDF
+                    <Download className="w-3.5 h-3.5" /> {UI_TRANSLATIONS.hero.cvDownload[language]}
                   </a>
                 </div>
               </div>

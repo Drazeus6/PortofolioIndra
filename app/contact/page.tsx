@@ -11,17 +11,21 @@ import { Button } from '@/components/ui/Button';
 import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 const contactSchema = z.object({
-  name: z.string().min(2, 'Nama minimal 2 karakter.'),
-  email: z.string().email('Format email tidak valid (contoh: nama@perusahaan.com).'),
-  subject: z.string().min(3, 'Subjek minimal 3 karakter.'),
-  message: z.string().min(10, 'Pesan minimal 10 karakter.'),
+  name: z.string().min(2, 'Nama minimal 2 karakter / Name min 2 chars.'),
+  email: z.string().email('Format email tidak valid (nama@perusahaan.com).'),
+  subject: z.string().min(3, 'Subjek minimal 3 karakter / Subject min 3 chars.'),
+  message: z.string().min(10, 'Pesan minimal 10 karakter / Message min 10 chars.'),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -63,12 +67,12 @@ export default function ContactPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 font-sans">
-          <Badge variant={isDev ? 'blue' : 'amber'}>Mari Terhubung</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.contact.badge[language]}</Badge>
           <h1 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight">
-            Hubungi <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>{PERSONAL_DATA.name}</span>
+            {UI_TRANSLATIONS.contact.titlePrefix[language]} <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>{PERSONAL_DATA.name}</span>
           </h1>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            Terbuka untuk peluang karir di bidang peradilan, Fullstack Web Development, Legal-Tech, legal officer, atau riset.
+            {UI_TRANSLATIONS.contact.sub[language]}
           </p>
         </div>
 
@@ -167,7 +171,7 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-xs">
                   <div>
-                    <label htmlFor="contact-name" className="block text-xs uppercase font-bold mb-1 text-slate-300">Nama Lengkap *</label>
+                    <label htmlFor="contact-name" className="block text-xs uppercase font-bold mb-1 text-slate-300">{UI_TRANSLATIONS.contact.formName[language]}</label>
                     <input
                       {...register('name')}
                       id="contact-name"
@@ -186,7 +190,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="contact-email" className="block text-xs uppercase font-bold mb-1 text-slate-300">Email Kontak *</label>
+                    <label htmlFor="contact-email" className="block text-xs uppercase font-bold mb-1 text-slate-300">{UI_TRANSLATIONS.contact.formEmail[language]}</label>
                     <input
                       {...register('email')}
                       id="contact-email"
@@ -205,7 +209,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="contact-subject" className="block text-xs uppercase font-bold mb-1 text-slate-300">Subjek *</label>
+                    <label htmlFor="contact-subject" className="block text-xs uppercase font-bold mb-1 text-slate-300">{UI_TRANSLATIONS.contact.formSubject[language]}</label>
                     <input
                       {...register('subject')}
                       id="contact-subject"
@@ -224,7 +228,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="contact-message" className="block text-xs uppercase font-bold mb-1 text-slate-300">Pesan *</label>
+                    <label htmlFor="contact-message" className="block text-xs uppercase font-bold mb-1 text-slate-300">{UI_TRANSLATIONS.contact.formMessage[language]}</label>
                     <textarea
                       {...register('message')}
                       id="contact-message"
@@ -250,7 +254,7 @@ export default function ContactPage() {
                     aria-label={isSubmitting ? 'Mengirim pesan, harap tunggu...' : 'Kirim pesan ke Indra Mulyana'}
                     className="w-full gap-2"
                   >
-                    {isSubmitting ? 'Mengirim Backend...' : 'Kirim Pesan (Verify Backend)'}
+                    {isSubmitting ? UI_TRANSLATIONS.contact.formSubmitting[language] : UI_TRANSLATIONS.contact.formSubmit[language]}
                     <Send className="w-4 h-4" />
                   </Button>
                 </form>

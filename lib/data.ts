@@ -63,8 +63,14 @@ export interface ProjectItem {
 export const PERSONAL_DATA = {
   name: 'Indra Mulyana, S.H.',
   title: {
-    legal: 'Sarjana Hukum Cumlaude (IPK 3.71) — Specialist Peradilan, Legal Drafting & Riset',
-    developer: 'Fullstack Web Developer & Legal-Tech Systems Analyst — S1 Hukum Pidana Islam (Cumlaude)',
+    id: {
+      legal: 'Sarjana Hukum Cumlaude (IPK 3.71) — Specialist Peradilan, Legal Drafting & Riset',
+      developer: 'Fullstack Web Developer & Legal-Tech Systems Analyst — S1 Hukum Pidana Islam (Cumlaude)',
+    },
+    en: {
+      legal: 'Bachelor of Law Cumlaude (GPA 3.71) — Judicial Specialist, Legal Drafting & Research',
+      developer: 'Fullstack Web Developer & Legal-Tech Systems Analyst — B.H. Islamic Criminal Law (Cumlaude)',
+    },
   },
   location: 'Dusun Bojonghurip, Kepel, Cisaga, Kab. Ciamis, Jawa Barat',
   shortLocation: 'Ciamis, Jawa Barat, Indonesia',
@@ -73,13 +79,25 @@ export const PERSONAL_DATA = {
   formattedWhatsapp: '0813 9570 1071',
   gpa: '3.71 / 4.00 (Cumlaude)',
   university: 'UIN Sunan Gunung Djati Bandung',
-  degree: 'S1 Hukum Pidana Islam',
+  degree: {
+    id: 'S1 Hukum Pidana Islam',
+    en: 'B.H. Islamic Criminal Law',
+  },
   gradYear: '2022 - 2026',
-  smk: 'SMK Negeri 2 Banjar (Teknik Komputer & Jaringan - Lulusan Terbaik)',
+  smk: {
+    id: 'SMK Negeri 2 Banjar (Teknik Komputer & Jaringan - Lulusan Terbaik)',
+    en: 'SMK Negeri 2 Banjar (Computer Network Engineering - Best Graduate)',
+  },
   avatar: '/Foto-Indra-2.jpeg',
   bios: {
-    legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu, serta penulisan isu-isu hukum di Klikhukum.id. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
-    developer: `Fullstack Web Developer & Legal-Tech Specialist. Pengembang 5 aplikasi web live (Jinayah App - AI Komparasi Hukum Pidana, Ryoku - Try Out CPNS, Coffee Shop Web - Informational Showcase Cafe, WUS Cargo, Jejak Sehat) menggunakan Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, dan Prisma ORM. Berlatar belakang Lulusan Terbaik TKJ dan Sarjana Hukum Cumlaude.`,
+    id: {
+      legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
+      developer: `Fullstack Web Developer & Legal-Tech Specialist. Pengembang 5 aplikasi web live (Jinayah App - AI Komparasi Hukum Pidana, Ryoku - Try Out CPNS, Coffee Shop Web - Informational Showcase Cafe, WUS Cargo, Jejak Sehat) menggunakan Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, dan Prisma ORM. Berlatar belakang Lulusan Terbaik TKJ dan Sarjana Hukum Cumlaude.`,
+    },
+    en: {
+      legal: `Law Graduate with Cumlaude distinction (GPA 3.71) from UIN Sunan Gunung Djati Bandung. Holds practical judicial experience at Class 1A Religious Court Ciamis & Class 1B District Court Ciamis (Criminal, Civil, & Legal Registrar departments). Tested in 2 SINTA 4 Scientific Journal publications on AI Deepfake Cybercrime & Electoral Fiqh Siyasah. Combines analytical judicial thinking with precise legal drafting.`,
+      developer: `Fullstack Web Developer & Legal-Tech Specialist. Developer of 5 live web applications (Jinayah App - AI Criminal Law Comparison, Ryoku - Civil Servant Exam Tryout, Coffee Shop Web - Informational Showcase, WUS Cargo, Jejak Sehat) utilizing Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, and Prisma ORM. Background as Valedictorian in Network Engineering and Cumlaude Bachelor of Law.`,
+    },
   },
   languages: [
     { name: 'English Proficiency Test', score: 'Certified', issuer: 'PT Daily Cipta Dwipta', valid: '2026 - 2027' },

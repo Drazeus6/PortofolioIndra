@@ -5,24 +5,28 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ModeSwitcher } from '@/components/widgets/ModeSwitcher';
+import { LanguageToggle } from '@/components/widgets/LanguageToggle';
 import { useViewMode } from '@/context/ViewModeContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
 import { PERSONAL_DATA } from '@/lib/data';
 import { Menu, X, Home, Terminal, Briefcase, Award, Layers, Mail, Shield, Globe } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: '/', label: 'Hero', icon: Home },
-    { href: '/projects', label: 'Projects', icon: Globe },
-    { href: '/playground', label: 'Playground', icon: Terminal },
-    { href: '/experience', label: 'Experience', icon: Briefcase },
-    { href: '/skills', label: 'Skills', icon: Layers },
-    { href: '/certifications', label: 'Certs', icon: Award },
-    { href: '/contact', label: 'Contact', icon: Mail },
+    { href: '/', label: UI_TRANSLATIONS.nav.hero[language], icon: Home },
+    { href: '/projects', label: UI_TRANSLATIONS.nav.projects[language], icon: Globe },
+    { href: '/playground', label: UI_TRANSLATIONS.nav.playground[language], icon: Terminal },
+    { href: '/experience', label: UI_TRANSLATIONS.nav.experience[language], icon: Briefcase },
+    { href: '/skills', label: UI_TRANSLATIONS.nav.skills[language], icon: Layers },
+    { href: '/certifications', label: UI_TRANSLATIONS.nav.certifications[language], icon: Award },
+    { href: '/contact', label: UI_TRANSLATIONS.nav.contact[language], icon: Mail },
   ];
 
   return (
@@ -79,8 +83,9 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Mode Switcher & Mobile Menu Toggle */}
+          {/* Right Mode Switcher, Language Toggle & Mobile Menu Toggle */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <LanguageToggle />
             <ModeSwitcher />
 
             <button

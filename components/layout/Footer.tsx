@@ -6,8 +6,11 @@ import { PERSONAL_DATA } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { Mail, Phone, Shield } from 'lucide-react';
 
+import { useLanguage } from '@/context/LanguageContext';
+
 export function Footer() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
 
   return (
@@ -28,7 +31,7 @@ export function Footer() {
               )}
             </h3>
             <p className="text-xs leading-relaxed max-w-md text-slate-400 mb-4 font-sans font-light">
-              {PERSONAL_DATA.title.legal}
+              {isDev ? PERSONAL_DATA.title[language].developer : PERSONAL_DATA.title[language].legal}
             </p>
             <p className="text-[11px] text-slate-500">
               UIN Sunan Gunung Djati Bandung • IPK {PERSONAL_DATA.gpa}

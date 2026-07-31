@@ -8,8 +8,12 @@ import { Scale, Cpu, Users, CheckCircle, Database, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 export function SkillMatrixSection() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const [filter, setFilter] = useState<'all' | 'web' | 'tech' | 'legal' | 'soft'>('all');
 
@@ -19,15 +23,15 @@ export function SkillMatrixSection() {
   const getHeaderTitle = () => {
     switch (filter) {
       case 'web':
-        return 'Fullstack Web & DB';
+        return UI_TRANSLATIONS.skills.titleDev[language];
       case 'tech':
-        return 'AI & Office IT';
+        return UI_TRANSLATIONS.skills.titleTech[language];
       case 'legal':
-        return 'Legal & Litigation';
+        return UI_TRANSLATIONS.skills.titleLegal[language];
       case 'soft':
-        return 'Professional Soft';
+        return UI_TRANSLATIONS.skills.titleSoft[language];
       default:
-        return 'Competency';
+        return UI_TRANSLATIONS.skills.titleAll[language];
     }
   };
 
@@ -42,7 +46,7 @@ export function SkillMatrixSection() {
           transition={{ duration: 0.3 }}
           className="text-center mb-12"
         >
-          <Badge variant={isDev ? 'blue' : 'amber'}>Matriks Kompetensi</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.skills.badge[language]}</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
             {getHeaderTitle()}{' '}
             <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
@@ -50,7 +54,7 @@ export function SkillMatrixSection() {
             </span>
           </h2>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            Keahlian pengembangan web modern (Next.js, Node.js, SQL/NoSQL Database), analisis hukum normatif, dan soft skill profesional.
+            {UI_TRANSLATIONS.skills.sub[language]}
           </p>
         </motion.div>
 

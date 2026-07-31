@@ -6,10 +6,12 @@ import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { ExternalLink, Database, Code, Globe, Shield, Cpu, ShoppingBag, Truck, HeartPulse } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
 
 export function ProjectsSection() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
   const [filter, setFilter] = useState<string>('all');
 
@@ -34,12 +36,12 @@ export function ProjectsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <Badge variant={isDev ? 'blue' : 'amber'}>Live Deployed Applications</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.projects.badge[language]}</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            Portofolio <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Project Web &amp; Database</span>
+            {UI_TRANSLATIONS.projects.titlePrefix[language]} <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>{UI_TRANSLATIONS.projects.titleSuffix[language]}</span>
           </h2>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-2xl mx-auto font-mono">
-            Kumpulan 5 proyek aplikasi web interaktif live ter-deploy di Vercel, dikembangkan dengan teknologi modern &amp; integrasi basis data SQL / NoSQL.
+            {UI_TRANSLATIONS.projects.sub[language]}
           </p>
         </motion.div>
 
@@ -55,7 +57,7 @@ export function ProjectsSection() {
                 : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            Semua Proyek ({PROJECTS.length})
+            {UI_TRANSLATIONS.projects.allBtn[language]} ({PROJECTS.length})
           </button>
           <button
             onClick={() => setFilter('legal-tech')}
@@ -200,7 +202,7 @@ export function ProjectsSection() {
                         : 'bg-amber-600 hover:bg-amber-500 text-slate-950 border border-amber-400'
                     }`}
                   >
-                    Kunjungi Website Live <ExternalLink className="w-3.5 h-3.5" />
+                    {UI_TRANSLATIONS.projects.visitBtn[language]} <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
               </div>
