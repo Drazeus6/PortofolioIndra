@@ -55,8 +55,29 @@ export function TimelineSection() {
             </p>
           </div>
 
-          {/* Timeline Cards */}
-          <div className="relative space-y-8 before:absolute before:inset-0 before:left-4 md:before:left-1/2 before:-ml-px before:w-0.5 before:bg-dark-border">
+          {/* Timeline Cards with Langflow RAG Flow Animated Vertical Pipeline Line */}
+          <div className="relative space-y-12">
+            {/* Vertical Connection Line Track */}
+            <div className="absolute top-4 bottom-4 left-4 md:left-1/2 -translate-x-1/2 w-[3px] bg-dark-border z-0 rounded-full">
+              {/* Glowing Energy Beam Overlay */}
+              <div
+                className={`absolute inset-0 w-full rounded-full transition-colors duration-500 ${
+                  isDev
+                    ? 'bg-gradient-to-b from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_15px_rgba(59,130,246,0.9)] opacity-90'
+                    : 'bg-gradient-to-b from-amber-400 via-yellow-500 to-amber-600 shadow-[0_0_15px_rgba(245,158,11,0.9)] opacity-90'
+                }`}
+              />
+              
+              {/* Animated Data Packet Pulse (Langflow RAG Flow Signal) */}
+              <motion.div
+                animate={{ y: ['0%', '92%', '0%'] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                className={`absolute top-0 left-1/2 -translate-x-1/2 w-3 h-8 rounded-full blur-[1px] ${
+                  isDev ? 'bg-cyan-200 shadow-[0_0_14px_#38bdf8]' : 'bg-yellow-200 shadow-[0_0_14px_#fde047]'
+                }`}
+              />
+            </div>
+
             {EXPERIENCES.map((exp, idx) => (
               <motion.div
                 key={exp.id}
@@ -64,15 +85,25 @@ export function TimelineSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
+                className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group z-10"
               >
-                {/* Icon Marker */}
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full border shrink-0 z-10 font-mono text-xs font-bold transition-all ${
-                  isDev
-                    ? 'bg-dark-surface border-blue-500 text-blue-400 group-hover:scale-110 shadow-[0_0_10px_rgba(0,102,255,0.3)]'
-                    : 'bg-dark-surface border-amber-500 text-amber-400 group-hover:scale-110 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-                }`}>
-                  {idx + 1}
+                {/* Langflow Node Marker Handle */}
+                <div className="flex items-center justify-center relative shrink-0 z-20">
+                  <div
+                    className={`flex items-center justify-center w-9 h-9 rounded-full border font-mono text-xs font-extrabold transition-all duration-300 shadow-xl ${
+                      isDev
+                        ? 'bg-dark-base border-blue-400 text-blue-300 group-hover:scale-110 shadow-[0_0_15px_rgba(0,102,255,0.5)] group-hover:border-cyan-300'
+                        : 'bg-dark-base border-amber-400 text-amber-300 group-hover:scale-110 shadow-[0_0_15px_rgba(245,158,11,0.5)] group-hover:border-yellow-300'
+                    }`}
+                  >
+                    {idx + 1}
+                  </div>
+                  {/* Glowing Pulse Ring */}
+                  <span
+                    className={`absolute inset-0 rounded-full animate-ping opacity-25 pointer-events-none ${
+                      isDev ? 'bg-blue-400' : 'bg-amber-400'
+                    }`}
+                  />
                 </div>
 
                 {/* Card */}
