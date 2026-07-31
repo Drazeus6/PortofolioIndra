@@ -149,7 +149,9 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
       )}
 
       <p className="text-[10px] text-slate-300 leading-snug font-sans font-light mt-1.5 line-clamp-2">
-        {isDev ? data.developerDesc : data.legalDesc}
+        {typeof (isDev ? data.developerDesc : data.legalDesc) === 'object'
+          ? (isDev ? data.developerDesc : data.legalDesc)?.[language] || (isDev ? data.developerDesc : data.legalDesc)?.id
+          : (isDev ? data.developerDesc : data.legalDesc)}
       </p>
 
       <Handle

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -14,15 +14,6 @@ import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackgr
 import { useLanguage } from '@/context/LanguageContext';
 import { UI_TRANSLATIONS } from '@/lib/i18n';
 
-const contactSchema = z.object({
-  name: z.string().min(2, 'Nama minimal 2 karakter / Name min 2 chars.'),
-  email: z.string().email('Format email tidak valid (nama@perusahaan.com).'),
-  subject: z.string().min(3, 'Subjek minimal 3 karakter / Subject min 3 chars.'),
-  message: z.string().min(10, 'Pesan minimal 10 karakter / Message min 10 chars.'),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
-
 export default function ContactPage() {
   const { viewMode } = useViewMode();
   const { language } = useLanguage();
@@ -30,12 +21,16 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const contactSchema = z.object({
-    name: z.string().min(2, language === 'id' ? 'Nama minimal 2 karakter.' : 'Name must be at least 2 characters.'),
-    email: z.string().email(language === 'id' ? 'Format email tidak valid (nama@perusahaan.com).' : 'Invalid email format (name@company.com).'),
-    subject: z.string().min(3, language === 'id' ? 'Subjek minimal 3 karakter.' : 'Subject must be at least 3 characters.'),
-    message: z.string().min(10, language === 'id' ? 'Pesan minimal 10 karakter.' : 'Message must be at least 10 characters.'),
-  });
+  const contactSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, language === 'id' ? 'Nama minimal 2 karakter.' : 'Name must be at least 2 characters.'),
+        email: z.string().email(language === 'id' ? 'Format email tidak valid (nama@perusahaan.com).' : 'Invalid email format (name@company.com).'),
+        subject: z.string().min(3, language === 'id' ? 'Subjek minimal 3 karakter.' : 'Subject must be at least 3 characters.'),
+        message: z.string().min(10, language === 'id' ? 'Pesan minimal 10 karakter.' : 'Message must be at least 10 characters.'),
+      }),
+    [language]
+  );
 
   type ContactFormData = z.infer<typeof contactSchema>;
 
