@@ -79,7 +79,7 @@ export function ProjectsSection() {
                 : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
             }`}
           >
-            <Globe className="w-3.5 h-3.5 text-blue-400" /> Ryoku Anime
+            <Globe className="w-3.5 h-3.5 text-blue-400" /> Ryoku Try Out CPNS
           </button>
           <button
             onClick={() => setFilter('logistics')}

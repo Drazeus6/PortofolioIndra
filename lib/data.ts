@@ -78,7 +78,7 @@ export const PERSONAL_DATA = {
   avatar: '/Foto-Indra-2.jpeg',
   bios: {
     legal: `Sarjana Hukum berpredikat Cumlaude (IPK 3.71) dari UIN Sunan Gunung Djati Bandung. Memiliki pengalaman praktis di Pengadilan Agama Kelas 1A Ciamis & Pengadilan Negeri Kelas 1B Ciamis (kepaniteraan Pidana, Perdata, & Hukum). Teruji dalam publikasi 2 Jurnal Ilmiah SINTA 4 tentang Cybercrime Deepfake AI & Fiqh Siyasah Pemilu, serta penulisan isu-isu hukum di Klikhukum.id. Memadukan analisis kritis peradilan dengan ketelitian legal drafting.`,
-    developer: `Fullstack Web Developer & Legal-Tech Specialist. Pengembang 5 aplikasi web live (Jinayah App, Ryoku, Coffee Shop Web, WUS Cargo, Jejak Sehat) menggunakan Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, dan Prisma ORM. Berlatar belakang Lulusan Terbaik TKJ dan Sarjana Hukum Cumlaude.`,
+    developer: `Fullstack Web Developer & Legal-Tech Specialist. Pengembang 5 aplikasi web live (Jinayah App - AI Komparasi Hukum Pidana, Ryoku - Try Out CPNS, Coffee Shop Web - Informational Showcase Cafe, WUS Cargo, Jejak Sehat) menggunakan Next.js, React 19, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, MySQL, Supabase, MongoDB, dan Prisma ORM. Berlatar belakang Lulusan Terbaik TKJ dan Sarjana Hukum Cumlaude.`,
   },
   languages: [
     { name: 'English Proficiency Test', score: 'Certified', issuer: 'PT Daily Cipta Dwipta', valid: '2026 - 2027' },
@@ -89,31 +89,31 @@ export const PERSONAL_DATA = {
 export const PROJECTS: ProjectItem[] = [
   {
     id: 'jinayah-app',
-    title: 'Jinayah App — Platform Analisis Hukum Pidana Islam & Cybercrime',
+    title: 'Jinayah App — AI Komparasi Hukum Pidana Umum & Hukum Pidana Islam',
     category: 'legal-tech',
     description: {
-      legal: 'Platform analisis yuridis normatif Hukum Pidana Islam (Fiqh Jinayah) dan studi kepatuhan norma sanksi Jarimah Ta\'zir terhadap tindak pidana biometrik sintetis Cybercrime / Deepfake AI dalam UU ITE No 1 2024.',
-      developer: 'SPA modern React 19 + TypeScript + Supabase PostgreSQL untuk pemodelan data delik pidana, filtering sanksi Ta\'zir, dan arsitektur database relasional terenkripsi.',
+      legal: 'Platform AI komparatif untuk membandingkan secara akurat norma Hukum Pidana Umum (KUHP / UU ITE No 1 2024) dengan Hukum Pidana Islam (Fiqh Jinayah - Jarimah Hudud, Qisas, & Ta\'zir).',
+      developer: 'Platform AI Legal-Tech berbasis React 19 + TypeScript + Supabase PostgreSQL yang mengintegrasikan engine kecerdasan buatan untuk komparasi delik pasal KUHP vs doktrin Fiqh Jinayah.',
     },
     liveUrl: 'https://jinayah-2yio.vercel.app/',
-    languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3 / Tailwind'],
+    languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'AI Engine', 'Tailwind CSS'],
     database: 'PostgreSQL (Supabase)',
-    stack: ['React 19', 'Vite', 'TypeScript', 'Tailwind CSS', 'Lucide Icons', 'PostgreSQL / Supabase'],
-    badge: 'Legal-Tech & AI',
+    stack: ['React 19', 'Vite', 'TypeScript', 'Tailwind CSS', 'AI Engine', 'PostgreSQL / Supabase'],
+    badge: 'AI Legal-Tech & Komparasi',
   },
   {
     id: 'ryoku',
-    title: 'Ryoku — Anime Streaming & Information Portal',
+    title: 'Ryoku — Platform Try Out & Simulasi Ujian CPNS',
     category: 'web-app',
     description: {
-      legal: 'Media portal informasi dan katalog penyiaran konten multimedia berbasis kepatuhan hak cipta (HAKI), lisensi distribusi publik, dan regulasi konten penyiaran.',
-      developer: 'Next.js 14 App Router portal streaming anime dengan ISR (Incremental Static Regeneration), Vercel Postgres DB, dan arsitektur REST API ultra cepat.',
+      legal: 'Platform edutech & Try Out CPNS berbasis kepatuhan standar ujian CAT ASN (Badan Kepegawaian Negara), transparansi akuntabilitas nilai passing grade, dan evaluasi hasil ujian.',
+      developer: 'Web App Try Out CPNS interaktif berbasis Next.js 14 App Router + Vercel Postgres DB untuk simulasi ujian CAT (TWK, TIU, TKP), timer otomatis, sistem pembobotan nilai, dan analisis hasil real-time.',
     },
     liveUrl: 'https://ryoku-seven.vercel.app/',
     languages: ['Next.js (App Router)', 'TypeScript', 'JavaScript', 'HTML5', 'Tailwind CSS'],
     database: 'PostgreSQL (Vercel Postgres)',
     stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind CSS', 'REST API', 'PostgreSQL'],
-    badge: 'Web App & Media',
+    badge: 'Try Out CPNS & EduTech',
   },
   {
     id: 'wus-cargo',
@@ -145,17 +145,17 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     id: 'coffee-shop',
-    title: 'Coffee Shop Web App — Platform E-Commerce Cafe Digital',
-    category: 'e-commerce',
+    title: 'Coffee Shop Web — Informational Showcase Cafe Digital',
+    category: 'web-app',
     description: {
-      legal: 'Sistem e-commerce transaksi bisnis digital, kepatuhan syarat & ketentuan (TOC) jual-beli konsumen, serta perlindungan hak konsumen e-commerce.',
-      developer: 'E-Commerce Web App React + Node.js Express + MongoDB NoSQL database dengan cart state management dan Tailwind CSS UI.',
+      legal: 'Website portal informasi profil usaha kafe, penyajian deskripsi kafe, katalog menu kuliner, suasana/ambiance lokasi kafe, serta transparansi informasi konsumen.',
+      developer: 'Informational Showcase Web App React + Node.js Express + MongoDB untuk menampilkan deskripsi kafe, katalog menu interaktif, galeri foto suasana tempat, dan lokasi kafe.',
     },
     liveUrl: 'https://coffeshopwebsite.vercel.app/',
     languages: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS'],
     database: 'MongoDB & Supabase',
     stack: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS', 'MongoDB'],
-    badge: 'E-Commerce Cafe',
+    badge: 'Informational Cafe Web',
   },
 ];
 
