@@ -193,7 +193,11 @@ function FlowInner() {
       labelBgStyle: { fill: '#090d16', fillOpacity: 0.9, rx: 3 },
       labelBgPadding: [4, 2] as [number, number],
     }))
-  );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="rounded-md border border-dark-border bg-dark-base overflow-hidden relative shadow-xl">
