@@ -105,14 +105,35 @@ export const PERSONAL_DATA = {
   ],
 };
 
+export function getLocalizedDesc(
+  descObj: any,
+  lang: 'id' | 'en',
+  viewMode: 'legal' | 'developer'
+): string {
+  if (!descObj) return '';
+  if (descObj[lang] && descObj[lang][viewMode]) {
+    return descObj[lang][viewMode];
+  }
+  if (descObj[viewMode]) {
+    return descObj[viewMode];
+  }
+  return '';
+}
+
 export const PROJECTS: ProjectItem[] = [
   {
     id: 'jinayah-app',
     title: 'Jinayah App — AI Komparasi Hukum Pidana Umum & Hukum Pidana Islam',
     category: 'legal-tech',
     description: {
-      legal: 'Platform AI komparatif untuk membandingkan secara akurat norma Hukum Pidana Umum (KUHP / UU ITE No 1 2024) dengan Hukum Pidana Islam (Fiqh Jinayah - Jarimah Hudud, Qisas, & Ta\'zir).',
-      developer: 'Platform AI Legal-Tech berbasis React 19 + TypeScript + Supabase PostgreSQL yang mengintegrasikan engine kecerdasan buatan untuk komparasi delik pasal KUHP vs doktrin Fiqh Jinayah.',
+      id: {
+        legal: 'Platform AI komparatif untuk membandingkan secara akurat norma Hukum Pidana Umum (KUHP / UU ITE No 1 2024) dengan Hukum Pidana Islam (Fiqh Jinayah - Jarimah Hudud, Qisas, & Ta\'zir).',
+        developer: 'Platform AI Legal-Tech berbasis React 19 + TypeScript + Supabase PostgreSQL yang mengintegrasikan engine kecerdasan buatan untuk komparasi delik pasal KUHP vs doktrin Fiqh Jinayah.',
+      },
+      en: {
+        legal: 'Comparative AI platform for accurately comparing General Criminal Law norms (Indonesian Criminal Code / ITE Law No. 1 2024) with Islamic Criminal Law (Fiqh Jinayah - Hudud, Qisas, & Ta\'zir offenses).',
+        developer: 'AI Legal-Tech platform built with React 19 + TypeScript + Supabase PostgreSQL integrating an artificial intelligence engine for comparing Penal Code articles against Fiqh Jinayah doctrines.',
+      },
     },
     liveUrl: 'https://jinayah-2yio.vercel.app/',
     languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'AI Engine', 'Tailwind CSS'],
@@ -125,8 +146,14 @@ export const PROJECTS: ProjectItem[] = [
     title: 'Ryoku — Platform Try Out & Simulasi Ujian CPNS',
     category: 'web-app',
     description: {
-      legal: 'Platform edutech & Try Out CPNS berbasis kepatuhan standar ujian CAT ASN (Badan Kepegawaian Negara), transparansi akuntabilitas nilai passing grade, dan evaluasi hasil ujian.',
-      developer: 'Web App Try Out CPNS interaktif berbasis Next.js 14 App Router + Vercel Postgres DB untuk simulasi ujian CAT (TWK, TIU, TKP), timer otomatis, sistem pembobotan nilai, dan analisis hasil real-time.',
+      id: {
+        legal: 'Platform edutech & Try Out CPNS berbasis kepatuhan standar ujian CAT ASN (Badan Kepegawaian Negara), transparansi akuntabilitas nilai passing grade, dan evaluasi hasil ujian.',
+        developer: 'Web App Try Out CPNS interaktif berbasis Next.js 14 App Router + Vercel Postgres DB untuk simulasi ujian CAT (TWK, TIU, TKP), timer otomatis, sistem pembobotan nilai, dan analisis hasil real-time.',
+      },
+      en: {
+        legal: 'Edutech & Civil Servant Exam Tryout platform compliant with State Personnel Board (BKN) CAT exam standards, passing grade accountability, and exam result evaluations.',
+        developer: 'Interactive Civil Servant Exam Tryout Web App built on Next.js 14 App Router + Vercel Postgres DB for CAT exam simulation (TWK, TIU, TKP), auto timers, weighted scoring, and real-time result analytics.',
+      },
     },
     liveUrl: 'https://ryoku-seven.vercel.app/',
     languages: ['Next.js (App Router)', 'TypeScript', 'JavaScript', 'HTML5', 'Tailwind CSS'],
@@ -139,8 +166,14 @@ export const PROJECTS: ProjectItem[] = [
     title: 'WUS Cargo — Logistics & Cargo Tracking System',
     category: 'logistics',
     description: {
-      legal: 'Sistem kepatuhan pengiriman barang, legalitas manifes logistik ekspedisi, transparansi klausula nomor resi konsumen, dan mitigasi risiko sengketa pengangkutan.',
-      developer: 'Fullstack Logistics tracking engine berbasis Next.js + Node.js REST API dengan DB relasional PostgreSQL dan integrasi Supabase Auth.',
+      id: {
+        legal: 'Sistem kepatuhan pengiriman barang, legalitas manifes logistik ekspedisi, transparansi klausula nomor resi konsumen, dan mitigasi risiko sengketa pengangkutan.',
+        developer: 'Fullstack Logistics tracking engine berbasis Next.js + Node.js REST API dengan DB relasional PostgreSQL dan integrasi Supabase Auth.',
+      },
+      en: {
+        legal: 'Freight shipping compliance system, expedition logistics manifest legality, consumer receipt tracking transparency, and transportation dispute risk mitigation.',
+        developer: 'Fullstack Logistics tracking engine powered by Next.js + Node.js REST API with PostgreSQL relational database and Supabase Auth integration.',
+      },
     },
     liveUrl: 'https://wuscargo.vercel.app/',
     languages: ['Next.js', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
@@ -153,8 +186,14 @@ export const PROJECTS: ProjectItem[] = [
     title: 'Jejak Sehat — Platform Manajemen Kesehatan & Rekam Medis',
     category: 'healthcare',
     description: {
-      legal: 'Platform digital rekam medis dan kepatuhan privasi data kesehatan pasien (KPRS) sesuai ketentuan Undang-Undang Kesehatan Nomor 17 Tahun 2023.',
-      developer: 'Healthcare Web App React + Express.js + MySQL relasional DB dengan kalkulator indikator vital dan arsitektur komponen modular.',
+      id: {
+        legal: 'Platform digital rekam medis dan kepatuhan privasi data kesehatan pasien (KPRS) sesuai ketentuan Undang-Undang Kesehatan Nomor 17 Tahun 2023.',
+        developer: 'Healthcare Web App React + Express.js + MySQL relasional DB dengan kalkulator indikator vital dan arsitektur komponen modular.',
+      },
+      en: {
+        legal: 'Digital medical records platform ensuring patient health data privacy compliance (KPRS) under Indonesian Health Law No. 17 of 2023.',
+        developer: 'Healthcare Web App built with React + Express.js + MySQL relational DB featuring vital signs calculators and modular architecture.',
+      },
     },
     liveUrl: 'https://jejaksehat.vercel.app/',
     languages: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
@@ -167,8 +206,14 @@ export const PROJECTS: ProjectItem[] = [
     title: 'Coffee Shop Web — Informational Showcase Cafe Digital',
     category: 'web-app',
     description: {
-      legal: 'Website portal informasi profil usaha kafe, penyajian deskripsi kafe, katalog menu kuliner, suasana/ambiance lokasi kafe, serta transparansi informasi konsumen.',
-      developer: 'Informational Showcase Web App React + Node.js Express + MongoDB untuk menampilkan deskripsi kafe, katalog menu interaktif, galeri foto suasana tempat, dan lokasi kafe.',
+      id: {
+        legal: 'Website portal informasi profil usaha kafe, penyajian deskripsi kafe, katalog menu kuliner, suasana/ambiance lokasi kafe, serta transparansi informasi konsumen.',
+        developer: 'Informational Showcase Web App React + Node.js Express + MongoDB untuk menampilkan deskripsi kafe, katalog menu interaktif, galeri foto suasana tempat, dan lokasi kafe.',
+      },
+      en: {
+        legal: 'Informational cafe business showcase website featuring cafe overview, culinary menu catalog, location ambiance, and consumer information transparency.',
+        developer: 'Informational Showcase Web App built with React + Node.js Express + MongoDB displaying cafe description, interactive menu catalog, photo gallery, and map location.',
+      },
     },
     liveUrl: 'https://coffeshopwebsite.vercel.app/',
     languages: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS'],
@@ -204,8 +249,14 @@ export const EXPERIENCES: ExperienceItem[] = [
     institution: 'Pengadilan Agama Kelas 1A Ciamis',
     location: 'Kab. Ciamis, Jawa Barat',
     description: {
-      legal: 'Mengikuti magang peradilan di Pengadilan Agama Kelas 1A Ciamis. Menangani perkara kewenangan peradilan agama, verifikasi kelengkapan administrasi berkas perceraian & waris, digitalisasi arsip hukum, serta menyaksikan langsung proses persidangan di ruang sidang.',
-      developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan agama, dan efisiensi alur administrasi panitera.',
+      id: {
+        legal: 'Mengikuti magang peradilan di Pengadilan Agama Kelas 1A Ciamis. Menangani perkara kewenangan peradilan agama, verifikasi kelengkapan administrasi berkas perceraian & waris, digitalisasi arsip hukum, serta menyaksikan langsung proses persidangan di ruang sidang.',
+        developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan agama, dan efisiensi alur administrasi panitera.',
+      },
+      en: {
+        legal: 'Completed judicial internship at Class 1A Religious Court Ciamis. Handled religious jurisdiction cases, verified administrative completeness of divorce & inheritance files, digitized legal archives, and observed live courtroom proceedings.',
+        developer: 'Mapped Case Management Information System (SIPP) workflows, processed digital religious court records, and optimized registrar administrative pipelines.',
+      },
     },
     tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Kepaniteraan PA 1A', 'Digitalisasi Berkas'],
     certificateImg: '/Sertifikat-PA.jpg',
@@ -240,8 +291,14 @@ export const EXPERIENCES: ExperienceItem[] = [
     institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
     location: 'Ciamis, Jawa Barat',
     description: {
-      legal: 'Riset normatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah" (Vol 12 No 2). Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan penyelesaian sengketa di Mahkamah Konstitusi.',
-      developer: 'Pemodelan konsep komparatif sistem voting & penyelesaian sengketa konstitusional dengan metode penelitian kualitatif berbasis literatur digital.',
+      id: {
+        legal: 'Riset normatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah" (Vol 12 No 2). Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan penyelesaian sengketa di Mahkamah Konstitusi.',
+        developer: 'Pemodelan konsep komparatif sistem voting & penyelesaian sengketa konstitusional dengan metode penelitian kualitatif berbasis literatur digital.',
+      },
+      en: {
+        legal: 'Normative research: "Electoral System in Indonesia from Fiqh Siyasah Perspective" (Vol 12 No 2). Analyzed relevance of ahlul halli wal aqdi & shura with direct elections and Constitutional Court dispute resolution.',
+        developer: 'Comparative modeling of voting systems & constitutional dispute resolution using digital qualitative literature research.',
+      },
     },
     tags: ['SINTA 4', 'Fiqh Siyasah', 'Hukum Tata Negara', 'Sengketa Pemilu MK'],
     journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/14168/pdf',
@@ -255,8 +312,14 @@ export const EXPERIENCES: ExperienceItem[] = [
     institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
     location: 'Ciamis, Jawa Barat',
     description: {
-      legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam" (Vol 14 No 1). Menganalisis celah norma Pasal 28 & 45A UU ITE serta sanksi Jarimah Ta\'zir (Al-Ghash & At-Tadlis).',
-      developer: 'Analisis mutakhir mengenai fenomena biometrik sintetis Deepfake AI, celah hukum UU ITE No 1 2024 (Pasal 28 & 45A), dan formulasi Sadd ad-Dzari\'ah untuk penegakan hukum AI.',
+      id: {
+        legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam" (Vol 14 No 1). Menganalisis celah norma Pasal 28 & 45A UU ITE serta sanksi Jarimah Ta\'zir (Al-Ghash & At-Tadlis).',
+        developer: 'Analisis mutakhir mengenai fenomena biometrik sintetis Deepfake AI, celah hukum UU ITE No 1 2024 (Pasal 28 & 45A), dan formulasi Sadd ad-Dzari\'ah untuk penegakan hukum AI.',
+      },
+      en: {
+        legal: 'Cybercrime legal research: "Legal Vacuum Regarding Deepfake Fraud in ITE Law No. 1 of 2024 from Islamic Criminal Law Perspective" (Vol 14 No 1). Analyzed Article 28 & 45A gaps and Jarimah Ta\'zir sanctions (Al-Ghash & At-Tadlis).',
+        developer: 'Cutting-edge analysis of Deepfake AI synthetic biometrics, ITE Law No 1 2024 statutory gaps, and Sadd ad-Dzari\'ah formulation for AI legal enforcement.',
+      },
     },
     tags: ['SINTA 4', 'Cybercrime AI', 'Deepfake Fraud', 'UU ITE 2024', 'Fiqh Jinayah'],
     journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf',
@@ -271,23 +334,29 @@ export const EXPERIENCES: ExperienceItem[] = [
     institution: 'Pengadilan Negeri Kelas 1B Ciamis',
     location: 'Kab. Ciamis, Jawa Barat',
     description: {
-      legal: 'Magang di Pengadilan Negeri Ciamis Kelas 1B. Membantu 3 kepaniteraan utama: Panitera Pidana, Panitera Perdata, dan Panitera Hukum. Mengelola administrasi berkas perkara, pengarsipan peradilan, serta mengamati langsung persidangan pidana & perdata.',
-      developer: 'Pemeriksaan alur kerja persidangan fisik vs e-Court, manajemen registrasi berkas umum, serta verifikasi kelayakan dokumen persidangan.',
+      id: {
+        legal: 'Magang peradilan di Pengadilan Negeri Kelas 1B Ciamis. Terlibat aktif dalam verifikasi kelengkapan berkas perkara pidana biasa & singkat, gugatan perdata, penyusunan berita acara sidang, dan pengelolaan arsip register hukum.',
+        developer: 'Analisis workflow administrasi kepaniteraan Pidana, Perdata, & Hukum, ekstraksi data registrasi perkara manual ke format digital, serta observasi implementasi e-Court Mahkamah Agung.',
+      },
+      en: {
+        legal: 'Judicial internship at Class 1B District Court Ciamis. Actively involved in verifying criminal & civil case files, drafting trial minutes, and managing legal register archives.',
+        developer: 'Workflow analysis of Criminal, Civil, and Legal Registrar departments, manual-to-digital case registry data extraction, and Supreme Court e-Court observation.',
+      },
     },
-    tags: ['Kepaniteraan Pidana', 'Kepaniteraan Perdata', 'Kepaniteraan Hukum', 'e-Court'],
+    tags: ['Hukum Acara Pidana', 'Hukum Acara Perdata', 'Kepaniteraan PN 1B', 'Digitalisasi Register'],
     certificateImg: '/Sertifikat-PN.jpg',
     photos: [
       {
-        src: '/pn-ciamis-1.jpg',
-        alt: 'Serah terima plakat kenang-kenangan di lobi Pengadilan Negeri Ciamis Kelas 1B bersama pembimbing dan rekan magang',
+        src: '/pn-ciamis-1.jpeg',
+        alt: 'Serah terima plakat kenang-kenangan di lobi Pengadilan Negeri Ciamis bersama Ketua & Hakim Pengadilan',
       },
       {
-        src: '/pn-ciamis-2.jpg',
-        alt: 'Indra Mulyana melakukan stempel dan verifikasi berkas administrasi kepaniteraan di Pengadilan Negeri Ciamis',
+        src: '/pn-ciamis-2.jpeg',
+        alt: 'Foto bersama peserta magang hukum di tangga utama Pengadilan Negeri Kelas 1B Ciamis',
       },
       {
-        src: '/pn-ciamis-3.jpg',
-        alt: 'Suasana pengamatan langsung persidangan pidana di ruang sidang Pengadilan Negeri Ciamis Kelas 1B',
+        src: '/pn-ciamis-3.jpeg',
+        alt: 'Dokumentasi kegiatan di lingkungan halaman depan Pengadilan Negeri Ciamis',
       },
     ],
   },

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { EXPERIENCES, ExperienceItem } from '@/lib/data';
+import { EXPERIENCES, ExperienceItem, getLocalizedDesc } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, ExternalLink, FileText, X, ShieldCheck, Images } from 'lucide-react';
@@ -98,7 +98,7 @@ export function TimelineSection() {
                 <p className={`text-xs md:text-sm leading-relaxed mb-6 ${
                   isDev ? 'text-slate-300 font-mono' : 'text-slate-300 font-sans font-light'
                 }`}>
-                  {isDev ? exp.description.developer : exp.description.legal}
+                  {getLocalizedDesc(exp.description, language, viewMode)}
                 </p>
 
                 {/* Tags & CTA */}
@@ -172,14 +172,14 @@ export function TimelineSection() {
               <div className="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed font-sans font-light mb-6">
                 <div>
                   <strong className="text-white block font-mono mb-1 text-xs uppercase text-blue-400">
-                    Deskripsi Tugas &amp; Prosedur:
+                    {UI_TRANSLATIONS.timeline.taskDesc[language]}
                   </strong>
-                  <p>{selectedExp.description.legal}</p>
+                  <p>{getLocalizedDesc(selectedExp.description, language, viewMode)}</p>
                 </div>
 
                 {selectedExp.abstract && (
                   <div className="p-4 rounded-sm bg-dark-base border border-dark-border font-mono text-xs">
-                    <strong className="text-amber-400 block uppercase mb-1">Abstrak Jurnal:</strong>
+                    <strong className="text-amber-400 block uppercase mb-1">{UI_TRANSLATIONS.timeline.abstractHeader[language]}</strong>
                     <p className="text-slate-300 italic">{selectedExp.abstract}</p>
                   </div>
                 )}

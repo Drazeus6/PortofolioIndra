@@ -85,7 +85,7 @@ export function Navbar() {
 
           {/* Right Mode Switcher, Language Toggle & Mobile Menu Toggle */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <LanguageToggle />
+            <LanguageToggle className="hidden sm:flex" />
             <ModeSwitcher />
 
             <button
@@ -102,6 +102,11 @@ export function Navbar() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="xl:hidden border-b border-dark-border bg-dark-surface px-4 pt-3 pb-6 space-y-2 font-mono text-xs">
+          {/* Top row in mobile drawer: Full-width Language Toggle */}
+          <div className="pb-2 border-b border-dark-border mb-3">
+            <LanguageToggle isFullWidth />
+          </div>
+
           {navLinks.map((link) => {
             const active = pathname === link.href;
             const Icon = link.icon;

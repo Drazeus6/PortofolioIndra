@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PROJECTS, ProjectItem } from '@/lib/data';
+import { PROJECTS, ProjectItem, getLocalizedDesc } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { ExternalLink, Database, Code, Globe, Shield, Cpu, ShoppingBag, Truck, HeartPulse } from 'lucide-react';
@@ -160,7 +160,7 @@ export function ProjectsSection() {
                   {project.title}
                 </h3>
                 <p className="text-xs text-slate-300 font-sans font-light leading-relaxed mb-4">
-                  {isDev ? project.description.developer : project.description.legal}
+                  {getLocalizedDesc(project.description, language, viewMode)}
                 </p>
               </div>
 
