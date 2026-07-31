@@ -438,7 +438,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Input stream interface yang menerima prompt/kueri pengguna dalam format string real-time.',
         legalDesc: 'Titik awal di mana pengguna/klien menginput pertanyaan hukum, studi kasus, atau isu Cybercrime Deepfake AI.',
       },
-      position: { x: 0, y: 220 },
+      position: { x: 20, y: 200 },
     },
     {
       id: 'read-file',
@@ -451,7 +451,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'File loader component yang membaca naskah PDF/TXT perundang-undangan dan menyediakannya untuk parser.',
         legalDesc: 'Pengunggahan dan pembacaan naskah otentik UU ITE No 1 Tahun 2024 dan KUHP Baru sebagai sumber hukum normatif.',
       },
-      position: { x: 320, y: 40 },
+      position: { x: 270, y: 30 },
     },
     {
       id: 'parser',
@@ -464,7 +464,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Ekstraksi struktur dokumen mentah menjadi teks tertata yang siap dipotong (chunking).',
         legalDesc: 'Proses penyaringan naskah hukum agar ayat, pasal, dan pertimbangan akademis dapat dibaca bersih oleh AI.',
       },
-      position: { x: 640, y: 40 },
+      position: { x: 520, y: 30 },
     },
     {
       id: 'split-text',
@@ -477,7 +477,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Mengubah dokumen masif menjadi segmen 1000 karakter dengan overlap 200 karakter untuk presisi pencarian.',
         legalDesc: 'Segmentasi naskah hukum menjadi pasal-pasal ringkas agar memudahkan rujukan silang saat komparasi pidana.',
       },
-      position: { x: 960, y: 40 },
+      position: { x: 770, y: 30 },
     },
     {
       id: 'cohere-embeddings',
@@ -490,7 +490,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Engine representasi vektor dwibahasa (Bahasa Indonesia & Arab) untuk pencarian semantik berdimensi tinggi.',
         legalDesc: 'Mengubah terminologi hukum (seperti Al-Ghash, At-Tadlis, Ta\'zir) menjadi vektor makna semantik.',
       },
-      position: { x: 320, y: 420 },
+      position: { x: 420, y: 310 },
     },
     {
       id: 'chroma-db',
@@ -503,7 +503,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Database vektor lokal berkinerja tinggi tempat penyimpanan dan pencarian kueri kemiripan kosinus.',
         legalDesc: 'Gudang data hukum digital terenkripsi yang memuat rujukan yurisprudensi dan UU secara terstruktur.',
       },
-      position: { x: 960, y: 340 },
+      position: { x: 770, y: 280 },
     },
     {
       id: 'legacy-dataframe',
@@ -516,7 +516,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Konversi hasil kuery tabel DataFrame dari Chroma DB menjadi blok teks konteks pendukung prompt.',
         legalDesc: 'Penyusunan ringkasan pasal-pasal relevan yang ditemukan dari basis data untuk dilampirkan ke draf analisis.',
       },
-      position: { x: 1280, y: 420 },
+      position: { x: 1020, y: 310 },
     },
     {
       id: 'prompt-template',
@@ -525,11 +525,11 @@ export const RAG_PIPELINE_GRAPH = {
         label: 'Prompt Template',
         category: 'template',
         badge: 'System Persona',
-        params: { Persona: 'LangkahHukum Asisten Paralegal Virtual', Style: 'Empatik, tegas, ahli Hukum Pidana & Perdata' },
+        params: { Persona: 'LangkahHukum Asisten Paralegal Virtual', Style: 'Empatik, tegas, ahli Hukum' },
         developerDesc: 'Menggabungkan persona sistem (System Prompt), konteks dokumen pencarian (RAG), dan kueri user (berita_user).',
         legalDesc: 'Formulasi instruksi profesional yang memastikan AI menjawab berdasarkan integritas akademis dan kaidah hukum sah.',
       },
-      position: { x: 1600, y: 140 },
+      position: { x: 1270, y: 110 },
     },
     {
       id: 'groq-llm',
@@ -542,7 +542,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Engine inferensi LLM LPU bertaraf enterprise yang mengeksekusi analisis hukum dan penyusunan argumen.',
         legalDesc: 'Pemroses kecerdasan buatan utama yang menalar perbandingan pasal KUHP vs doktrin Fiqh Jinayah secara cermat.',
       },
-      position: { x: 1920, y: 140 },
+      position: { x: 1520, y: 110 },
     },
     {
       id: 'chat-output',
@@ -554,7 +554,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Output stream interface yang menyajikan jawaban akhir AI secara real-time ke UI.',
         legalDesc: 'Penyajikan jawaban analisis komparatif sanksi Ta\'zir dan rekomendasi kepatuhan hukum kepada pengguna.',
       },
-      position: { x: 2240, y: 220 },
+      position: { x: 1770, y: 200 },
     },
     {
       id: 'author-note',
@@ -567,7 +567,7 @@ export const RAG_PIPELINE_GRAPH = {
         developerDesc: 'Metadata identitas pengembang dan perancang arsitektur RAG Langkah Hukum AI.',
         legalDesc: 'Profil perancang sistem: Sarjana Hukum Cumlaude UIN SGD Bandung & Legal-Tech Developer.',
       },
-      position: { x: 320, y: 640 },
+      position: { x: 420, y: 460 },
     },
   ],
   edges: [

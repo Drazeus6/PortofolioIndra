@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import {
   ReactFlow,
   Controls,
@@ -10,6 +10,8 @@ import {
   Handle,
   Position,
   BackgroundVariant,
+  useReactFlow,
+  ReactFlowProvider,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { RAG_PIPELINE_GRAPH, RagPipelineNodeData } from '@/lib/data';
@@ -30,6 +32,7 @@ import {
   X,
   Info,
   Maximize2,
+  RotateCcw,
 } from 'lucide-react';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -42,17 +45,17 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
   if (data.category === 'note') {
     return (
       <motion.div
-        whileHover={{ scale: 1.04 }}
-        className="p-4 rounded-md bg-yellow-300 text-slate-900 border-2 border-yellow-500 shadow-xl w-64 font-sans select-none cursor-pointer"
+        whileHover={{ scale: 1.03, rotate: -1 }}
+        className="p-3.5 rounded-sm bg-yellow-300 text-slate-900 border-2 border-yellow-500 shadow-xl w-60 font-sans select-none cursor-pointer"
         onClick={data.onSelectNode}
       >
-        <div className="flex items-center justify-between mb-2 pb-1 border-b border-yellow-500/40">
-          <span className="text-[10px] font-bold uppercase tracking-wider bg-yellow-400 px-2 py-0.5 rounded text-yellow-950 font-mono">
+        <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-yellow-500/40">
+          <span className="text-[9px] font-bold uppercase tracking-wider bg-yellow-400/80 px-1.5 py-0.5 rounded text-yellow-950 font-mono">
             {data.badge}
           </span>
-          <UserCheck className="w-4 h-4 text-yellow-800" />
+          <UserCheck className="w-3.5 h-3.5 text-yellow-800" />
         </div>
-        <div className="font-bold text-xs space-y-1 font-mono">
+        <div className="font-bold text-[11px] space-y-0.5 font-mono">
           <p><span className="text-yellow-800">NAMA:</span> {data.params?.NAMA}</p>
           <p><span className="text-yellow-800">ASAL:</span> {data.params?.ASAL}</p>
         </div>
@@ -62,33 +65,33 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
 
   const getIcon = () => {
     switch (data.category) {
-      case 'input': return <MessageSquare className="w-4 h-4 text-cyan-400 shrink-0" />;
-      case 'loader': return <FileUp className="w-4 h-4 text-indigo-400 shrink-0" />;
-      case 'parser': return <Code2 className="w-4 h-4 text-blue-400 shrink-0" />;
-      case 'chunker': return <Scissors className="w-4 h-4 text-emerald-400 shrink-0" />;
-      case 'embedding': return <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />;
-      case 'vectorstore': return <Database className="w-4 h-4 text-fuchsia-400 shrink-0" />;
-      case 'converter': return <FileSpreadsheet className="w-4 h-4 text-teal-400 shrink-0" />;
-      case 'template': return <MessageSquareText className="w-4 h-4 text-violet-400 shrink-0" />;
-      case 'llm': return <Bot className="w-4 h-4 text-rose-400 shrink-0" />;
-      case 'output': return <Send className="w-4 h-4 text-emerald-400 shrink-0" />;
-      default: return <Info className="w-4 h-4 text-slate-400 shrink-0" />;
+      case 'input': return <MessageSquare className="w-3.5 h-3.5 text-cyan-400 shrink-0" />;
+      case 'loader': return <FileUp className="w-3.5 h-3.5 text-indigo-400 shrink-0" />;
+      case 'parser': return <Code2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />;
+      case 'chunker': return <Scissors className="w-3.5 h-3.5 text-emerald-400 shrink-0" />;
+      case 'embedding': return <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />;
+      case 'vectorstore': return <Database className="w-3.5 h-3.5 text-fuchsia-400 shrink-0" />;
+      case 'converter': return <FileSpreadsheet className="w-3.5 h-3.5 text-teal-400 shrink-0" />;
+      case 'template': return <MessageSquareText className="w-3.5 h-3.5 text-violet-400 shrink-0" />;
+      case 'llm': return <Bot className="w-3.5 h-3.5 text-rose-400 shrink-0" />;
+      case 'output': return <Send className="w-3.5 h-3.5 text-emerald-400 shrink-0" />;
+      default: return <Info className="w-3.5 h-3.5 text-slate-400 shrink-0" />;
     }
   };
 
   const getCategoryColor = () => {
     switch (data.category) {
-      case 'input': return 'border-cyan-500/60 bg-cyan-950/20 hover:border-cyan-400';
-      case 'loader': return 'border-indigo-500/60 bg-indigo-950/20 hover:border-indigo-400';
-      case 'parser': return 'border-blue-500/60 bg-blue-950/20 hover:border-blue-400';
-      case 'chunker': return 'border-emerald-500/60 bg-emerald-950/20 hover:border-emerald-400';
-      case 'embedding': return 'border-amber-500/60 bg-amber-950/20 hover:border-amber-400';
-      case 'vectorstore': return 'border-fuchsia-500/60 bg-fuchsia-950/20 hover:border-fuchsia-400';
-      case 'converter': return 'border-teal-500/60 bg-teal-950/20 hover:border-teal-400';
-      case 'template': return 'border-violet-500/60 bg-violet-950/20 hover:border-violet-400';
-      case 'llm': return 'border-rose-500/60 bg-rose-950/20 hover:border-rose-400';
-      case 'output': return 'border-emerald-500/60 bg-emerald-950/20 hover:border-emerald-400';
-      default: return 'border-slate-500/60 bg-slate-950/20';
+      case 'input': return 'border-cyan-500/60 bg-cyan-950/30 hover:border-cyan-400';
+      case 'loader': return 'border-indigo-500/60 bg-indigo-950/30 hover:border-indigo-400';
+      case 'parser': return 'border-blue-500/60 bg-blue-950/30 hover:border-blue-400';
+      case 'chunker': return 'border-emerald-500/60 bg-emerald-950/30 hover:border-emerald-400';
+      case 'embedding': return 'border-amber-500/60 bg-amber-950/30 hover:border-amber-400';
+      case 'vectorstore': return 'border-fuchsia-500/60 bg-fuchsia-950/30 hover:border-fuchsia-400';
+      case 'converter': return 'border-teal-500/60 bg-teal-950/30 hover:border-teal-400';
+      case 'template': return 'border-violet-500/60 bg-violet-950/30 hover:border-violet-400';
+      case 'llm': return 'border-rose-500/60 bg-rose-950/30 hover:border-rose-400';
+      case 'output': return 'border-emerald-500/60 bg-emerald-950/30 hover:border-emerald-400';
+      default: return 'border-slate-500/60 bg-slate-950/30';
     }
   };
 
@@ -97,34 +100,34 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
       onClick={data.onSelectNode}
-      className={`p-3.5 rounded-md border min-w-[220px] max-w-xs transition-all duration-300 font-mono shadow-xl backdrop-blur-md cursor-pointer ${getCategoryColor()} ${
-        isDev ? 'bg-dark-card/90 text-slate-100' : 'bg-dark-card/90 text-slate-100'
+      className={`p-3 rounded-md border w-[210px] transition-all duration-300 font-mono shadow-xl backdrop-blur-md cursor-pointer ${getCategoryColor()} ${
+        isDev ? 'bg-dark-card/95 text-slate-100' : 'bg-dark-card/95 text-slate-100'
       }`}
     >
       <Handle
         type="target"
         position={Position.Left}
-        className={`!w-3 !h-3 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
+        className={`!w-2.5 !h-2.5 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
       />
 
-      <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-1.5 mb-1.5">
         <div className="flex items-center gap-1.5">
           {getIcon()}
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-dark-base border border-dark-border text-slate-300">
+          <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-dark-base border border-dark-border text-slate-300">
             {data.badge}
           </span>
         </div>
       </div>
 
-      <h4 className="font-bold text-xs md:text-sm mb-1 text-white font-sans flex items-center justify-between">
-        <span>{data.label}</span>
+      <h4 className="font-bold text-xs mb-1 text-white font-sans truncate">
+        {data.label}
       </h4>
 
       {/* Embedded File pill if any */}
       {data.files && data.files.length > 0 && (
-        <div className="mt-2 space-y-1">
+        <div className="mt-1.5 space-y-1">
           {data.files.map((file, i) => (
-            <p key={i} className="text-[10px] text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/60 truncate">
+            <p key={i} className="text-[9px] text-amber-300 bg-amber-950/50 px-1.5 py-0.5 rounded border border-amber-800/60 truncate">
               📄 {file}
             </p>
           ))}
@@ -133,7 +136,7 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
 
       {/* Embedded params if any */}
       {data.params && !data.files && (
-        <div className="mt-2 text-[10px] text-slate-400 space-y-0.5 bg-dark-base/80 p-2 rounded border border-dark-border/80">
+        <div className="mt-1.5 text-[9px] text-slate-400 space-y-0.5 bg-dark-base/90 p-1.5 rounded border border-dark-border/80 font-mono">
           {Object.entries(data.params).map(([k, v]) => (
             <p key={k} className="truncate">
               <span className="text-slate-500 font-bold">{k}:</span> <span className="text-slate-300">{v}</span>
@@ -142,28 +145,32 @@ function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () 
         </div>
       )}
 
-      <p className="text-[11px] text-slate-300 leading-relaxed font-sans font-light mt-2 line-clamp-2">
+      <p className="text-[10px] text-slate-300 leading-snug font-sans font-light mt-1.5 line-clamp-2">
         {isDev ? data.developerDesc : data.legalDesc}
       </p>
 
       <Handle
         type="source"
         position={Position.Right}
-        className={`!w-3 !h-3 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
+        className={`!w-2.5 !h-2.5 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
       />
     </motion.div>
   );
 }
 
-export function DecisionTree() {
+function FlowInner() {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
+  const { fitView } = useReactFlow();
   const [showAccessibleText, setShowAccessibleText] = useState(false);
   const [selectedNode, setSelectedNode] = useState<RagPipelineNodeData | null>(null);
 
   const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
 
-  // Attach click handler to each node
+  const handleResetZoom = useCallback(() => {
+    fitView({ padding: 0.15, duration: 400 });
+  }, [fitView]);
+
   const nodesWithHandlers = useMemo(
     () =>
       RAG_PIPELINE_GRAPH.nodes.map((node) => ({
@@ -181,6 +188,9 @@ export function DecisionTree() {
     RAG_PIPELINE_GRAPH.edges.map((e) => ({
       ...e,
       style: { strokeWidth: 2, stroke: isDev ? '#3b82f6' : '#f59e0b' },
+      labelStyle: { fill: '#cbd5e1', fontSize: 10, fontFamily: 'monospace' },
+      labelBgStyle: { fill: '#090d16', fillOpacity: 0.9, rx: 3 },
+      labelBgPadding: [4, 2] as [number, number],
     }))
   );
 
@@ -191,25 +201,36 @@ export function DecisionTree() {
       }`}
     >
       {/* Header Bar */}
-      <div className="p-3.5 bg-dark-base border-b border-dark-border flex items-center justify-between z-10 font-mono">
+      <div className="p-3 bg-dark-base border-b border-dark-border flex flex-wrap items-center justify-between gap-2 z-10 font-mono">
         <div className="flex items-center gap-2 text-white">
           <Sparkles className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
           <span className="font-bold text-xs">Langflow RAG Architecture (9 Nodes)</span>
         </div>
-        <button
-          onClick={() => setShowAccessibleText(!showAccessibleText)}
-          className="px-3 py-2 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider min-h-[40px]"
-          title="Tampilkan daftar teks untuk pembaca layar"
-          aria-label={showAccessibleText ? 'Beralih ke grafik RAG' : 'Beralih ke versi teks RAG'}
-          aria-pressed={showAccessibleText}
-        >
-          {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
-          {showAccessibleText ? 'Graph View' : 'Text Mode'}
-        </button>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleResetZoom}
+            className="px-2.5 py-1.5 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs text-slate-300 font-mono transition-colors flex items-center gap-1 min-h-[36px]"
+            title="Reset tampilan grafik"
+            aria-label="Reset zoom grafik"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-slate-400" /> Reset Fit
+          </button>
+          <button
+            onClick={() => setShowAccessibleText(!showAccessibleText)}
+            className="px-3 py-1.5 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider min-h-[36px]"
+            title="Tampilkan daftar teks untuk pembaca layar"
+            aria-label={showAccessibleText ? 'Beralih ke grafik RAG' : 'Beralih ke versi teks RAG'}
+            aria-pressed={showAccessibleText}
+          >
+            {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
+            {showAccessibleText ? 'Graph View' : 'Text Mode'}
+          </button>
+        </div>
       </div>
 
       {showAccessibleText ? (
-        <div className="p-6 space-y-4 h-[360px] sm:h-[440px] lg:h-[500px] overflow-y-auto font-mono text-xs">
+        <div className="p-6 space-y-4 h-[380px] sm:h-[460px] lg:h-[520px] overflow-y-auto font-mono text-xs">
           <p className="text-amber-400 font-bold uppercase tracking-wider text-xs">
             Daftar Modul RAG Pipeline LangkahHukum AI (Text Alternative):
           </p>
@@ -225,7 +246,7 @@ export function DecisionTree() {
         </div>
       ) : (
         <div
-          className="w-full h-[360px] sm:h-[440px] lg:h-[500px] relative bg-dark-surface"
+          className="w-full h-[380px] sm:h-[460px] lg:h-[520px] relative bg-dark-surface"
           role="img"
           aria-label="Diagram alur arsitektur RAG Langflow 9 Node untuk AI Assistant"
         >
@@ -234,24 +255,25 @@ export function DecisionTree() {
             edges={edges}
             nodeTypes={nodeTypes}
             fitView
+            fitViewOptions={{ padding: 0.15 }}
             colorMode="dark"
-            minZoom={0.3}
-            maxZoom={1.8}
-            defaultViewport={{ x: 0, y: 0, zoom: 0.65 }}
+            minZoom={0.25}
+            maxZoom={2}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.75 }}
           >
             <Controls className="!bg-dark-card !border-dark-border !fill-slate-200 shadow-xl !rounded-sm !p-1" />
             <Background
               variant={BackgroundVariant.Dots}
-              gap={20}
-              size={1.5}
+              gap={18}
+              size={1.2}
               color={isDev ? '#1e293b' : '#451a03'}
             />
           </ReactFlow>
 
-          {/* Mobile swipe hint overlay */}
+          {/* Mobile hint overlay */}
           <div className="absolute bottom-3 left-3 bg-dark-card/90 border border-dark-border px-3 py-1.5 rounded text-[10px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
             <Maximize2 className="w-3 h-3 text-amber-400" />
-            <span>Geser &amp; cubit layar untuk melihat seluruh 9 node alur RAG</span>
+            <span>Klik node untuk detail • Geser/cubit layar untuk navigasi</span>
           </div>
         </div>
       )}
@@ -330,5 +352,13 @@ export function DecisionTree() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export function DecisionTree() {
+  return (
+    <ReactFlowProvider>
+      <FlowInner />
+    </ReactFlowProvider>
   );
 }
