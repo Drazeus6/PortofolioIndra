@@ -105,11 +105,20 @@ export function getLocalizedDesc(
   viewMode: 'legal' | 'developer'
 ): string {
   if (!descObj) return '';
-  if (descObj[lang] && descObj[lang][viewMode]) {
-    return descObj[lang][viewMode];
+  if (typeof descObj === 'string') return descObj;
+  if (descObj[lang]) {
+    if (typeof descObj[lang] === 'string') {
+      return descObj[lang];
+    }
+    if (typeof descObj[lang] === 'object' && descObj[lang][viewMode]) {
+      return descObj[lang][viewMode];
+    }
   }
   if (descObj[viewMode]) {
-    return descObj[viewMode];
+    if (typeof descObj[viewMode] === 'string') return descObj[viewMode];
+    if (typeof descObj[viewMode] === 'object' && descObj[viewMode][lang]) {
+      return descObj[viewMode][lang];
+    }
   }
   return '';
 }
