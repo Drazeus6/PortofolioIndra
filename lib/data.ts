@@ -425,7 +425,6 @@ export const EXPERIENCES: ExperienceItem[] = [
       en: `Examining statutory gaps in the 2024 ITE Law regarding Deepfake biometric manipulation and Ta'zir & Maqashid Sharia sanction reconstruction.`,
     },
   },
-
   {
     id: 'pn-ciamis',
     title: {
@@ -441,91 +440,6 @@ export const EXPERIENCES: ExperienceItem[] = [
       id: 'Pengadilan Negeri Kelas 1B Ciamis',
       en: 'Class 1B District Court Ciamis',
     },
-    location: 'Kab. Ciamis, Jawa Barat',
-    description: {
-      id: {
-        legal: 'Mengikuti magang peradilan di Pengadilan Agama Kelas 1A Ciamis. Menangani perkara kewenangan peradilan agama, verifikasi kelengkapan administrasi berkas perceraian & waris, digitalisasi arsip hukum, serta menyaksikan langsung proses persidangan di ruang sidang.',
-        developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan agama, dan efisiensi alur administrasi panitera.',
-      },
-      en: {
-        legal: 'Completed judicial internship at Class 1A Religious Court Ciamis. Handled religious jurisdiction cases, verified administrative completeness of divorce & inheritance files, digitized legal archives, and observed live courtroom proceedings.',
-        developer: 'Mapped Case Management Information System (SIPP) workflows, processed digital religious court records, and optimized registrar administrative pipelines.',
-      },
-    },
-    tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Kepaniteraan PA 1A', 'Digitalisasi Berkas'],
-    certificateImg: '/Sertifikat-PA.jpg',
-    photos: [
-      {
-        src: '/pa-ciamis-1-pembukaan.jpeg',
-        alt: 'Pembukaan program magang kerja peradilan di Pengadilan Agama Ciamis',
-      },
-      {
-        src: '/pa-ciamis-2-briefing.jpeg',
-        alt: 'Sesi pengarahan dengan pegawai Pengadilan Agama Ciamis',
-      },
-      {
-        src: '/pa-ciamis-3-diskusi.jpeg',
-        alt: 'Diskusi kelompok bersama pejabat Pengadilan Agama Ciamis',
-      },
-      {
-        src: '/pa-ciamis-4-penutupan.jpeg',
-        alt: 'Penutupan program magang kerja peradilan Pengadilan Agama Ciamis',
-      },
-      {
-        src: '/pa-ciamis-5-depan-gedung.jpeg',
-        alt: 'Foto bersama di depan Pengadilan Agama Ciamis',
-      },
-    ],
-  },
-  {
-    id: 'jurnal-galuh-1',
-    title: 'Publikasi Jurnal Galuh Justisi (SINTA 4)',
-    role: 'Author & Penulis Riset Hukum Tata Negara / Siyasah',
-    period: 'September 2024',
-    institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
-    location: 'Ciamis, Jawa Barat',
-    description: {
-      id: {
-        legal: 'Riset normatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah" (Vol 12 No 2). Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan penyelesaian sengketa di Mahkamah Konstitusi.',
-        developer: 'Pemodelan konsep komparatif sistem voting & penyelesaian sengketa konstitusional dengan metode penelitian kualitatif berbasis literatur digital.',
-      },
-      en: {
-        legal: 'Normative research: "Electoral System in Indonesia from Fiqh Siyasah Perspective" (Vol 12 No 2). Analyzed relevance of ahlul halli wal aqdi & shura with direct elections and Constitutional Court dispute resolution.',
-        developer: 'Comparative modeling of voting systems & constitutional dispute resolution using digital qualitative literature research.',
-      },
-    },
-    tags: ['SINTA 4', 'Fiqh Siyasah', 'Hukum Tata Negara', 'Sengketa Pemilu MK'],
-    journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/14168/pdf',
-    abstract: `Penelitian menguji relevansi sistem pemilu di Indonesia dengan fiqh siyasah (ahlul halli wal aqdi) serta mekanisme peradilan sengketa di Mahkamah Konstitusi.`,
-  },
-  {
-    id: 'jurnal-galuh-2',
-    title: 'Publikasi Jurnal Galuh Justisi (SINTA 4) - AI Deepfake',
-    role: 'Author & Penulis Riset Cybercrime AI & Fiqh Jinayah',
-    period: 'Maret 2026',
-    institution: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
-    location: 'Ciamis, Jawa Barat',
-    description: {
-      id: {
-        legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam" (Vol 14 No 1). Menganalisis celah norma Pasal 28 & 45A UU ITE serta sanksi Jarimah Ta\'zir (Al-Ghash & At-Tadlis).',
-        developer: 'Analisis mutakhir mengenai fenomena biometrik sintetis Deepfake AI, celah hukum UU ITE No 1 2024 (Pasal 28 & 45A), dan formulasi Sadd ad-Dzari\'ah untuk penegakan hukum AI.',
-      },
-      en: {
-        legal: 'Cybercrime legal research: "Legal Vacuum Regarding Deepfake Fraud in ITE Law No. 1 of 2024 from Islamic Criminal Law Perspective" (Vol 14 No 1). Analyzed Article 28 & 45A gaps and Jarimah Ta\'zir sanctions (Al-Ghash & At-Tadlis).',
-        developer: 'Cutting-edge analysis of Deepfake AI synthetic biometrics, ITE Law No 1 2024 statutory gaps, and Sadd ad-Dzari\'ah formulation for AI legal enforcement.',
-      },
-    },
-    tags: ['SINTA 4', 'Cybercrime AI', 'Deepfake Fraud', 'UU ITE 2024', 'Fiqh Jinayah'],
-    journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf',
-    abstract: `Mengkaji vakum norma UU ITE 2024 terkait rekayasa biometrik Deepfake dan rekonstruksi sanksi berbasis Jarimah Ta'zir & Maqashid Sharia.`,
-  },
-
-  {
-    id: 'pn-ciamis',
-    title: 'Pengadilan Negeri Kelas 1B Ciamis',
-    role: 'Magang Internship Kepaniteraan Pidana, Perdata & Hukum',
-    period: 'Juli 2024 – Agustus 2024',
-    institution: 'Pengadilan Negeri Kelas 1B Ciamis',
     location: 'Kab. Ciamis, Jawa Barat',
     description: {
       id: {
