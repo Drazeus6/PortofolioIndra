@@ -422,7 +422,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'Lumina Eka Optima & PTIPD UIN SGD',
     year: '2024',
     pdfUrl: '/Sertifikat-SkillsBuild.pdf',
-    description: 'Sertifikasi penguasaan Microsoft Word tingkat profesional (Certified MOS) untuk penyusunan naskah hukum, format dokumen resmi, dan pengolahan teks kompleks.',
+    description: {
+      id: 'Sertifikasi penguasaan Microsoft Word tingkat profesional (Certified MOS) untuk penyusunan naskah hukum, format dokumen resmi, dan pengolahan teks kompleks.',
+      en: 'Professional Microsoft Word mastery certification (MOS Certified) for legal drafting, official document formatting, and complex text processing.',
+    },
     commandName: 'cat certs/mos_word.cert',
   },
   {
@@ -432,7 +435,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'Dicoding Indonesia',
     year: '2025',
     pdfUrl: '/Sertifikat-Belajar-Dasar-AI.pdf',
-    description: 'Kurikulum pemahaman konsep AI, Machine Learning fundamentals, Etika AI, dan penerapan AI untuk analisis data.',
+    description: {
+      id: 'Kurikulum pemahaman konsep AI, Machine Learning fundamentals, Etika AI, dan penerapan AI untuk analisis data.',
+      en: 'Curriculum covering AI concepts, Machine Learning fundamentals, AI Ethics, and AI application for data analytics.',
+    },
     commandName: 'cat certs/ai_dicoding.cert',
   },
   {
@@ -442,7 +448,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'Dicoding / Course Certification',
     year: '2025',
     pdfUrl: '/Sertifikat-Prompt-Engineering.pdf',
-    description: 'Teknik formulasi prompt canggih untuk LLM, otomasi analisis dokumen hukum, dan sintesis data terstruktur.',
+    description: {
+      id: 'Teknik formulasi prompt canggih untuk LLM, otomasi analisis dokumen hukum, dan sintesis data terstruktur.',
+      en: 'Advanced prompt formulation techniques for LLMs, legal document analysis automation, and structured data synthesis.',
+    },
     commandName: 'cat certs/prompt_eng.cert',
   },
   {
@@ -452,7 +461,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'IBM SkillsBuild',
     year: '2026',
     pdfUrl: '/Sertifikat-SkillsBuild-AI-Legal.pdf',
-    description: 'Studi komprehensif mengenai regulasi AI, privasi data, kewajiban etis, dan implikasi hukum kecerdasan buatan.',
+    description: {
+      id: 'Studi komprehensif mengenai regulasi AI, privasi data, kewajiban etis, dan implikasi hukum kecerdasan buatan.',
+      en: 'Comprehensive study on AI regulations, data privacy, ethical obligations, and legal implications of artificial intelligence.',
+    },
     commandName: 'cat certs/ibm_ai_literacy.cert',
   },
   {
@@ -462,7 +474,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'IBM SkillsBuild',
     year: '2026',
     pdfUrl: '/Sertifikat-SkillsBuild-AI-Interaction.pdf',
-    description: 'Spesialisasi interaksi manusia-komputer dan penerapan agen cerdas dalam dunia profesional.',
+    description: {
+      id: 'Spesialisasi interaksi manusia-komputer dan penerapan agen cerdas dalam dunia profesional.',
+      en: 'Human-computer interaction specialization and deployment of intelligent agents in professional environments.',
+    },
     commandName: 'cat certs/ibm_ai_interaction.cert',
   },
   {
@@ -472,7 +487,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'PT Daily Cipta Dwipta',
     year: '2026 - 2027',
     pdfUrl: '/Sertifikat-SkillsBuild-Bary.pdf',
-    description: 'Tes kemampuan bahasa Inggris profesional untuk komunikasi bisnis dan akademik.',
+    description: {
+      id: 'Tes kemampuan bahasa Inggris profesional untuk komunikasi bisnis dan akademik.',
+      en: 'Professional English proficiency test for business communication and academic research.',
+    },
     commandName: 'cat certs/english_test.cert',
   },
   {
@@ -482,7 +500,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'Pusat Pengembangan Bahasa UIN Sunan Gunung Djati',
     year: '2024 - 2026',
     pdfUrl: '/TOEFL-Indra.pdf',
-    description: 'Sertifikasi kemahiran Bahasa Arab akademik & studi teks literatur hukum pidana Islam.',
+    description: {
+      id: 'Sertifikasi kemahiran Bahasa Arab akademik & studi teks literatur hukum pidana Islam.',
+      en: 'Academic Arabic language proficiency certification & Islamic criminal law literature text study.',
+    },
     commandName: 'cat certs/toafl_arabic.cert',
   },
   {
@@ -492,7 +513,10 @@ export const CERTIFICATIONS: CertificationItem[] = [
     issuer: 'Certification Course',
     year: '2024',
     pdfUrl: '/Sertifikat-Introduction-to-Financial-Literacy.pdf',
-    description: 'Pemahaman dasar manajemen keuangan instansi, tata kelola finansial, dan analisa kepatuhan transaksi.',
+    description: {
+      id: 'Pemahaman dasar manajemen keuangan instansi, tata kelola finansial, dan analisa kepatuhan transaksi.',
+      en: 'Fundamental understanding of institutional financial management, governance, and transaction compliance analysis.',
+    },
     commandName: 'cat certs/financial_literacy.cert',
   },
 ];
@@ -501,8 +525,8 @@ export interface RagPipelineNodeData {
   label: string;
   category: 'input' | 'loader' | 'parser' | 'chunker' | 'embedding' | 'vectorstore' | 'converter' | 'template' | 'llm' | 'output' | 'note';
   badge: string;
-  developerDesc: string;
-  legalDesc: string;
+  developerDesc: any;
+  legalDesc: any;
   params?: Record<string, string>;
   files?: string[];
 }
@@ -513,11 +537,17 @@ export const RAG_PIPELINE_GRAPH = {
       id: 'chat-input',
       type: 'customNode',
       data: {
-        label: 'Chat Input',
+        label: 'Chat Input (User Query)',
         category: 'input',
-        badge: 'User Query',
-        developerDesc: 'Input stream interface yang menerima prompt/kueri pengguna dalam format string real-time.',
-        legalDesc: 'Titik awal di mana pengguna/klien menginput pertanyaan hukum, studi kasus, atau isu Cybercrime Deepfake AI.',
+        badge: 'Input Query',
+        developerDesc: {
+          id: 'Input component menerima pesan query pengguna dan meneruskannya ke modul Prompt Template & Search Retrieval.',
+          en: 'Input component receives user query message and routes it to Prompt Template & Search Retrieval modules.',
+        },
+        legalDesc: {
+          id: 'Titik awal di mana pengguna/klien menginput pertanyaan hukum, studi kasus, atau isu Cybercrime Deepfake AI.',
+          en: 'Starting point where the user/client submits legal inquiries, case studies, or Deepfake AI cybercrime issues.',
+        },
       },
       position: { x: 20, y: 200 },
     },
@@ -529,8 +559,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'loader',
         badge: 'Doc Loader',
         files: ['Rangkuman UU No 1 2024 (6.47 MB)', 'Ringkasan KUHP Baru (3.81 MB)'],
-        developerDesc: 'File loader component yang membaca naskah PDF/TXT perundang-undangan dan menyediakannya untuk parser.',
-        legalDesc: 'Pengunggahan dan pembacaan naskah otentik UU ITE No 1 Tahun 2024 dan KUHP Baru sebagai sumber hukum normatif.',
+        developerDesc: {
+          id: 'File loader component yang membaca naskah PDF/TXT perundang-undangan dan menyediakannya untuk parser.',
+          en: 'File loader component that ingests raw PDF/TXT statutory legislation and supplies it to the parser.',
+        },
+        legalDesc: {
+          id: 'Pengunggahan dan pembacaan naskah otentik UU ITE No 1 Tahun 2024 dan KUHP Baru sebagai sumber hukum normatif.',
+          en: 'Uploading and parsing authentic text of ITE Law No. 1 of 2024 and the New Criminal Code as normative legal sources.',
+        },
       },
       position: { x: 270, y: 30 },
     },
@@ -542,8 +578,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'parser',
         badge: 'Text Extractor',
         params: { Mode: 'Parser (JSON or Table)', Output: 'Parsed Text' },
-        developerDesc: 'Ekstraksi struktur dokumen mentah menjadi teks tertata yang siap dipotong (chunking).',
-        legalDesc: 'Proses penyaringan naskah hukum agar ayat, pasal, dan pertimbangan akademis dapat dibaca bersih oleh AI.',
+        developerDesc: {
+          id: 'Ekstraksi struktur dokumen mentah menjadi teks tertata yang siap dipotong (chunking).',
+          en: 'Raw document structure extraction into clean structured text ready for chunking.',
+        },
+        legalDesc: {
+          id: 'Proses penyaringan naskah hukum agar ayat, pasal, dan pertimbangan akademis dapat dibaca bersih oleh AI.',
+          en: 'Legal text filtering process ensuring articles, clauses, and academic considerations are cleanly readable by AI.',
+        },
       },
       position: { x: 520, y: 30 },
     },
@@ -555,8 +597,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'chunker',
         badge: 'Text Chunker',
         params: { 'Chunk Size': '1000', 'Chunk Overlap': '200', Separator: '\\n' },
-        developerDesc: 'Mengubah dokumen masif menjadi segmen 1000 karakter dengan overlap 200 karakter untuk presisi pencarian.',
-        legalDesc: 'Segmentasi naskah hukum menjadi pasal-pasal ringkas agar memudahkan rujukan silang saat komparasi pidana.',
+        developerDesc: {
+          id: 'Mengubah dokumen masif menjadi segmen 1000 karakter dengan overlap 200 karakter untuk presisi pencarian.',
+          en: 'Converts massive documents into 1000-character segments with 200-character overlap for high retrieval precision.',
+        },
+        legalDesc: {
+          id: 'Segmentasi naskah hukum menjadi pasal-pasal ringkas agar memudahkan rujukan silang saat komparasi pidana.',
+          en: 'Segmentation of legal statutory texts into concise articles to facilitate cross-referencing in criminal comparisons.',
+        },
       },
       position: { x: 770, y: 30 },
     },
@@ -568,8 +616,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'embedding',
         badge: 'Embedding Engine',
         params: { Model: 'embed-multilingual-v3.0' },
-        developerDesc: 'Engine representasi vektor dwibahasa (Bahasa Indonesia & Arab) untuk pencarian semantik berdimensi tinggi.',
-        legalDesc: 'Mengubah terminologi hukum (seperti Al-Ghash, At-Tadlis, Ta\'zir) menjadi vektor makna semantik.',
+        developerDesc: {
+          id: 'Engine representasi vektor dwibahasa (Bahasa Indonesia & Arab) untuk pencarian semantik berdimensi tinggi.',
+          en: 'Bilingual vector representation engine (Indonesian & Arabic) for high-dimensional semantic search.',
+        },
+        legalDesc: {
+          id: 'Mengubah terminologi hukum (seperti Al-Ghash, At-Tadlis, Ta\'zir) menjadi vektor makna semantik.',
+          en: 'Translates legal terminology (such as Al-Ghash, At-Tadlis, Ta\'zir) into semantic vector representations.',
+        },
       },
       position: { x: 420, y: 310 },
     },
@@ -581,8 +635,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'vectorstore',
         badge: 'Vector Store',
         params: { Collection: 'dokumen_hukum', Directory: '.chroma_db' },
-        developerDesc: 'Database vektor lokal berkinerja tinggi tempat penyimpanan dan pencarian kueri kemiripan kosinus.',
-        legalDesc: 'Gudang data hukum digital terenkripsi yang memuat rujukan yurisprudensi dan UU secara terstruktur.',
+        developerDesc: {
+          id: 'Database vektor lokal berkinerja tinggi tempat penyimpanan dan pencarian kueri kemiripan kosinus.',
+          en: 'High-performance local vector database storing embeddings for cosine similarity query searches.',
+        },
+        legalDesc: {
+          id: 'Gudang data hukum digital terenkripsi yang memuat rujukan yurisprudensi dan UU secara terstruktur.',
+          en: 'Encrypted digital legal repository containing structured jurisprudence references and statutory statutes.',
+        },
       },
       position: { x: 770, y: 280 },
     },
@@ -594,8 +654,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'converter',
         badge: 'Context Formatter',
         params: { Input: 'Table Data', Output: 'Formatted Text' },
-        developerDesc: 'Konversi hasil kuery tabel DataFrame dari Chroma DB menjadi blok teks konteks pendukung prompt.',
-        legalDesc: 'Penyusunan ringkasan pasal-pasal relevan yang ditemukan dari basis data untuk dilampirkan ke draf analisis.',
+        developerDesc: {
+          id: 'Konversi hasil kuery tabel DataFrame dari Chroma DB menjadi blok teks konteks pendukung prompt.',
+          en: 'Converts Chroma DB DataFrame query results into context text blocks supporting the system prompt.',
+        },
+        legalDesc: {
+          id: 'Penyusunan ringkasan pasal-pasal relevan yang ditemukan dari basis data untuk dilampirkan ke draf analisis.',
+          en: 'Synthesis of relevant legal articles retrieved from the database to be attached to analysis drafts.',
+        },
       },
       position: { x: 1020, y: 310 },
     },
@@ -607,8 +673,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'template',
         badge: 'System Persona',
         params: { Persona: 'LangkahHukum Asisten Paralegal Virtual', Style: 'Empatik, tegas, ahli Hukum' },
-        developerDesc: 'Menggabungkan persona sistem (System Prompt), konteks dokumen pencarian (RAG), dan kueri user (berita_user).',
-        legalDesc: 'Formulasi instruksi profesional yang memastikan AI menjawab berdasarkan integritas akademis dan kaidah hukum sah.',
+        developerDesc: {
+          id: 'Menggabungkan persona sistem (System Prompt), konteks dokumen pencarian (RAG), dan kueri user (berita_user).',
+          en: 'Combines system persona prompt, RAG retrieved document context, and user query message.',
+        },
+        legalDesc: {
+          id: 'Formulasi instruksi profesional yang memastikan AI menjawab berdasarkan integritas akademis dan kaidah hukum sah.',
+          en: 'Professional instruction formulation ensuring AI responds with academic integrity and valid legal principles.',
+        },
       },
       position: { x: 1270, y: 110 },
     },
@@ -620,8 +692,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'llm',
         badge: 'Inference Engine',
         params: { Model: 'llama-3.1-8b-instant', Engine: 'Ultra-fast LPU' },
-        developerDesc: 'Engine inferensi LLM LPU bertaraf enterprise yang mengeksekusi analisis hukum dan penyusunan argumen.',
-        legalDesc: 'Pemroses kecerdasan buatan utama yang menalar perbandingan pasal KUHP vs doktrin Fiqh Jinayah secara cermat.',
+        developerDesc: {
+          id: 'Engine inferensi LLM LPU bertaraf enterprise yang mengeksekusi analisis hukum dan penyusunan argumen.',
+          en: 'Enterprise-grade LPU LLM inference engine executing legal analysis and argument synthesis.',
+        },
+        legalDesc: {
+          id: 'Pemroses kecerdasan buatan utama yang menalar perbandingan pasal KUHP vs doktrin Fiqh Jinayah secara cermat.',
+          en: 'Primary artificial intelligence processor reasoning Penal Code articles vs Fiqh Jinayah doctrines with precision.',
+        },
       },
       position: { x: 1520, y: 110 },
     },
@@ -632,8 +710,14 @@ export const RAG_PIPELINE_GRAPH = {
         label: 'Chat Output',
         category: 'output',
         badge: 'Final Response',
-        developerDesc: 'Output stream interface yang menyajikan jawaban akhir AI secara real-time ke UI.',
-        legalDesc: 'Penyajikan jawaban analisis komparatif sanksi Ta\'zir dan rekomendasi kepatuhan hukum kepada pengguna.',
+        developerDesc: {
+          id: 'Output stream interface yang menyajikan jawaban akhir AI secara real-time ke UI.',
+          en: 'Output stream interface rendering final AI responses in real-time to the user interface.',
+        },
+        legalDesc: {
+          id: 'Penyajikan jawaban analisis komparatif sanksi Ta\'zir dan rekomendasi kepatuhan hukum kepada pengguna.',
+          en: 'Presents comparative analysis answers regarding Ta\'zir sanctions and legal compliance recommendations.',
+        },
       },
       position: { x: 1770, y: 200 },
     },
@@ -645,8 +729,14 @@ export const RAG_PIPELINE_GRAPH = {
         category: 'note',
         badge: 'Architect',
         params: { NAMA: 'Indra Mulyana, S.H.', ASAL: 'UIN Sunan Gunung Djati Bandung' },
-        developerDesc: 'Metadata identitas pengembang dan perancang arsitektur RAG Langkah Hukum AI.',
-        legalDesc: 'Profil perancang sistem: Sarjana Hukum Cumlaude UIN SGD Bandung & Legal-Tech Developer.',
+        developerDesc: {
+          id: 'Metadata identitas pengembang dan perancang arsitektur RAG Langkah Hukum AI.',
+          en: 'Developer identity metadata and architect of Langkah Hukum AI RAG pipeline.',
+        },
+        legalDesc: {
+          id: 'Profil perancang sistem: Sarjana Hukum Cumlaude UIN SGD Bandung & Legal-Tech Developer.',
+          en: 'System architect profile: Cumlaude Bachelor of Law from UIN SGD Bandung & Legal-Tech Developer.',
+        },
       },
       position: { x: 420, y: 460 },
     },
@@ -663,4 +753,3 @@ export const RAG_PIPELINE_GRAPH = {
     { id: 'e-groq-output', source: 'groq-llm', target: 'chat-output', animated: true, label: 'Model Response' },
   ],
 };
-

@@ -6,6 +6,9 @@ import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
+import { useLanguage } from '@/context/LanguageContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
+
 const TerminalGallery = dynamic(
   () => import('@/components/widgets/TerminalGallery').then((m) => m.TerminalGallery),
   {
@@ -20,6 +23,7 @@ const TerminalGallery = dynamic(
 
 export default function CertificationsPage() {
   const { viewMode } = useViewMode();
+  const { language } = useLanguage();
   const isDev = viewMode === 'developer';
 
   return (
@@ -27,12 +31,15 @@ export default function CertificationsPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge variant={isDev ? 'blue' : 'amber'}>Terminal View Console</Badge>
+          <Badge variant={isDev ? 'blue' : 'amber'}>{UI_TRANSLATIONS.certifications.badge[language]}</Badge>
           <h1 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
-            Galeri <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>Sertifikat Digital</span>
+            {UI_TRANSLATIONS.certifications.titlePrefix[language]}{' '}
+            <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
+              {UI_TRANSLATIONS.certifications.titleSuffix[language]}
+            </span>
           </h1>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl mx-auto font-mono">
-            Ketik perintah seperti <span className="text-amber-300 font-bold">&apos;ls&apos;</span> atau <span className="text-cyan-300 font-bold">&apos;cat certs/mos_word.cert&apos;</span> untuk mengeksplorasi sertifikat digital.
+            {UI_TRANSLATIONS.certifications.sub[language]}
           </p>
         </div>
 

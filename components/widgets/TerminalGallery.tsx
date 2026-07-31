@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { CERTIFICATIONS } from '@/lib/data';
+import { CERTIFICATIONS, getLocalizedDesc } from '@/lib/data';
 import { Terminal as TerminalIcon, CornerDownLeft, FileText, Download, Grid, Monitor } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
+import { useViewMode } from '@/context/ViewModeContext';
+import { UI_TRANSLATIONS } from '@/lib/i18n';
 
 interface TerminalLine {
   id: string;
@@ -12,6 +15,8 @@ interface TerminalLine {
 }
 
 export function TerminalGallery() {
+  const { language } = useLanguage();
+  const { viewMode } = useViewMode();
   const [viewType, setViewType] = useState<'terminal' | 'grid'>('terminal');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'ai' | 'office' | 'law'>('all');
   const [input, setInput] = useState('');
@@ -22,8 +27,8 @@ export function TerminalGallery() {
       content: (
         <span className="text-emerald-400 font-mono text-xs md:text-sm">
           Indra CLI v2.4.0 (x86_64-legal-tech-linux-gnu)<br />
-          Type <span className="text-amber-300 font-bold">&apos;help&apos;</span> or{' '}
-          <span className="text-amber-300 font-bold">&apos;ls&apos;</span> to list certifications.
+          {language === 'id' ? 'Ketik' : 'Type'} <span className="text-amber-300 font-bold">&apos;help&apos;</span> {language === 'id' ? 'atau' : 'or'}{' '}
+          <span className="text-amber-300 font-bold">&apos;ls&apos;</span> {language === 'id' ? 'untuk daftar sertifikat.' : 'to list certifications.'}
         </span>
       ),
     },
@@ -116,8 +121,8 @@ export function TerminalGallery() {
                 <span className="text-emerald-400 font-bold">{found.title}</span>
                 <span className="text-xs text-slate-400">{found.year}</span>
               </div>
-              <p className="text-slate-300 font-sans text-xs">{found.description}</p>
-              <div className="text-xs text-slate-400">Penerbit: <span className="text-amber-300 font-bold">{found.issuer}</span></div>
+              <p className="text-slate-300 font-sans text-xs">{getLocalizedDesc(found.description, language, viewMode)}</p>
+              <div className="text-xs text-slate-400">{UI_TRANSLATIONS.certifications.issuerLabel[language]} <span className="text-amber-300 font-bold">{found.issuer}</span></div>
               {found.pdfUrl && (
                 <div className="pt-2">
                   <a
@@ -126,7 +131,7 @@ export function TerminalGallery() {
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white font-sans text-xs font-semibold transition-colors min-h-[40px]"
                   >
-                    <Download className="w-4 h-4" /> Unduh / Lihat PDF Sertifikat
+                    <Download className="w-4 h-4" /> {UI_TRANSLATIONS.certifications.downloadBtn[language]}
                   </a>
                 </div>
               )}
@@ -280,7 +285,7 @@ export function TerminalGallery() {
                 selectedCategory === 'all' ? 'bg-emerald-600 text-white' : 'bg-dark-card text-slate-400 border border-dark-border'
               }`}
             >
-              Semua Sertifikat ({CERTIFICATIONS.length})
+              {UI_TRANSLATIONS.certifications.allBtn[language]} ({CERTIFICATIONS.length})
             </button>
             <button
               onClick={() => setSelectedCategory('ai')}
@@ -325,9 +330,9 @@ export function TerminalGallery() {
                   <span className="text-emerald-400 font-bold text-sm">{cert.title}</span>
                   <span className="text-xs text-slate-400 font-mono">{cert.year}</span>
                 </div>
-                <p className="text-xs text-slate-300 font-light">{cert.description}</p>
+                <p className="text-xs text-slate-300 font-light">{getLocalizedDesc(cert.description, language, viewMode)}</p>
                 <div className="text-xs text-slate-400">
-                  Penerbit: <strong className="text-amber-300">{cert.issuer}</strong>
+                  {UI_TRANSLATIONS.certifications.issuerLabel[language]} <strong className="text-amber-300">{cert.issuer}</strong>
                 </div>
                 {cert.pdfUrl && (
                   <a
@@ -336,7 +341,7 @@ export function TerminalGallery() {
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 pt-2 text-xs text-cyan-400 font-semibold hover:underline min-h-[40px]"
                   >
-                    <Download className="w-4 h-4" /> Buka PDF Sertifikat
+                    <Download className="w-4 h-4" /> {UI_TRANSLATIONS.certifications.downloadBtn[language]}
                   </a>
                 )}
               </motion.div>

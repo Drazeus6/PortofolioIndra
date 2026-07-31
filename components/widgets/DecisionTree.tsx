@@ -15,7 +15,7 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { RAG_PIPELINE_GRAPH, RagPipelineNodeData } from '@/lib/data';
+import { RAG_PIPELINE_GRAPH, RagPipelineNodeData, getLocalizedDesc } from '@/lib/data';
 import { useLanguage } from '@/context/LanguageContext';
 import { UI_TRANSLATIONS } from '@/lib/i18n';
 import {
@@ -250,8 +250,12 @@ function FlowInner() {
             {RAG_PIPELINE_GRAPH.nodes.map((node) => (
               <li key={node.id} className="p-3 rounded-sm bg-dark-card border border-dark-border">
                 <strong className="text-white">{node.data.label}</strong> ({node.data.badge})
-                <p className="text-xs text-blue-400 mt-1 font-mono">Dev: {node.data.developerDesc}</p>
-                <p className="text-xs text-amber-300 mt-0.5 font-sans">Legal: {node.data.legalDesc}</p>
+                <p className="text-xs text-blue-400 mt-1 font-mono">
+                  Dev: {typeof node.data.developerDesc === 'object' ? node.data.developerDesc[language] || node.data.developerDesc.id : node.data.developerDesc}
+                </p>
+                <p className="text-xs text-amber-300 mt-0.5 font-sans">
+                  Legal: {typeof node.data.legalDesc === 'object' ? node.data.legalDesc[language] || node.data.legalDesc.id : node.data.legalDesc}
+                </p>
               </li>
             ))}
           </ol>
@@ -332,14 +336,22 @@ function FlowInner() {
                   <strong className="text-blue-400 block font-mono text-[11px] uppercase mb-1">
                     {UI_TRANSLATIONS.playground.devViewHeader[language]}
                   </strong>
-                  <p className="font-mono text-slate-200">{selectedNode.developerDesc}</p>
+                  <p className="font-mono text-slate-200">
+                    {typeof selectedNode.developerDesc === 'object'
+                      ? selectedNode.developerDesc[language] || selectedNode.developerDesc.id
+                      : selectedNode.developerDesc}
+                  </p>
                 </div>
 
                 <div className="p-3 rounded bg-dark-card border border-dark-border">
                   <strong className="text-amber-400 block font-mono text-[11px] uppercase mb-1">
                     {UI_TRANSLATIONS.playground.legalViewHeader[language]}
                   </strong>
-                  <p className="font-light leading-relaxed text-slate-200">{selectedNode.legalDesc}</p>
+                  <p className="font-light leading-relaxed text-slate-200">
+                    {typeof selectedNode.legalDesc === 'object'
+                      ? selectedNode.legalDesc[language] || selectedNode.legalDesc.id
+                      : selectedNode.legalDesc}
+                  </p>
                 </div>
 
                 {selectedNode.params && (

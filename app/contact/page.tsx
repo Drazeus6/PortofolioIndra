@@ -30,6 +30,15 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const contactSchema = z.object({
+    name: z.string().min(2, language === 'id' ? 'Nama minimal 2 karakter.' : 'Name must be at least 2 characters.'),
+    email: z.string().email(language === 'id' ? 'Format email tidak valid (nama@perusahaan.com).' : 'Invalid email format (name@company.com).'),
+    subject: z.string().min(3, language === 'id' ? 'Subjek minimal 3 karakter.' : 'Subject must be at least 3 characters.'),
+    message: z.string().min(10, language === 'id' ? 'Pesan minimal 10 karakter.' : 'Message must be at least 10 characters.'),
+  });
+
+  type ContactFormData = z.infer<typeof contactSchema>;
+
   const {
     register,
     handleSubmit,
@@ -52,13 +61,13 @@ export default function ContactPage() {
       const resData = await response.json();
 
       if (!response.ok) {
-        throw new Error(resData.error || 'Gagal mengirim pesan.');
+        throw new Error(resData.error || (language === 'id' ? 'Gagal mengirim pesan.' : 'Failed to send message.'));
       }
 
       setSubmitted(true);
       reset();
     } catch (err: any) {
-      setServerError(err.message || 'Terjadi kesalahan sistem.');
+      setServerError(err.message || (language === 'id' ? 'Terjadi kesalahan sistem.' : 'A system error occurred.'));
     }
   };
 
@@ -80,14 +89,18 @@ export default function ContactPage() {
           {/* Left Side: Contact Info Cards */}
           <div className="lg:col-span-5 space-y-6">
             <div className="p-6 rounded-md bg-dark-surface border border-dark-border shadow-xl">
-              <h3 className="font-extrabold text-lg mb-6 text-white font-sans">Informasi Kontak Direct</h3>
+              <h3 className="font-extrabold text-lg mb-6 text-white font-sans">
+                {language === 'id' ? 'Informasi Kontak Direct' : 'Direct Contact Info'}
+              </h3>
               <div className="space-y-6 text-xs">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-sm bg-blue-950 border border-blue-800 text-blue-400 flex items-center justify-center shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Email Resmi</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                      {language === 'id' ? 'Email Resmi' : 'Official Email'}
+                    </span>
                     <a
                       href={`mailto:${PERSONAL_DATA.email}`}
                       className="font-bold text-slate-200 hover:text-blue-400 transition-colors"
@@ -119,8 +132,12 @@ export default function ContactPage() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Alamat / Lokasi</span>
-                    <span className="font-bold text-slate-300">{PERSONAL_DATA.location}</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                      {language === 'id' ? 'Alamat / Lokasi' : 'Address / Location'}
+                    </span>
+                    <span className="font-bold text-slate-300">
+                      {language === 'id' ? PERSONAL_DATA.location : 'Bandung / Ciamis, West Java, Indonesia'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -129,18 +146,24 @@ export default function ContactPage() {
             <div className="p-6 rounded-md bg-dark-surface border border-emerald-900/60 text-white shadow-xl">
               <h4 className="font-bold text-sm mb-2 flex items-center gap-2 text-emerald-400">
                 <MessageSquare className="w-4 h-4" />
-                Respon Cepat via WhatsApp
+                {language === 'id' ? 'Respon Cepat via WhatsApp' : 'Fast Response via WhatsApp'}
               </h4>
               <p className="text-xs text-slate-300 leading-relaxed mb-4 font-sans font-light">
-                Membutuhkan tanggapan cepat untuk wawancara kerja atau diskusi proyek? Klik di bawah untuk langsung terhubung.
+                {language === 'id'
+                  ? 'Membutuhkan tanggapan cepat untuk wawancara kerja atau diskusi proyek? Klik di bawah untuk langsung terhubung.'
+                  : 'Need a quick response for job interviews or project discussions? Click below to connect instantly.'}
               </p>
               <a
-                href={`https://wa.me/62${PERSONAL_DATA.whatsapp.slice(1)}?text=Halo%20Indra%20Mulyana,%20saya%20tertarik%20berdiskusi%20mengenai%20peluang%20karir.`}
+                href={`https://wa.me/62${PERSONAL_DATA.whatsapp.slice(1)}?text=${encodeURIComponent(
+                  language === 'id'
+                    ? 'Halo Indra Mulyana, saya tertarik berdiskusi mengenai peluang karir.'
+                    : 'Hello Indra Mulyana, I would like to connect regarding a career opportunity.'
+                )}`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors uppercase tracking-wider"
               >
-                Chat WhatsApp Sekarang
+                {language === 'id' ? 'Chat WhatsApp Sekarang' : 'Chat via WhatsApp Now'}
               </a>
             </div>
           </div>
@@ -148,7 +171,9 @@ export default function ContactPage() {
           {/* Right Side: Validated Form (Zod + Backend API) */}
           <div className="lg:col-span-7">
             <div className="p-8 rounded-md bg-dark-surface border border-dark-border shadow-xl">
-              <h3 className="font-extrabold text-xl mb-6 text-white font-sans">Formulir Kontak (Server Validation)</h3>
+              <h3 className="font-extrabold text-xl mb-6 text-white font-sans">
+                {language === 'id' ? 'Formulir Kontak (Server Validation)' : 'Contact Form (Server Validation)'}
+              </h3>
 
               {serverError && (
                 <div className="mb-6 p-4 rounded-sm bg-red-950/80 border border-red-800 text-red-300 text-xs flex items-center gap-2">
@@ -160,12 +185,16 @@ export default function ContactPage() {
               {submitted ? (
                 <div className="p-8 text-center space-y-4 rounded-sm bg-dark-base border border-emerald-800 text-emerald-300">
                   <CheckCircle2 className="w-12 h-12 mx-auto text-emerald-400 animate-bounce" />
-                  <h4 className="font-bold text-base font-sans">Pesan Berhasil Terkirim!</h4>
+                  <h4 className="font-bold text-base font-sans">
+                    {language === 'id' ? 'Pesan Berhasil Terkirim!' : 'Message Sent Successfully!'}
+                  </h4>
                   <p className="text-xs text-slate-300 font-sans font-light">
-                    Terima kasih telah menghubungi Indra Mulyana. Pesan Anda telah diterima backend dan akan dibalas secepatnya.
+                    {language === 'id'
+                      ? 'Terima kasih telah menghubungi Indra Mulyana. Pesan Anda telah diterima backend dan akan dibalas secepatnya.'
+                      : 'Thank you for reaching out to Indra Mulyana. Your message has been received by the backend and will be answered promptly.'}
                   </p>
                   <Button variant="outline" size="sm" onClick={() => setSubmitted(false)}>
-                    Kirim Pesan Lain
+                    {language === 'id' ? 'Kirim Pesan Lain' : 'Send Another Message'}
                   </Button>
                 </div>
               ) : (
@@ -176,7 +205,7 @@ export default function ContactPage() {
                       {...register('name')}
                       id="contact-name"
                       type="text"
-                      placeholder="Masukkan nama Anda..."
+                      placeholder={language === 'id' ? 'Masukkan nama Anda...' : 'Enter your name...'}
                       aria-label="Nama lengkap Anda"
                       aria-describedby={errors.name ? 'contact-name-error' : undefined}
                       aria-invalid={!!errors.name}
@@ -195,7 +224,7 @@ export default function ContactPage() {
                       {...register('email')}
                       id="contact-email"
                       type="email"
-                      placeholder="nama@perusahaan.com"
+                      placeholder="name@company.com"
                       aria-label="Alamat email Anda"
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
                       aria-invalid={!!errors.email}
@@ -214,7 +243,7 @@ export default function ContactPage() {
                       {...register('subject')}
                       id="contact-subject"
                       type="text"
-                      placeholder="Contoh: Tawaran Perkerjaan / Konsultasi Legal-Tech"
+                      placeholder={language === 'id' ? 'Contoh: Tawaran Pekerjaan / Konsultasi Legal-Tech' : 'e.g. Job Opportunity / Legal-Tech Consulting'}
                       aria-label="Subjek atau topik pesan"
                       aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
                       aria-invalid={!!errors.subject}
@@ -233,7 +262,7 @@ export default function ContactPage() {
                       {...register('message')}
                       id="contact-message"
                       rows={5}
-                      placeholder="Tuliskan rincian pesan atau tawaran Anda..."
+                      placeholder={language === 'id' ? 'Tuliskan rincian pesan atau tawaran Anda...' : 'Write down your message details or opportunity...'}
                       aria-label="Isi pesan yang ingin Anda sampaikan"
                       aria-describedby={errors.message ? 'contact-message-error' : undefined}
                       aria-invalid={!!errors.message}
