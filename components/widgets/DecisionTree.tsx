@@ -191,8 +191,8 @@ function FlowInner() {
       style: { strokeWidth: 2, stroke: isDev ? '#3b82f6' : '#f59e0b' },
       labelStyle: { fill: '#cbd5e1', fontSize: 10, fontFamily: 'monospace' },
       labelBgStyle: { fill: '#090d16', fillOpacity: 0.9, rx: 3 },
-      labelBgPadding: [4, 2] as [number, number],
     }))
+  );
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
