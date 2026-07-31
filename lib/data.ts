@@ -30,7 +30,7 @@ export interface CertificationItem {
   issuer: string;
   year: string;
   pdfUrl?: string;
-  description: string;
+  description: any;
   commandName: string;
 }
 
