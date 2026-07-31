@@ -8,6 +8,7 @@ import { ExternalLink, Database, Code, Globe, Shield, Cpu, ShoppingBag, Truck, H
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { UI_TRANSLATIONS } from '@/lib/i18n';
+import { InteractiveGlowBackground } from '@/components/ui/InteractiveGlowBackground';
 
 export function ProjectsSection() {
   const { viewMode } = useViewMode();
