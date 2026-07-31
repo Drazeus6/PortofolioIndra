@@ -5,10 +5,7 @@ export interface ExperienceItem {
   period: string;
   institution: string;
   location: string;
-  description: {
-    legal: string;
-    developer: string;
-  };
+  description: any;
   tags: string[];
   certificateImg?: string;
   journalPdfUrl?: string;
@@ -49,10 +46,7 @@ export interface ProjectItem {
   id: string;
   title: string;
   category: 'legal-tech' | 'web-app' | 'e-commerce' | 'logistics' | 'healthcare';
-  description: {
-    legal: string;
-    developer: string;
-  };
+  description: any;
   liveUrl: string;
   languages: string[];
   database: string;
