@@ -53,12 +53,12 @@ export default function PlaygroundPage() {
           <h1 className="text-3xl md:text-5xl font-extrabold mt-3 tracking-tight font-sans">
             AI Assistant &amp;{' '}
             <span className={`font-mono ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
-              Legal Flow Simulator
+              Legal &amp; Deepfake AI Flow Simulator
             </span>
           </h1>
           <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-2xl mx-auto font-mono">
             Eksplorasi interaktif dua modul utama: Tanya jawab cerdas berbasis profil Indra Mulyana dan
-            simulasi grafik pohon keputusan sanksi Ta&apos;zir pada kekosongan hukum AI.
+            simulasi interaktif arsitektur Langflow RAG 9 Node asli di balik engine analisis hukum &amp; AI.
           </p>
         </motion.div>
 
@@ -72,11 +72,11 @@ export default function PlaygroundPage() {
             <ChatWidget />
           </div>
 
-          {/* Decision Tree Flow Simulator (7 Columns) */}
+          {/* Legal & Deepfake AI Flow Simulator (7 Columns) */}
           <div className="lg:col-span-7 space-y-3 font-mono">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <Network className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
-              <span>Decision Tree Simulator (React Flow)</span>
+              <span>Legal &amp; Deepfake AI Flow Simulator (Langflow RAG)</span>
             </div>
             <DecisionTree />
           </div>

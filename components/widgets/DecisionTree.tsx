@@ -12,49 +12,145 @@ import {
   BackgroundVariant,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { DECISION_TREE_GRAPH } from '@/lib/data';
-import { Scale, ShieldAlert, Cpu, CheckCircle2, FileCode, ListFilter, Eye } from 'lucide-react';
+import { RAG_PIPELINE_GRAPH, RagPipelineNodeData } from '@/lib/data';
+import {
+  MessageSquare,
+  FileUp,
+  Code2,
+  Scissors,
+  Sparkles,
+  Database,
+  FileSpreadsheet,
+  MessageSquareText,
+  Bot,
+  Send,
+  UserCheck,
+  Eye,
+  ListFilter,
+  X,
+  Info,
+  Maximize2,
+} from 'lucide-react';
 import { useViewMode } from '@/context/ViewModeContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-function CustomNode({ data }: { data: any }) {
+function CustomNode({ data }: { data: RagPipelineNodeData & { onSelectNode?: () => void } }) {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
 
+  // Sticky Note node (special yellow card from screenshot)
+  if (data.category === 'note') {
+    return (
+      <motion.div
+        whileHover={{ scale: 1.04 }}
+        className="p-4 rounded-md bg-yellow-300 text-slate-900 border-2 border-yellow-500 shadow-xl w-64 font-sans select-none cursor-pointer"
+        onClick={data.onSelectNode}
+      >
+        <div className="flex items-center justify-between mb-2 pb-1 border-b border-yellow-500/40">
+          <span className="text-[10px] font-bold uppercase tracking-wider bg-yellow-400 px-2 py-0.5 rounded text-yellow-950 font-mono">
+            {data.badge}
+          </span>
+          <UserCheck className="w-4 h-4 text-yellow-800" />
+        </div>
+        <div className="font-bold text-xs space-y-1 font-mono">
+          <p><span className="text-yellow-800">NAMA:</span> {data.params?.NAMA}</p>
+          <p><span className="text-yellow-800">ASAL:</span> {data.params?.ASAL}</p>
+        </div>
+      </motion.div>
+    );
+  }
+
   const getIcon = () => {
-    if (data.badge?.includes('Trigger')) return <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />;
-    if (data.badge?.includes('Celah')) return <Cpu className="w-4 h-4 text-cyan-400 shrink-0" />;
-    if (data.badge?.includes('Prinsip')) return <Scale className="w-4 h-4 text-emerald-400 shrink-0" />;
-    if (data.badge?.includes('Yurisprudensi')) return <FileCode className="w-4 h-4 text-violet-400 shrink-0" />;
-    return <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />;
+    switch (data.category) {
+      case 'input': return <MessageSquare className="w-4 h-4 text-cyan-400 shrink-0" />;
+      case 'loader': return <FileUp className="w-4 h-4 text-indigo-400 shrink-0" />;
+      case 'parser': return <Code2 className="w-4 h-4 text-blue-400 shrink-0" />;
+      case 'chunker': return <Scissors className="w-4 h-4 text-emerald-400 shrink-0" />;
+      case 'embedding': return <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />;
+      case 'vectorstore': return <Database className="w-4 h-4 text-fuchsia-400 shrink-0" />;
+      case 'converter': return <FileSpreadsheet className="w-4 h-4 text-teal-400 shrink-0" />;
+      case 'template': return <MessageSquareText className="w-4 h-4 text-violet-400 shrink-0" />;
+      case 'llm': return <Bot className="w-4 h-4 text-rose-400 shrink-0" />;
+      case 'output': return <Send className="w-4 h-4 text-emerald-400 shrink-0" />;
+      default: return <Info className="w-4 h-4 text-slate-400 shrink-0" />;
+    }
+  };
+
+  const getCategoryColor = () => {
+    switch (data.category) {
+      case 'input': return 'border-cyan-500/60 bg-cyan-950/20 hover:border-cyan-400';
+      case 'loader': return 'border-indigo-500/60 bg-indigo-950/20 hover:border-indigo-400';
+      case 'parser': return 'border-blue-500/60 bg-blue-950/20 hover:border-blue-400';
+      case 'chunker': return 'border-emerald-500/60 bg-emerald-950/20 hover:border-emerald-400';
+      case 'embedding': return 'border-amber-500/60 bg-amber-950/20 hover:border-amber-400';
+      case 'vectorstore': return 'border-fuchsia-500/60 bg-fuchsia-950/20 hover:border-fuchsia-400';
+      case 'converter': return 'border-teal-500/60 bg-teal-950/20 hover:border-teal-400';
+      case 'template': return 'border-violet-500/60 bg-violet-950/20 hover:border-violet-400';
+      case 'llm': return 'border-rose-500/60 bg-rose-950/20 hover:border-rose-400';
+      case 'output': return 'border-emerald-500/60 bg-emerald-950/20 hover:border-emerald-400';
+      default: return 'border-slate-500/60 bg-slate-950/20';
+    }
   };
 
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
-      className={`p-4 rounded-sm border min-w-[240px] max-w-xs transition-all duration-300 font-mono min-h-[48px] ${
-        isDev
-          ? 'bg-dark-card border-dark-border text-slate-100 backdrop-blur-md hover:border-blue-500/80 hover:shadow-[0_0_20px_rgba(0,102,255,0.25)]'
-          : 'bg-dark-card border-amber-900/80 text-slate-100 backdrop-blur-md hover:border-amber-400/80 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)]'
+      onClick={data.onSelectNode}
+      className={`p-3.5 rounded-md border min-w-[220px] max-w-xs transition-all duration-300 font-mono shadow-xl backdrop-blur-md cursor-pointer ${getCategoryColor()} ${
+        isDev ? 'bg-dark-card/90 text-slate-100' : 'bg-dark-card/90 text-slate-100'
       }`}
     >
-      <Handle type="target" position={Position.Top} className={`!w-3.5 !h-3.5 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
-      <div className="flex items-center gap-2 mb-2">
-        {getIcon()}
-        <span
-          className={`text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider ${
-            isDev ? 'bg-blue-950 text-blue-300 border border-blue-800' : 'bg-amber-950 text-amber-300 border border-amber-800'
-          }`}
-        >
-          {data.badge}
-        </span>
+      <Handle
+        type="target"
+        position={Position.Left}
+        className={`!w-3 !h-3 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
+      />
+
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-1.5">
+          {getIcon()}
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-dark-base border border-dark-border text-slate-300">
+            {data.badge}
+          </span>
+        </div>
       </div>
-      <h4 className="font-bold text-xs md:text-sm mb-1 leading-snug text-white font-sans">{data.label}</h4>
-      <p className="text-xs text-slate-300 leading-relaxed font-mono">
-        {data.description}
+
+      <h4 className="font-bold text-xs md:text-sm mb-1 text-white font-sans flex items-center justify-between">
+        <span>{data.label}</span>
+      </h4>
+
+      {/* Embedded File pill if any */}
+      {data.files && data.files.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {data.files.map((file, i) => (
+            <p key={i} className="text-[10px] text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/60 truncate">
+              📄 {file}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {/* Embedded params if any */}
+      {data.params && !data.files && (
+        <div className="mt-2 text-[10px] text-slate-400 space-y-0.5 bg-dark-base/80 p-2 rounded border border-dark-border/80">
+          {Object.entries(data.params).map(([k, v]) => (
+            <p key={k} className="truncate">
+              <span className="text-slate-500 font-bold">{k}:</span> <span className="text-slate-300">{v}</span>
+            </p>
+          ))}
+        </div>
+      )}
+
+      <p className="text-[11px] text-slate-300 leading-relaxed font-sans font-light mt-2 line-clamp-2">
+        {isDev ? data.developerDesc : data.legalDesc}
       </p>
-      <Handle type="source" position={Position.Bottom} className={`!w-3.5 !h-3.5 ${isDev ? '!bg-blue-500' : '!bg-amber-500'}`} />
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        className={`!w-3 !h-3 ${isDev ? '!bg-blue-400' : '!bg-amber-400'}`}
+      />
     </motion.div>
   );
 }
@@ -63,30 +159,48 @@ export function DecisionTree() {
   const { viewMode } = useViewMode();
   const isDev = viewMode === 'developer';
   const [showAccessibleText, setShowAccessibleText] = useState(false);
+  const [selectedNode, setSelectedNode] = useState<RagPipelineNodeData | null>(null);
 
   const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
-  const [nodes] = useNodesState(DECISION_TREE_GRAPH.nodes);
-  const [edges] = useEdgesState(DECISION_TREE_GRAPH.edges);
+
+  // Attach click handler to each node
+  const nodesWithHandlers = useMemo(
+    () =>
+      RAG_PIPELINE_GRAPH.nodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          onSelectNode: () => setSelectedNode(node.data as RagPipelineNodeData),
+        },
+      })),
+    []
+  );
+
+  const [nodes] = useNodesState(nodesWithHandlers);
+  const [edges] = useEdgesState(
+    RAG_PIPELINE_GRAPH.edges.map((e) => ({
+      ...e,
+      style: { strokeWidth: 2, stroke: isDev ? '#3b82f6' : '#f59e0b' },
+    }))
+  );
 
   return (
     <div
       className={`w-full rounded-md border overflow-hidden relative flex flex-col transition-all duration-300 ${
-        isDev
-          ? 'bg-dark-surface border-dark-border shadow-2xl'
-          : 'bg-dark-surface border-amber-900/60 shadow-2xl'
+        isDev ? 'bg-dark-surface border-dark-border shadow-2xl' : 'bg-dark-surface border-amber-900/60 shadow-2xl'
       }`}
     >
-      {/* Header Info & Screen Reader Toggle */}
+      {/* Header Bar */}
       <div className="p-3.5 bg-dark-base border-b border-dark-border flex items-center justify-between z-10 font-mono">
         <div className="flex items-center gap-2 text-white">
-          <Scale className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
-          <span className="font-bold text-xs">Legal &amp; Deepfake AI Flow Simulator</span>
+          <Sparkles className={`w-4 h-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`} />
+          <span className="font-bold text-xs">Langflow RAG Architecture (9 Nodes)</span>
         </div>
         <button
           onClick={() => setShowAccessibleText(!showAccessibleText)}
           className="px-3 py-2 rounded-sm bg-dark-card border border-dark-border hover:border-slate-500 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors uppercase tracking-wider min-h-[40px]"
-          title="Tampilkan daftar teks untuk pembaca layar / layar sentuh"
-          aria-label={showAccessibleText ? 'Beralih ke tampilan grafik pohon keputusan' : 'Beralih ke tampilan teks alternatif pohon keputusan'}
+          title="Tampilkan daftar teks untuk pembaca layar"
+          aria-label={showAccessibleText ? 'Beralih ke grafik RAG' : 'Beralih ke versi teks RAG'}
           aria-pressed={showAccessibleText}
         >
           {showAccessibleText ? <Eye className="w-4 h-4" /> : <ListFilter className="w-4 h-4" />}
@@ -95,24 +209,25 @@ export function DecisionTree() {
       </div>
 
       {showAccessibleText ? (
-        <div className="p-6 space-y-4 h-[340px] sm:h-[420px] lg:h-[480px] overflow-y-auto font-mono text-xs">
+        <div className="p-6 space-y-4 h-[360px] sm:h-[440px] lg:h-[500px] overflow-y-auto font-mono text-xs">
           <p className="text-amber-400 font-bold uppercase tracking-wider text-xs">
-            Daftar Langkah Alur Keputusan Hukum (Text Alternative):
+            Daftar Modul RAG Pipeline LangkahHukum AI (Text Alternative):
           </p>
           <ol className="space-y-3 list-decimal list-inside text-slate-300">
-            {DECISION_TREE_GRAPH.nodes.map((node) => (
+            {RAG_PIPELINE_GRAPH.nodes.map((node) => (
               <li key={node.id} className="p-3 rounded-sm bg-dark-card border border-dark-border">
                 <strong className="text-white">{node.data.label}</strong> ({node.data.badge})
-                <p className="text-xs text-slate-400 mt-1">{node.data.description}</p>
+                <p className="text-xs text-blue-400 mt-1 font-mono">Dev: {node.data.developerDesc}</p>
+                <p className="text-xs text-amber-300 mt-0.5 font-sans">Legal: {node.data.legalDesc}</p>
               </li>
             ))}
           </ol>
         </div>
       ) : (
         <div
-          className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative bg-dark-surface"
+          className="w-full h-[360px] sm:h-[440px] lg:h-[500px] relative bg-dark-surface"
           role="img"
-          aria-label="Diagram pohon keputusan alur sanksi Ta'zir pada kekosongan hukum AI: gunakan tombol Text Mode untuk versi teks yang dapat dibaca layar."
+          aria-label="Diagram alur arsitektur RAG Langflow 9 Node untuk AI Assistant"
         >
           <ReactFlow
             nodes={nodes}
@@ -120,20 +235,100 @@ export function DecisionTree() {
             nodeTypes={nodeTypes}
             fitView
             colorMode="dark"
-            minZoom={0.5}
-            maxZoom={1.5}
-            defaultViewport={{ x: 0, y: 0, zoom: 0.85 }}
+            minZoom={0.3}
+            maxZoom={1.8}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.65 }}
           >
             <Controls className="!bg-dark-card !border-dark-border !fill-slate-200 shadow-xl !rounded-sm !p-1" />
             <Background
               variant={BackgroundVariant.Dots}
-              gap={16}
-              size={1}
+              gap={20}
+              size={1.5}
               color={isDev ? '#1e293b' : '#451a03'}
             />
           </ReactFlow>
+
+          {/* Mobile swipe hint overlay */}
+          <div className="absolute bottom-3 left-3 bg-dark-card/90 border border-dark-border px-3 py-1.5 rounded text-[10px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
+            <Maximize2 className="w-3 h-3 text-amber-400" />
+            <span>Geser &amp; cubit layar untuk melihat seluruh 9 node alur RAG</span>
+          </div>
         </div>
       )}
+
+      {/* ── Node Detail Modal ── */}
+      <AnimatePresence>
+        {selectedNode && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedNode(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Detail modul RAG: ${selectedNode.label}`}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-dark-surface border border-dark-border rounded-md max-w-lg w-full p-6 text-white relative shadow-2xl font-mono"
+            >
+              <button
+                onClick={() => setSelectedNode(null)}
+                className="absolute top-5 right-5 p-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-slate-400 hover:text-white transition-colors"
+                aria-label="Tutup detail modul"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                  {selectedNode.badge}
+                </span>
+                <h3 className="text-lg font-bold font-sans">{selectedNode.label}</h3>
+              </div>
+
+              <div className="space-y-4 text-xs font-sans text-slate-300">
+                <div className="p-3 rounded bg-dark-card border border-dark-border">
+                  <strong className="text-blue-400 block font-mono text-[11px] uppercase mb-1">
+                    💻 Developer View (Teknis Systems Analyst):
+                  </strong>
+                  <p className="font-mono text-slate-200">{selectedNode.developerDesc}</p>
+                </div>
+
+                <div className="p-3 rounded bg-dark-card border border-dark-border">
+                  <strong className="text-amber-400 block font-mono text-[11px] uppercase mb-1">
+                    ⚖️ Legal View (Fungsi &amp; Dampak Hukum):
+                  </strong>
+                  <p className="font-light leading-relaxed text-slate-200">{selectedNode.legalDesc}</p>
+                </div>
+
+                {selectedNode.params && (
+                  <div className="p-3 rounded bg-dark-base border border-dark-border font-mono text-[11px]">
+                    <strong className="text-slate-400 block uppercase mb-1">Parameter Konfigurasi Langflow:</strong>
+                    <div className="space-y-1 text-slate-300">
+                      {Object.entries(selectedNode.params).map(([k, v]) => (
+                        <p key={k}>
+                          <span className="text-slate-500 font-bold">{k}:</span> {v}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={() => setSelectedNode(null)}
+                  className="px-4 py-2 rounded-sm bg-dark-card border border-dark-border hover:bg-dark-border text-xs font-mono text-slate-200"
+                >
+                  Tutup
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -416,69 +416,170 @@ export const CERTIFICATIONS: CertificationItem[] = [
   },
 ];
 
-export const DECISION_TREE_GRAPH = {
+export interface RagPipelineNodeData {
+  label: string;
+  category: 'input' | 'loader' | 'parser' | 'chunker' | 'embedding' | 'vectorstore' | 'converter' | 'template' | 'llm' | 'output' | 'note';
+  badge: string;
+  developerDesc: string;
+  legalDesc: string;
+  params?: Record<string, string>;
+  files?: string[];
+}
+
+export const RAG_PIPELINE_GRAPH = {
   nodes: [
     {
-      id: '1',
+      id: 'chat-input',
       type: 'customNode',
       data: {
-        label: 'Tindak Pidana Cybercrime / Deepfake AI Detected',
-        category: 'Input Peristiwa',
-        badge: 'Trigger Case',
-        description: 'Penyalahgunaan teknologi biometrik sintetis untuk fraud finansial / reputasi.',
+        label: 'Chat Input',
+        category: 'input',
+        badge: 'User Query',
+        developerDesc: 'Input stream interface yang menerima prompt/kueri pengguna dalam format string real-time.',
+        legalDesc: 'Titik awal di mana pengguna/klien menginput pertanyaan hukum, studi kasus, atau isu Cybercrime Deepfake AI.',
       },
-      position: { x: 250, y: 0 },
+      position: { x: 0, y: 220 },
     },
     {
-      id: '2',
+      id: 'read-file',
       type: 'customNode',
       data: {
-        label: 'Analisis Positif (UU ITE No 1 Tahun 2024)',
-        category: 'Statutory Review',
-        badge: 'Celah Hukum',
-        description: 'Pasal 28 (1) & 45A mensyaratkan "berita bohong" & "kerugian konsumen" -> Terjadi Vakum Norma.',
+        label: 'Read File',
+        category: 'loader',
+        badge: 'Doc Loader',
+        files: ['Rangkuman UU No 1 2024 (6.47 MB)', 'Ringkasan KUHP Baru (3.81 MB)'],
+        developerDesc: 'File loader component yang membaca naskah PDF/TXT perundang-undangan dan menyediakannya untuk parser.',
+        legalDesc: 'Pengunggahan dan pembacaan naskah otentik UU ITE No 1 Tahun 2024 dan KUHP Baru sebagai sumber hukum normatif.',
       },
-      position: { x: 50, y: 150 },
+      position: { x: 320, y: 40 },
     },
     {
-      id: '3',
+      id: 'parser',
       type: 'customNode',
       data: {
-        label: 'Analisis Fiqh Jinayah (Hukum Pidana Islam)',
-        category: 'Sharia Jurisprudence',
-        badge: 'Prinsip Syariah',
-        description: 'Kategori Al-Ghash & At-Tadlis parah. Melanggar Maqashid Sharia (Hifzh Al-Aql & Hifzh Al-Mal).',
+        label: 'Parser',
+        category: 'parser',
+        badge: 'Text Extractor',
+        params: { Mode: 'Parser (JSON or Table)', Output: 'Parsed Text' },
+        developerDesc: 'Ekstraksi struktur dokumen mentah menjadi teks tertata yang siap dipotong (chunking).',
+        legalDesc: 'Proses penyaringan naskah hukum agar ayat, pasal, dan pertimbangan akademis dapat dibaca bersih oleh AI.',
       },
-      position: { x: 450, y: 150 },
+      position: { x: 640, y: 40 },
     },
     {
-      id: '4',
+      id: 'split-text',
       type: 'customNode',
       data: {
-        label: 'Konstruksi Hukum: Jarimah Ta\'zir',
-        category: 'Legal Solution',
-        badge: 'Yurisprudensi',
-        description: 'Penetapan sanksi Ta\'zir oleh hakim sesuai kaidah Sadd ad-Dzari\'ah untuk menutup pintu mafsadah.',
+        label: 'Split Text',
+        category: 'chunker',
+        badge: 'Text Chunker',
+        params: { 'Chunk Size': '1000', 'Chunk Overlap': '200', Separator: '\\n' },
+        developerDesc: 'Mengubah dokumen masif menjadi segmen 1000 karakter dengan overlap 200 karakter untuk presisi pencarian.',
+        legalDesc: 'Segmentasi naskah hukum menjadi pasal-pasal ringkas agar memudahkan rujukan silang saat komparasi pidana.',
       },
-      position: { x: 250, y: 320 },
+      position: { x: 960, y: 40 },
     },
     {
-      id: '5',
+      id: 'cohere-embeddings',
       type: 'customNode',
       data: {
-        label: 'Rekomendasi Kebijakan & Relevansi Compliance',
-        category: 'Final Output',
-        badge: 'Verdict & Advice',
-        description: 'Pembaruan regulasi khusus AI biometrik & penerapan audit kepatuhan IT berintegritas.',
+        label: 'Cohere Embeddings',
+        category: 'embedding',
+        badge: 'Embedding Engine',
+        params: { Model: 'embed-multilingual-v3.0' },
+        developerDesc: 'Engine representasi vektor dwibahasa (Bahasa Indonesia & Arab) untuk pencarian semantik berdimensi tinggi.',
+        legalDesc: 'Mengubah terminologi hukum (seperti Al-Ghash, At-Tadlis, Ta\'zir) menjadi vektor makna semantik.',
       },
-      position: { x: 250, y: 480 },
+      position: { x: 320, y: 420 },
+    },
+    {
+      id: 'chroma-db',
+      type: 'customNode',
+      data: {
+        label: 'Chroma DB',
+        category: 'vectorstore',
+        badge: 'Vector Store',
+        params: { Collection: 'dokumen_hukum', Directory: '.chroma_db' },
+        developerDesc: 'Database vektor lokal berkinerja tinggi tempat penyimpanan dan pencarian kueri kemiripan kosinus.',
+        legalDesc: 'Gudang data hukum digital terenkripsi yang memuat rujukan yurisprudensi dan UU secara terstruktur.',
+      },
+      position: { x: 960, y: 340 },
+    },
+    {
+      id: 'legacy-dataframe',
+      type: 'customNode',
+      data: {
+        label: 'Legacy (Parse DataFrame)',
+        category: 'converter',
+        badge: 'Context Formatter',
+        params: { Input: 'Table Data', Output: 'Formatted Text' },
+        developerDesc: 'Konversi hasil kuery tabel DataFrame dari Chroma DB menjadi blok teks konteks pendukung prompt.',
+        legalDesc: 'Penyusunan ringkasan pasal-pasal relevan yang ditemukan dari basis data untuk dilampirkan ke draf analisis.',
+      },
+      position: { x: 1280, y: 420 },
+    },
+    {
+      id: 'prompt-template',
+      type: 'customNode',
+      data: {
+        label: 'Prompt Template',
+        category: 'template',
+        badge: 'System Persona',
+        params: { Persona: 'LangkahHukum Asisten Paralegal Virtual', Style: 'Empatik, tegas, ahli Hukum Pidana & Perdata' },
+        developerDesc: 'Menggabungkan persona sistem (System Prompt), konteks dokumen pencarian (RAG), dan kueri user (berita_user).',
+        legalDesc: 'Formulasi instruksi profesional yang memastikan AI menjawab berdasarkan integritas akademis dan kaidah hukum sah.',
+      },
+      position: { x: 1600, y: 140 },
+    },
+    {
+      id: 'groq-llm',
+      type: 'customNode',
+      data: {
+        label: 'Groq LLM Engine',
+        category: 'llm',
+        badge: 'Inference Engine',
+        params: { Model: 'llama-3.1-8b-instant', Engine: 'Ultra-fast LPU' },
+        developerDesc: 'Engine inferensi LLM LPU bertaraf enterprise yang mengeksekusi analisis hukum dan penyusunan argumen.',
+        legalDesc: 'Pemroses kecerdasan buatan utama yang menalar perbandingan pasal KUHP vs doktrin Fiqh Jinayah secara cermat.',
+      },
+      position: { x: 1920, y: 140 },
+    },
+    {
+      id: 'chat-output',
+      type: 'customNode',
+      data: {
+        label: 'Chat Output',
+        category: 'output',
+        badge: 'Final Response',
+        developerDesc: 'Output stream interface yang menyajikan jawaban akhir AI secara real-time ke UI.',
+        legalDesc: 'Penyajikan jawaban analisis komparatif sanksi Ta\'zir dan rekomendasi kepatuhan hukum kepada pengguna.',
+      },
+      position: { x: 2240, y: 220 },
+    },
+    {
+      id: 'author-note',
+      type: 'customNode',
+      data: {
+        label: 'Author Profile',
+        category: 'note',
+        badge: 'Architect',
+        params: { NAMA: 'Indra Mulyana, S.H.', ASAL: 'UIN Sunan Gunung Djati Bandung' },
+        developerDesc: 'Metadata identitas pengembang dan perancang arsitektur RAG Langkah Hukum AI.',
+        legalDesc: 'Profil perancang sistem: Sarjana Hukum Cumlaude UIN SGD Bandung & Legal-Tech Developer.',
+      },
+      position: { x: 320, y: 640 },
     },
   ],
   edges: [
-    { id: 'e1-2', source: '1', target: '2', animated: true, label: 'Jalur UU ITE' },
-    { id: 'e1-3', source: '1', target: '3', animated: true, label: 'Jalur Fiqh Jinayah' },
-    { id: 'e2-4', source: '2', target: '4', label: 'Vakum Norma Solved' },
-    { id: 'e3-4', source: '3', target: '4', label: 'Landasan Ta\'zir' },
-    { id: 'e4-5', source: '4', target: '5', animated: true, label: 'Output Rekomendasi' },
+    { id: 'e-input-template', source: 'chat-input', target: 'prompt-template', animated: true, label: 'berita_user' },
+    { id: 'e-file-parser', source: 'read-file', target: 'parser', animated: true, label: 'Files' },
+    { id: 'e-parser-split', source: 'parser', target: 'split-text', animated: true, label: 'Parsed Text' },
+    { id: 'e-split-chroma', source: 'split-text', target: 'chroma-db', animated: true, label: 'Chunks' },
+    { id: 'e-embed-chroma', source: 'cohere-embeddings', target: 'chroma-db', animated: true, label: 'Embeddings' },
+    { id: 'e-chroma-legacy', source: 'chroma-db', target: 'legacy-dataframe', animated: true, label: 'Table' },
+    { id: 'e-legacy-template', source: 'legacy-dataframe', target: 'prompt-template', animated: true, label: 'konteks' },
+    { id: 'e-template-groq', source: 'prompt-template', target: 'groq-llm', animated: true, label: 'Prompt' },
+    { id: 'e-groq-output', source: 'groq-llm', target: 'chat-output', animated: true, label: 'Model Response' },
   ],
 };
+
