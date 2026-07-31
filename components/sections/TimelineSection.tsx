@@ -131,7 +131,7 @@ export function TimelineSection() {
       <AnimatePresence>
         {selectedExp && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
             onClick={closeModal}
             role="dialog"
             aria-modal="true"
@@ -195,6 +195,7 @@ export function TimelineSection() {
                       alt={`Sertifikat magang ${selectedExp.title}`}
                       width={600}
                       height={400}
+                      unoptimized
                       className="w-full max-h-[350px] object-contain rounded-sm border border-dark-border bg-black"
                     />
                   </div>

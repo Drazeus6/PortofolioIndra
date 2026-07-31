@@ -29,7 +29,7 @@ export function PhotoLightbox({ photos, activeIndex, onClose, onPrev, onNext }: 
   return (
     <AnimatePresence>
       <div
-        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-sm"
+        className="fixed inset-0 z-[120] flex items-center justify-center bg-black/95 backdrop-blur-md"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -59,6 +59,7 @@ export function PhotoLightbox({ photos, activeIndex, onClose, onPrev, onNext }: 
               alt={photo.alt}
               width={900}
               height={600}
+              unoptimized
               className="w-full max-h-[72vh] object-contain"
               priority
             />
@@ -137,7 +138,7 @@ export function PhotoGalleryGrid({ photos, onPhotoClick }: PhotoGalleryGridProps
             key={idx}
             whileHover={{ scale: 1.04 }}
             onClick={() => onPhotoClick(idx)}
-            className="relative aspect-square rounded-sm overflow-hidden border border-dark-border hover:border-amber-400/70 transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1 focus:ring-offset-dark-surface"
+            className="relative aspect-square rounded-sm overflow-hidden border border-dark-border hover:border-amber-400/70 transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1 focus:ring-offset-dark-surface bg-dark-base"
             aria-label={`Lihat foto ${idx + 1}: ${photo.alt}`}
             role="listitem"
           >
@@ -145,6 +146,7 @@ export function PhotoGalleryGrid({ photos, onPhotoClick }: PhotoGalleryGridProps
               src={photo.src}
               alt={photo.alt}
               fill
+              unoptimized
               className="object-cover"
               sizes="(max-width: 640px) 30vw, 150px"
             />
