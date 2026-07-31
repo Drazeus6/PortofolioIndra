@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PROJECTS, ProjectItem, getLocalizedDesc } from '@/lib/data';
+import { PROJECTS, ProjectItem, getLocalizedDesc, getLocalizedText } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { Badge } from '@/components/ui/Badge';
 import { ExternalLink, Database, Code, Globe, Shield, Cpu, ShoppingBag, Truck, HeartPulse } from 'lucide-react';
@@ -143,7 +143,7 @@ export function ProjectsSection() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-sm bg-dark-card border border-dark-border text-slate-300">
                     {getCategoryIcon(project.category)}
-                    {project.badge}
+                    {getLocalizedText(project.badge, language)}
                   </span>
                   <a
                     href={project.liveUrl}
@@ -157,7 +157,7 @@ export function ProjectsSection() {
                 </div>
 
                 <h3 className="font-bold font-sans text-base text-white mb-2 leading-snug">
-                  {project.title}
+                  {getLocalizedText(project.title, language)}
                 </h3>
                 <p className="text-xs text-slate-300 font-sans font-light leading-relaxed mb-4">
                   {getLocalizedDesc(project.description, language, viewMode)}

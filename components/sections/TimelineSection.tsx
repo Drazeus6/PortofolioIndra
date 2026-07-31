@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { EXPERIENCES, ExperienceItem, getLocalizedDesc } from '@/lib/data';
+import { EXPERIENCES, ExperienceItem, getLocalizedDesc, getLocalizedText } from '@/lib/data';
 import { useViewMode } from '@/context/ViewModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, ExternalLink, FileText, X, ShieldCheck } from 'lucide-react';
@@ -96,10 +96,10 @@ export function TimelineSection() {
                   </div>
 
                   <h3 className="text-xl md:text-2xl font-bold font-sans text-white group-hover:text-blue-400 transition-colors">
-                    {exp.title}
+                    {getLocalizedText(exp.title, language)}
                   </h3>
                   <h4 className={`text-xs font-mono font-semibold mb-4 ${isDev ? 'text-blue-400' : 'text-amber-400'}`}>
-                    {exp.role}
+                    {getLocalizedText(exp.role, language)}
                   </h4>
 
                   <p className={`text-xs md:text-sm leading-relaxed mb-6 ${
@@ -126,7 +126,7 @@ export function TimelineSection() {
                       className={`text-xs font-mono font-bold flex items-center gap-1 hover:underline ${
                         isDev ? 'text-blue-400' : 'text-amber-400'
                       }`}
-                      aria-label={`Lihat detail dokumen dan foto ${exp.title}`}
+                      aria-label={`Lihat detail dokumen dan foto ${getLocalizedText(exp.title, language)}`}
                     >
                       {exp.photos && exp.photos.length > 0 ? (
                         <>{UI_TRANSLATIONS.timeline.viewGallery[language]} ({exp.photos.length} {UI_TRANSLATIONS.timeline.photosCount[language]}) <ExternalLink className="w-3.5 h-3.5" /></>
@@ -150,7 +150,7 @@ export function TimelineSection() {
             onClick={closeModal}
             role="dialog"
             aria-modal="true"
-            aria-label={`Detail pengalaman: ${selectedExp.title}`}
+            aria-label={`Detail pengalaman: ${getLocalizedText(selectedExp.title, language)}`}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
@@ -173,8 +173,8 @@ export function TimelineSection() {
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold font-sans">{selectedExp.title}</h3>
-                  <p className="text-xs text-amber-400">{selectedExp.role}</p>
+                  <h3 className="text-lg font-bold font-sans">{getLocalizedText(selectedExp.title, language)}</h3>
+                  <p className="text-xs text-amber-400">{getLocalizedText(selectedExp.role, language)}</p>
                 </div>
               </div>
 
@@ -195,7 +195,7 @@ export function TimelineSection() {
                 {selectedExp.abstract && (
                   <div className="p-4 rounded-sm bg-dark-base border border-dark-border font-mono text-xs">
                     <strong className="text-amber-400 block uppercase mb-1">{UI_TRANSLATIONS.timeline.abstractHeader[language]}</strong>
-                    <p className="text-slate-300 italic">{selectedExp.abstract}</p>
+                    <p className="text-slate-300 italic">{getLocalizedText(selectedExp.abstract, language)}</p>
                   </div>
                 )}
 
@@ -207,7 +207,7 @@ export function TimelineSection() {
                     </strong>
                     <Image
                       src={selectedExp.certificateImg}
-                      alt={`Sertifikat magang ${selectedExp.title}`}
+                      alt={`Sertifikat magang ${getLocalizedText(selectedExp.title, language)}`}
                       width={600}
                       height={400}
                       unoptimized

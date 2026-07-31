@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useViewMode } from '@/context/ViewModeContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { UI_TRANSLATIONS } from '@/lib/i18n';
-import { PERSONAL_DATA, ACHIEVEMENTS } from '@/lib/data';
+import { PERSONAL_DATA, ACHIEVEMENTS, getLocalizedText } from '@/lib/data';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
@@ -168,10 +168,10 @@ export function HeroSection() {
 
                 {/* Achievements List Pill */}
                 <div className="mt-4 pt-4 border-t border-dark-border space-y-2 font-mono text-xs">
-                  {ACHIEVEMENTS.map((ach) => (
-                    <div key={ach.title} className="flex items-center justify-between text-[11px] bg-dark-card p-2 rounded-sm border border-dark-border">
-                      <span className="text-slate-300 font-bold truncate max-w-[210px]">{ach.title}</span>
-                      <span className="text-amber-400 font-bold px-1.5 py-0.5 bg-amber-950 border border-amber-800 rounded-sm text-[9px]">{ach.badge}</span>
+                  {ACHIEVEMENTS.map((ach, idx) => (
+                    <div key={idx} className="flex items-center justify-between text-[11px] bg-dark-card p-2 rounded-sm border border-dark-border">
+                      <span className="text-slate-300 font-bold truncate max-w-[210px]">{getLocalizedText(ach.title, language)}</span>
+                      <span className="text-amber-400 font-bold px-1.5 py-0.5 bg-amber-950 border border-amber-800 rounded-sm text-[9px]">{getLocalizedText(ach.badge, language)}</span>
                     </div>
                   ))}
                 </div>

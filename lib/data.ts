@@ -1,15 +1,15 @@
 export interface ExperienceItem {
   id: string;
-  title: string;
-  role: string;
+  title: any;
+  role: any;
   period: string;
-  institution: string;
+  institution: any;
   location: string;
   description: any;
   tags: string[];
   certificateImg?: string;
   journalPdfUrl?: string;
-  abstract?: string;
+  abstract?: any;
   photos?: { src: string; alt: string }[];
 }
 
@@ -35,23 +35,23 @@ export interface CertificationItem {
 }
 
 export interface AchievementItem {
-  title: string;
-  event: string;
+  title: any;
+  event: any;
   year: string;
-  description: string;
-  badge: string;
+  description: any;
+  badge: any;
 }
 
 export interface ProjectItem {
   id: string;
-  title: string;
+  title: any;
   category: 'legal-tech' | 'web-app' | 'e-commerce' | 'logistics' | 'healthcare';
   description: any;
   liveUrl: string;
   languages: string[];
   database: string;
   stack: string[];
-  badge: string;
+  badge: any;
 }
 
 export const PERSONAL_DATA = {
@@ -99,26 +99,12 @@ export const PERSONAL_DATA = {
   ],
 };
 
-export function getLocalizedDesc(
-  descObj: any,
-  lang: 'id' | 'en',
-  viewMode: 'legal' | 'developer'
-): string {
-  if (!descObj) return '';
-  if (typeof descObj === 'string') return descObj;
-  if (descObj[lang]) {
-    if (typeof descObj[lang] === 'string') {
-      return descObj[lang];
-    }
-    if (typeof descObj[lang] === 'object' && descObj[lang][viewMode]) {
-      return descObj[lang][viewMode];
-    }
-  }
-  if (descObj[viewMode]) {
-    if (typeof descObj[viewMode] === 'string') return descObj[viewMode];
-    if (typeof descObj[viewMode] === 'object' && descObj[viewMode][lang]) {
-      return descObj[viewMode][lang];
-    }
+export function getLocalizedText(obj: any, lang: 'id' | 'en'): string {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  if (typeof obj === 'object') {
+    if (obj[lang]) return obj[lang];
+    if (obj.id) return obj.id;
   }
   return '';
 }
@@ -126,7 +112,10 @@ export function getLocalizedDesc(
 export const PROJECTS: ProjectItem[] = [
   {
     id: 'jinayah-app',
-    title: 'Jinayah App — AI Komparasi Hukum Pidana Umum & Hukum Pidana Islam',
+    title: {
+      id: 'Jinayah App — AI Komparasi Hukum Pidana Umum & Hukum Pidana Islam',
+      en: 'Jinayah App — AI Comparison of Indonesian Criminal Law & Islamic Criminal Law',
+    },
     category: 'legal-tech',
     description: {
       id: {
@@ -142,11 +131,17 @@ export const PROJECTS: ProjectItem[] = [
     languages: ['React 19', 'TypeScript', 'JavaScript (ES6+)', 'AI Engine', 'Tailwind CSS'],
     database: 'PostgreSQL (Supabase)',
     stack: ['React 19', 'Vite', 'TypeScript', 'Tailwind CSS', 'AI Engine', 'PostgreSQL / Supabase'],
-    badge: 'AI Legal-Tech & Komparasi',
+    badge: {
+      id: 'AI Legal-Tech & Komparasi',
+      en: 'AI Legal-Tech & Comparison',
+    },
   },
   {
     id: 'ryoku',
-    title: 'Ryoku — Platform Try Out & Simulasi Ujian CPNS',
+    title: {
+      id: 'Ryoku — Platform Try Out & Simulasi Ujian CPNS',
+      en: 'Ryoku — Civil Servant (CPNS) Exam Tryout & Simulation Platform',
+    },
     category: 'web-app',
     description: {
       id: {
@@ -162,11 +157,17 @@ export const PROJECTS: ProjectItem[] = [
     languages: ['Next.js (App Router)', 'TypeScript', 'JavaScript', 'HTML5', 'Tailwind CSS'],
     database: 'PostgreSQL (Vercel Postgres)',
     stack: ['Next.js 14', 'React', 'TypeScript', 'Tailwind CSS', 'REST API', 'PostgreSQL'],
-    badge: 'Try Out CPNS & EduTech',
+    badge: {
+      id: 'Try Out CPNS & EduTech',
+      en: 'CPNS Tryout & EduTech',
+    },
   },
   {
     id: 'wus-cargo',
-    title: 'WUS Cargo — Logistics & Cargo Tracking System',
+    title: {
+      id: 'WUS Cargo — Platform Web Manajemen Ekspedisi & Tracking Logistik',
+      en: 'WUS Cargo — Expedition Management & Cargo Logistics Tracking Platform',
+    },
     category: 'logistics',
     description: {
       id: {
@@ -182,11 +183,17 @@ export const PROJECTS: ProjectItem[] = [
     languages: ['Next.js', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
     database: 'PostgreSQL & Supabase',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js REST API', 'PostgreSQL'],
-    badge: 'Logistics & Tracking',
+    badge: {
+      id: 'Logistics & Tracking',
+      en: 'Logistics & Tracking',
+    },
   },
   {
     id: 'jejak-sehat',
-    title: 'Jejak Sehat — Platform Manajemen Kesehatan & Rekam Medis',
+    title: {
+      id: 'Jejak Sehat — Web Service Kesehatan & Janji Temu Dokter',
+      en: 'Jejak Sehat — Healthcare Web Service & Doctor Appointment System',
+    },
     category: 'healthcare',
     description: {
       id: {
@@ -202,11 +209,17 @@ export const PROJECTS: ProjectItem[] = [
     languages: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'Tailwind CSS'],
     database: 'MySQL & PostgreSQL',
     stack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'REST API', 'MySQL'],
-    badge: 'Healthcare Tech',
+    badge: {
+      id: 'Healthcare Tech',
+      en: 'Healthcare Tech',
+    },
   },
   {
     id: 'coffee-shop',
-    title: 'Coffee Shop Web — Informational Showcase Cafe Digital',
+    title: {
+      id: 'Coffee Shop Web — Informational Showcase Cafe Digital',
+      en: 'Coffee Shop Web — Digital Cafe Showcase & Menu Catalog',
+    },
     category: 'web-app',
     description: {
       id: {
@@ -222,34 +235,188 @@ export const PROJECTS: ProjectItem[] = [
     languages: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS'],
     database: 'MongoDB & Supabase',
     stack: ['React', 'JavaScript', 'Node.js', 'Express.js', 'Tailwind CSS', 'MongoDB'],
-    badge: 'Informational Cafe Web',
+    badge: {
+      id: 'Informational Cafe Web',
+      en: 'Informational Cafe Web',
+    },
   },
 ];
 
 export const ACHIEVEMENTS: AchievementItem[] = [
   {
-    title: 'Juara 1 Lomba Menulis Surat Tingkat Nasional',
-    event: 'Lomba Menulis Surat Nasional "Dari Aku Yang Merindukanmu"',
+    title: {
+      id: 'Juara 1 Lomba Menulis Surat Tingkat Nasional',
+      en: '1st Place National Letter Writing Competition',
+    },
+    event: {
+      id: 'Lomba Menulis Surat Nasional "Dari Aku Yang Merindukanmu"',
+      en: 'National Letter Writing Contest "Dari Aku Yang Merindukanmu"',
+    },
     year: '2025',
-    description: 'Berhasil meraih Juara 1 Nasional mengalahkan lebih dari 100 peserta dari berbagai perguruan tinggi dan instansi se-Indonesia.',
-    badge: 'Juara 1 Nasional',
+    description: {
+      id: 'Berhasil meraih Juara 1 Nasional mengalahkan lebih dari 100 peserta dari berbagai perguruan tinggi dan instansi se-Indonesia.',
+      en: 'Achieved 1st Place nationally competing against over 100 participants from universities across Indonesia.',
+    },
+    badge: {
+      id: 'Juara 1 Nasional',
+      en: '1st Place National',
+    },
   },
   {
-    title: 'Lulusan Terbaik SMK Negeri 2 Banjar',
-    event: 'Kelulusan Kompetensi Keahlian Teknik Komputer & Jaringan',
+    title: {
+      id: 'Lulusan Terbaik SMK Negeri 2 Banjar',
+      en: 'Best Graduate / Valedictorian SMK Negeri 2 Banjar',
+    },
+    event: {
+      id: 'Kelulusan Kompetensi Keahlian Teknik Komputer & Jaringan',
+      en: 'Graduation in Computer & Network Engineering',
+    },
     year: '2022',
-    description: 'Dianugerahi predikat Lulusan Terbaik pada jurusan Teknik Komputer dan Jaringan dengan rata-rata nilai 86.',
-    badge: 'Lulusan Terbaik',
+    description: {
+      id: 'Dianugerahi predikat Lulusan Terbaik pada jurusan Teknik Komputer dan Jaringan dengan rata-rata nilai 86.',
+      en: 'Awarded Best Graduate distinction in Computer & Network Engineering with an average score of 86.',
+    },
+    badge: {
+      id: 'Lulusan Terbaik',
+      en: 'Valedictorian',
+    },
   },
 ];
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
     id: 'pa-ciamis',
-    title: 'Pengadilan Agama Kelas 1A Ciamis',
-    role: 'Magang Internship Peradilan & Administrasi Kepaniteraan',
+    title: {
+      id: 'Pengadilan Agama Kelas 1A Ciamis',
+      en: 'Class 1A Religious Court Ciamis',
+    },
+    role: {
+      id: 'Magang Internship Peradilan & Administrasi Kepaniteraan',
+      en: 'Judicial Internship & Court Administration Registrar',
+    },
     period: 'Januari 2025 – Februari 2025',
-    institution: 'Pengadilan Agama Kelas 1A Ciamis',
+    institution: {
+      id: 'Pengadilan Agama Kelas 1A Ciamis',
+      en: 'Class 1A Religious Court Ciamis',
+    },
+    location: 'Kab. Ciamis, Jawa Barat',
+    description: {
+      id: {
+        legal: 'Mengikuti magang peradilan di Pengadilan Agama Kelas 1A Ciamis. Menangani perkara kewenangan peradilan agama, verifikasi kelengkapan administrasi berkas perceraian & waris, digitalisasi arsip hukum, serta menyaksikan langsung proses persidangan di ruang sidang.',
+        developer: 'Melakukan pemetaan alur sistem informasi manajemen perkara (SIPP), pengolahan data berkas digital peradilan agama, dan efisiensi alur administrasi panitera.',
+      },
+      en: {
+        legal: 'Completed judicial internship at Class 1A Religious Court Ciamis. Handled religious jurisdiction cases, verified administrative completeness of divorce & inheritance files, digitized legal archives, and observed live courtroom proceedings.',
+        developer: 'Mapped Case Management Information System (SIPP) workflows, processed digital religious court records, and optimized registrar administrative pipelines.',
+      },
+    },
+    tags: ['Hukum Acara Agama', 'Administrasi Peradilan', 'Kepaniteraan PA 1A', 'Digitalisasi Berkas'],
+    certificateImg: '/Sertifikat-PA.jpg',
+    photos: [
+      {
+        src: '/pa-ciamis-1-pembukaan.jpeg',
+        alt: 'Pembukaan program magang kerja peradilan di Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-2-briefing.jpeg',
+        alt: 'Sesi pengarahan dengan pegawai Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-3-diskusi.jpeg',
+        alt: 'Diskusi kelompok bersama pejabat Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-4-penutupan.jpeg',
+        alt: 'Penutupan program magang kerja peradilan Pengadilan Agama Ciamis',
+      },
+      {
+        src: '/pa-ciamis-5-depan-gedung.jpeg',
+        alt: 'Foto bersama di depan Pengadilan Agama Ciamis',
+      },
+    ],
+  },
+  {
+    id: 'jurnal-galuh-1',
+    title: {
+      id: 'Publikasi Jurnal Galuh Justisi (SINTA 4)',
+      en: 'Galuh Justisi Scientific Journal Publication (SINTA 4)',
+    },
+    role: {
+      id: 'Author & Penulis Riset Hukum Tata Negara / Siyasah',
+      en: 'Author & Researcher in Constitutional Law / Fiqh Siyasah',
+    },
+    period: 'September 2024',
+    institution: {
+      id: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
+      en: 'Galuh Justisi Scientific Journal - Galuh University',
+    },
+    location: 'Ciamis, Jawa Barat',
+    description: {
+      id: {
+        legal: 'Riset normatif: "Sistem Pemilihan Umum di Indonesia dalam Perspektif Fiqh Siyasah" (Vol 12 No 2). Menganalisis relevansi sistem ahlul halli wal aqdi & shura dengan pemilu langsung serta kewenangan penyelesaian sengketa di Mahkamah Konstitusi.',
+        developer: 'Pemodelan konsep komparatif sistem voting & penyelesaian sengketa konstitusional dengan metode penelitian kualitatif berbasis literatur digital.',
+      },
+      en: {
+        legal: 'Normative research: "Electoral System in Indonesia from Fiqh Siyasah Perspective" (Vol 12 No 2). Analyzed relevance of ahlul halli wal aqdi & shura with direct elections and Constitutional Court dispute resolution.',
+        developer: 'Comparative modeling of voting systems & constitutional dispute resolution using digital qualitative literature research.',
+      },
+    },
+    tags: ['SINTA 4', 'Fiqh Siyasah', 'Hukum Tata Negara', 'Sengketa Pemilu MK'],
+    journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/14168/pdf',
+    abstract: {
+      id: `Penelitian menguji relevansi sistem pemilu di Indonesia dengan fiqh siyasah (ahlul halli wal aqdi) serta mekanisme peradilan sengketa di Mahkamah Konstitusi.`,
+      en: `Research examining the relevance of Indonesia's electoral system with Fiqh Siyasah (ahlul halli wal aqdi) and dispute resolution mechanisms at the Constitutional Court.`,
+    },
+  },
+  {
+    id: 'jurnal-galuh-2',
+    title: {
+      id: 'Publikasi Jurnal Galuh Justisi (SINTA 4) - AI Deepfake',
+      en: 'Galuh Justisi Scientific Journal Publication (SINTA 4) - AI Deepfake',
+    },
+    role: {
+      id: 'Author & Penulis Riset Cybercrime AI & Fiqh Jinayah',
+      en: 'Author & Researcher in AI Cybercrime & Fiqh Jinayah',
+    },
+    period: 'Maret 2026',
+    institution: {
+      id: 'Jurnal Ilmiah Galuh Justisi - Universitas Galuh',
+      en: 'Galuh Justisi Scientific Journal - Galuh University',
+    },
+    location: 'Ciamis, Jawa Barat',
+    description: {
+      id: {
+        legal: 'Riset hukum Cybercrime: "Kekosongan Hukum Mengenai Tindak Pidana Penipuan Deepfake Dalam UU ITE Nomor 1 Tahun 2024 Menurut Perspektif Hukum Pidana Islam" (Vol 14 No 1). Menganalisis celah norma Pasal 28 & 45A UU ITE serta sanksi Jarimah Ta\'zir (Al-Ghash & At-Tadlis).',
+        developer: 'Analisis mutakhir mengenai fenomena biometrik sintetis Deepfake AI, celah hukum UU ITE No 1 2024 (Pasal 28 & 45A), dan formulasi Sadd ad-Dzari\'ah untuk penegakan hukum AI.',
+      },
+      en: {
+        legal: 'Cybercrime legal research: "Legal Vacuum Regarding Deepfake Fraud in ITE Law No. 1 of 2024 from Islamic Criminal Law Perspective" (Vol 14 No 1). Analyzed Article 28 & 45A gaps and Jarimah Ta\'zir sanctions (Al-Ghash & At-Tadlis).',
+        developer: 'Cutting-edge analysis of Deepfake AI synthetic biometrics, ITE Law No 1 2024 statutory gaps, and Sadd ad-Dzari\'ah formulation for AI legal enforcement.',
+      },
+    },
+    tags: ['SINTA 4', 'Cybercrime AI', 'Deepfake Fraud', 'UU ITE 2024', 'Fiqh Jinayah'],
+    journalPdfUrl: 'https://jurnal.unigal.ac.id/galuhjustisi/article/view/23344/pdf',
+    abstract: {
+      id: `Mengkaji vakum norma UU ITE 2024 terkait rekayasa biometrik Deepfake dan rekonstruksi sanksi berbasis Jarimah Ta'zir & Maqashid Sharia.`,
+      en: `Examining statutory gaps in the 2024 ITE Law regarding Deepfake biometric manipulation and Ta'zir & Maqashid Sharia sanction reconstruction.`,
+    },
+  },
+
+  {
+    id: 'pn-ciamis',
+    title: {
+      id: 'Pengadilan Negeri Kelas 1B Ciamis',
+      en: 'Class 1B District Court Ciamis',
+    },
+    role: {
+      id: 'Magang Internship Kepaniteraan Pidana, Perdata & Hukum',
+      en: 'Judicial Internship at Criminal, Civil & Legal Registrar',
+    },
+    period: 'Juli 2024 – Agustus 2024',
+    institution: {
+      id: 'Pengadilan Negeri Kelas 1B Ciamis',
+      en: 'Class 1B District Court Ciamis',
+    },
     location: 'Kab. Ciamis, Jawa Barat',
     description: {
       id: {
